@@ -11,26 +11,31 @@ add_executable(main
   src/core/ISystem.cpp
 
   src/core/service/Shutdown.cpp
+
+  src/ss13/system/Init.cpp
 )
 
-target_compile_options(main PRIVATE
-  -Wall
-  #-Wextra
-  -Wpedantic
+if(NOT MSVC)
+  target_compile_options(main PRIVATE
+    -Wall
+    #-Wextra
+    -Wpedantic
 
-  -Wcast-align
-  -Wcast-qual
-  #-Wconversion
-  -Wctor-dtor-privacy
-  -Wenum-compare
-  -Wfloat-equal
-  -Wnon-virtual-dtor
-  -Wold-style-cast
-  -Woverloaded-virtual
-  -Wredundant-decls
-  #-Wsign-conversion
-  -Wsign-promo
-)
+    -Wcast-align
+    -Wcast-qual
+    #-Wconversion
+    -Wctor-dtor-privacy
+    -Wenum-compare
+    -Wfloat-equal
+    -Wnon-virtual-dtor
+    -Wold-style-cast
+    -Woverloaded-virtual
+    -Wredundant-decls
+    #-Wsign-conversion
+    -Wsign-promo
+  )
+endif()
+
 
 target_include_directories(main PRIVATE
   src

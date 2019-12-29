@@ -2,7 +2,18 @@
 
 namespace core {
 //
-ISystem::ISystem(entt::registry& registry) noexcept : registry(registry) {}
+
+void ISystem::update() {
+  //do nothing
+}
+
+void ISystem::init() {
+  //do nothing
+}
+
+void ISystem::set_registry(entt::registry* registry) noexcept {
+  this->registry = registry;
+}
 
 
 } /* core */

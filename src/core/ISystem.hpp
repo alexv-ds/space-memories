@@ -7,14 +7,16 @@ namespace core {
 
 class ISystem {
 public:
-  ISystem(entt::registry&) noexcept;
+
+  virtual const std::string_view name() const noexcept = 0;
+  virtual void update();
+  virtual void init();
+
+  void set_registry(entt::registry*) noexcept;
   virtual ~ISystem() = default;
-
-  virtual void update() = 0;
-  virtual const std::string_view name() = 0;
-
+  
 protected:
-  entt::registry& registry;
+  entt::registry* registry = nullptr;
 };
 
 
