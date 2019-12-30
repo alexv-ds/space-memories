@@ -11,6 +11,10 @@ add_executable(main
   src/core/ISystem.cpp
 
   src/core/service/Shutdown.cpp
+  src/core/service/Window.cpp
+
+  src/core/system/WindowUpdate.cpp
+  src/core/system/WindowClear.cpp
 
   src/ss13/system/Init.cpp
 )
@@ -19,7 +23,7 @@ if(NOT MSVC)
   target_compile_options(main PRIVATE
     -Wall
     #-Wextra
-    -Wpedantic
+    #-Wpedantic
 
     -Wcast-align
     -Wcast-qual

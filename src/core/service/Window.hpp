@@ -10,38 +10,26 @@ class Window {
 public:
   static constexpr const std::string_view name = "core::service::Window";
 
-  Window() {
-    shutdown_service = get_service<Shutdown>();
-  }
-  ~Window() {
-    if (window.isOpen()) {
-      window.close();
-    }
-  }
+  Window();
+  ~Window();
+  void update();
 
-  void update() {
-    if (!window.isOpen()) {
-      shutdown_service->graceful_close();
-      return;
-    }
-    sf::Event event;
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) {
-        window.close();
-        shutdown_service->graceful_close();
-        return;
-      }
-      window.display();
-    }
-  }
-
+  //может вернуть nullptr
+  inline sf::RenderTarget* get_render_target() noexcept;
 
 private:
   std::shared_ptr<Shutdown> shutdown_service;
-  sf::RenderWindow window = {sf::VideoMode(800, 600), "Space Memories"};
+  sf::RenderWindow window;
+
+  void handle_resize_event(sf::Event&) noexcept;
 
 };
 
+
+//inline methods
+inline sf::RenderTarget* Window::get_render_target() noexcept {
+  return this->window.isOpen() ? &this->window : nullptr;
+}
 
 
 } /* core::service */
