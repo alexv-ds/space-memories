@@ -1,6 +1,7 @@
 #include "Window.hpp"
 
 #include <algorithm>
+#include <iostream>
 
 namespace core::service {
 
@@ -33,9 +34,9 @@ void Window::update() {
       return;
     } else if (event.type == sf::Event::Resized) {
       this->handle_resize_event(event);
-    }
-    this->window.display();
+    } 
   }
+  this->window.display();
 }
 
 void Window::handle_resize_event(sf::Event& event) noexcept {
