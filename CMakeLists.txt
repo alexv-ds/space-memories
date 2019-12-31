@@ -12,6 +12,7 @@ add_executable(main
 
   src/core/service/Shutdown.cpp
   src/core/service/Window.cpp
+  src/core/service/TextureLoader.cpp
 
   src/core/system/WindowUpdate.cpp
   src/core/system/WindowClear.cpp

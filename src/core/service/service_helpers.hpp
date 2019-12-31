@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <entt/locator/locator.hpp>
 
 namespace core::service {
