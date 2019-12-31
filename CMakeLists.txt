@@ -18,6 +18,7 @@ add_executable(main
   src/core/system/WindowClear.cpp
 
   src/ss13/system/Init.cpp
+  src/ss13/system/TickUsageCounter.cpp
 )
 
 if(NOT MSVC)

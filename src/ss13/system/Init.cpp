@@ -15,19 +15,7 @@ const std::string_view Init::name() const noexcept {
 }
 
 void Init::init() {
-  std::cout << "Init::init()" << '\n';
-  this->window_service = core::service::get_service<core::service::Window>();
-  this->performance_service =
-    core::service::get_service<core::service::PerformanceController>();
   this->texture_loader = core::service::get_service<core::service::TextureLoader>();
-
-  if (!this->font.loadFromFile("resources/default.ttf")) {
-    std::cout << "FONT LOAD FAIL" << '\n';
-    return;
-  }
-  this->text.setFont(this->font);
-  this->text.setCharacterSize(16);
-  this->text.setFillColor(sf::Color::White);
 
   for (int x = 0; x < 50; ++x) {
     for (int y = 0; y < 50; ++y) {
@@ -58,21 +46,8 @@ void Init::init() {
 }
 
 void Init::update() {
-  sf::RenderTarget* render = this->window_service->get_render_target();
-  if(!render) {
-    return;
-  }
-  this->buffer[0] = 0;
 
-  std::snprintf(
-    this->buffer, sizeof(this->buffer), "Tick Usage: %.1f%%",
-    this->performance_service->tick_usage() * 100
-  );
 
-  this->text.setString(this->buffer);
-  render->draw(this->text);
-
-  
 }
 
 
