@@ -34,7 +34,7 @@ void Window::update() {
       return;
     } else if (event.type == sf::Event::Resized) {
       this->handle_resize_event(event);
-    } 
+    }
   }
   this->window.display();
 }
@@ -50,6 +50,9 @@ void Window::handle_resize_event(sf::Event& event) noexcept {
       std::max(event.size.height, min_height)
     });
   }
+  this->visible_area = sf::FloatRect(0, 0, event.size.width, event.size.height);
+  this->window.setView(sf::View(this->visible_area));
+
 }
 
 } /* core::service */

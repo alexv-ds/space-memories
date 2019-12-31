@@ -20,6 +20,7 @@ public:
 private:
   std::shared_ptr<Shutdown> shutdown_service;
   sf::RenderWindow window;
+  sf::FloatRect visible_area;
 
   void handle_resize_event(sf::Event&) noexcept;
 
