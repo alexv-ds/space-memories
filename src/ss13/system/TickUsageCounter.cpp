@@ -21,7 +21,7 @@ void TickUsageCounter::init() {
 }
 
 void TickUsageCounter::update() {
-  sf::RenderTarget* render = this->window->get_render_target();
+  sf::RenderWindow* render = this->window->get_render_window();
   if(!render) {
     return;
   }

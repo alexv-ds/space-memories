@@ -15,7 +15,7 @@ public:
   void update();
 
   //может вернуть nullptr
-  inline sf::RenderTarget* get_render_target() noexcept;
+  inline sf::RenderWindow* get_render_window() noexcept;
 
 private:
   std::shared_ptr<Shutdown> shutdown_service;
@@ -28,7 +28,7 @@ private:
 
 
 //inline methods
-inline sf::RenderTarget* Window::get_render_target() noexcept {
+inline sf::RenderWindow* Window::get_render_window() noexcept {
   return this->window.isOpen() ? &this->window : nullptr;
 }
 

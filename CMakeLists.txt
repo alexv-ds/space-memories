@@ -16,6 +16,7 @@ add_executable(main
 
   src/core/system/WindowUpdate.cpp
   src/core/system/WindowClear.cpp
+  src/core/system/RenderSystem.cpp
 
   src/ss13/system/Init.cpp
   src/ss13/system/TickUsageCounter.cpp

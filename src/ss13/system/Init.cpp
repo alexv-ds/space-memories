@@ -1,7 +1,7 @@
 #include "Init.hpp"
 
 #include <iostream>
-#include <cstdio>
+#include <random>
 #include <SFML/Graphics.hpp>
 
 #include <core/component/Texture.hpp>
@@ -17,10 +17,15 @@ const std::string_view Init::name() const noexcept {
 void Init::init() {
   this->texture_loader = core::service::get_service<core::service::TextureLoader>();
 
-  for (int x = 0; x < 50; ++x) {
-    for (int y = 0; y < 50; ++y) {
+  const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::default_random_engine generator(seed);
+  std::uniform_int_distribution<int> distribution(0,2);
+
+  //
+  for (int x = 0; x < 14; ++x) {
+    for (int y = 0; y < 14; ++y) {
       core::TextureID tex_id;
-      switch (std::rand() % 3) {
+      switch (distribution(generator)) {
         case 0: {
           tex_id = this->texture_loader->load("resources/floor_dark.png");
           break;
@@ -41,8 +46,7 @@ void Init::init() {
       this->registry->assign<core::component::Texture>(entity, tex_id);
     }
   }
-
-
+  //end of loop
 }
 
 void Init::update() {

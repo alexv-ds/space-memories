@@ -9,7 +9,7 @@ WindowClear::WindowClear() {
   this->window_service = service::get_service<service::Window>();
 }
 void WindowClear::update() {
-  sf::RenderTarget* const render = this->window_service->get_render_target();
+  sf::RenderWindow* const render = this->window_service->get_render_window();
   if (render) {
     render->clear();
   }
