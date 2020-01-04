@@ -10,6 +10,8 @@
 #include <core/service/PerformanceController.hpp>
 #include "init.hpp"
 
+#include <core/ServiceLocator.hpp>
+
 namespace {
   volatile std::atomic_bool g_sigint = false;
 }

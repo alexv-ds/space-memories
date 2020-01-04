@@ -11,7 +11,6 @@ void init_services() {
   entt::service_locator<core::service::Window>::set();
   entt::service_locator<core::service::TextureLoader>::set();
   entt::service_locator<core::service::Settings>::set();
-
 }
 
 void destroy_services() {

@@ -35,6 +35,7 @@ void RenderSystem::update() {
   >();
 
   for(entt::entity entity : view) {
+
     auto& com_renderable = this->registry->get<core::component::Renderable>(entity);
     auto& com_position = this->registry->get<core::component::Position>(entity);
     auto& com_texture = this->registry->get<core::component::Texture>(entity);

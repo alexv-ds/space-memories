@@ -4,3 +4,9 @@
 [submodule "third_party/SFML"]
 	path = third_party/SFML
 	url = https://github.com/SFML/SFML
+[submodule "third_party/catch2"]
+	path = third_party/catch2
+	url = https://github.com/catchorg/Catch2.git
+[submodule "third_party/termcolor"]
+	path = third_party/termcolor
+	url = https://github.com/ikalnytskyi/termcolor.git

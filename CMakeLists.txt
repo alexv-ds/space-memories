@@ -9,6 +9,7 @@ add_executable(main
 
   src/core/RateLimiter.cpp
   src/core/ISystem.cpp
+  src/core/ServiceLocator.cpp
 
   src/core/service/Shutdown.cpp
   src/core/service/Window.cpp
@@ -23,7 +24,7 @@ add_executable(main
 )
 
 if(NOT MSVC)
-  target_compile_options(main PRIVATE
+  add_compile_options(
     -Wall
     #-Wextra
     #-Wpedantic
@@ -48,7 +49,7 @@ target_include_directories(main PRIVATE
   src
 )
 
-target_compile_features(main PUBLIC cxx_std_20)
+target_compile_features(main PUBLIC cxx_std_17)
 
 set(BUILD_SHARED_LIBS FALSE)
 set(SFML_BUILD_AUDIO FALSE)
@@ -58,3 +59,23 @@ add_subdirectory(third_party/entt)
 
 target_link_libraries(main EnTT::EnTT)
 target_link_libraries(main sfml-system sfml-window sfml-graphics)
+
+set(CATCH_BUILD_TESTING FALSE)
+set(CATCH_ENABLE_WERROR FALSE)
+set(CATCH_INSTALL_DOCS FALSE)
+set(CATCH_INSTALL_HELPERS FALSE)
+add_subdirectory(third_party/catch2)
+add_subdirectory(third_party/termcolor)
+add_executable(tests
+  src/core/ServiceLocator.cpp
+
+  tests/main.cpp
+  tests/core/ServiceLocator.test.cpp
+  tests/core/LoggerFactory.test.cpp
+)
+target_link_libraries(tests Catch2::Catch2)
+target_link_libraries(tests termcolor::termcolor)
+target_include_directories(tests PRIVATE
+  src
+)
+target_compile_features(tests PUBLIC cxx_std_17)
