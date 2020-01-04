@@ -71,7 +71,6 @@ add_executable(tests
 
   tests/main.cpp
   tests/core/ServiceLocator.test.cpp
-  tests/core/LoggerFactory.test.cpp
 )
 target_link_libraries(tests Catch2::Catch2)
 target_link_libraries(tests termcolor::termcolor)
