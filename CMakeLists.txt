@@ -14,6 +14,7 @@ add_executable(main
   src/core/service/Shutdown.cpp
   src/core/service/Window.cpp
   src/core/service/TextureLoader.cpp
+  src/core/service/LoggerFactory.cpp
 
   src/core/system/WindowUpdate.cpp
   src/core/system/WindowClear.cpp
@@ -59,6 +60,7 @@ add_subdirectory(third_party/entt)
 
 target_link_libraries(main EnTT::EnTT)
 target_link_libraries(main sfml-system sfml-window sfml-graphics)
+target_link_libraries(main termcolor::termcolor)
 
 set(CATCH_BUILD_TESTING FALSE)
 set(CATCH_ENABLE_WERROR FALSE)
@@ -71,6 +73,7 @@ add_executable(tests
 
   tests/main.cpp
   tests/core/ServiceLocator.test.cpp
+  tests/Test.test.cpp
 )
 target_link_libraries(tests Catch2::Catch2)
 target_link_libraries(tests termcolor::termcolor)

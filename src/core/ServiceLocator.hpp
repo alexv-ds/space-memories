@@ -55,5 +55,4 @@ inline bool ServiceLocator::reset() {
   return reset_by_type_index( std::type_index(typeid(T)) );
 }
 
-
 } /* core */

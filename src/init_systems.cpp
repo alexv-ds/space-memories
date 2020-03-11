@@ -1,4 +1,4 @@
-#include "init.hpp"
+/*#include "init.hpp"
 
 #include <core/system/WindowUpdate.hpp>
 #include <core/system/WindowClear.hpp>
@@ -15,4 +15,4 @@ void init_systems(std::vector<SystemPtr>& systems) {
   INIT_SYSTEM(core::system::RenderSystem);
   INIT_SYSTEM(ss13::system::TickUsageCounter);
   INIT_SYSTEM(core::system::WindowUpdate);
-}
+}*/
