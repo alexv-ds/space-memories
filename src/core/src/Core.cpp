@@ -26,8 +26,7 @@ Core::Core(int argc, const char* const* argv, std::shared_ptr<LoggerFactory> log
   type_registry->add_type(type_id<TypeRegistry>(), "core::TypeRegistry");
   service_locator_impl->add_service(type_id<TypeRegistry>(), type_registry);
 
-
-
+  logger->info("Зарегестрированных сервисов: {}", service_locator_impl->service_count());
 }
 
 int Core::main() {
