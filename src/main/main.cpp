@@ -23,7 +23,7 @@ int main(int argc, const char* const* argv) {
 
   std::shared_ptr<LoggerFactory> logger_factory = std::make_shared<LoggerFactory>();
   std::shared_ptr<core::Logger> logger = std::move(logger_factory->create_logger("main"));
-  logger->debug("Инициализация core::Core");
+  logger->info("Инициализация core::Core");
   core::Core core(argc, argv, logger_factory);
   return core.main();
 }

@@ -39,7 +39,7 @@ void TypeRegistry::add_type(type_index type, std::string_view name) {
 
   auto [it, inserted] = type_string_map.insert({type, std::move(std::string(name))});
   string_type_map.insert({it->second, type});
-  logger->trace("Зарегестрирован тип {}", name);
+  logger->trace("Тип {} зарегестрирован", name);
 }
 
 }

@@ -3,6 +3,7 @@ add_library(core STATIC
   src/Core.cpp
   src/TypeRegistry.cpp
   src/ServiceLocatorImpl.cpp
+  src/define_service.cpp
 )
 add_library(core::core ALIAS core)
 

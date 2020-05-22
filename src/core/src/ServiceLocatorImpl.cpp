@@ -1,4 +1,5 @@
 #include "ServiceLocatorImpl.hpp"
+#include <core/define_service.hpp>
 
 namespace core {
 
