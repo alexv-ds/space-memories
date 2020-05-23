@@ -1,4 +1,5 @@
 #pragma once
+//Сплошной говнокод, переписать это дерьмо
 
 #include <functional>
 #include <vector>
@@ -6,29 +7,19 @@
 #include <type_traits>
 #include <core/Service.hpp>
 #include <core/ServiceLocator.hpp>
-#include <core/type_index.hpp>
-
-#define CORE_CONCAT_LEXEMS_(a,b) a##b
-#define CORE_CONCAT_LEXEMS(a,b) CORE_CONCAT_LEXEMS_(a,b)
-#define CORE_GENERATE_UNIQUE_NAME(basename) CORE_CONCAT_LEXEMS(basename,__COUNTER__)
+#include <core/define_helpers.hpp>
 
 #define CORE_DEFINE_SERVICE(interface, name, require, lambda)\
   namespace {\
     const ::core::ServiceBuilder CORE_GENERATE_UNIQUE_NAME(service_builder) = \
       ::core::create_service_builder<interface>(name, std::move(require), std::move(lambda));\
   }
-#define CORE_LABMDA(locator_var_name) [](core::ServiceLocator& locator_var_name)
 
 namespace core {
 
 class ServiceBuilder;
 void register_service_builder(ServiceBuilder* builder);
 std::vector<ServiceBuilder*>& get_registered_service_builders();
-
-template<class... Args>
-std::vector<type_index> require() {
-  return {type_id<Args>()...}; 
-}
 
 class ServiceBuilder {
   using BuildFunc = std::function<std::shared_ptr<Service>(ServiceLocator&)>;
