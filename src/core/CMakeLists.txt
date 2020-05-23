@@ -4,6 +4,7 @@ add_library(core STATIC
   src/TypeRegistry.cpp
   src/ServiceLocatorImpl.cpp
   src/define_service.cpp
+  src/RateLimiter.cpp
 )
 add_library(core::core ALIAS core)
 

@@ -1,16 +1,23 @@
 #include <cstdlib> //getenv
+#include <csignal>
 #include <core/Core.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/cfg/env.h>
+#include "LoggerFactory.hpp"
 
-class LoggerFactory final : public core::LoggerFactory {
-  std::shared_ptr<spdlog::logger> logger = spdlog::default_logger(); 
-public:
-  std::shared_ptr<core::Logger> create_logger(std::string_view name) override {
-    return logger->clone(std::string(name));
+namespace {
+  volatile core::Core* g_core = nullptr;
+}
+
+extern "C" void signal_handler(int sig) {
+  if (g_core) {
+    g_core->exit();
+  } else {
+    std::quick_exit(0);
   }
-};
+}
+
 int main(int argc, const char* const* argv) {
   spdlog::set_pattern("[%H:%M:%S][%^%l%$][%n]: %v");
 #ifndef NDEBUG
@@ -20,10 +27,15 @@ int main(int argc, const char* const* argv) {
     spdlog::cfg::load_env_levels();
   }
 
+  std::signal(SIGTERM, signal_handler);
+  std::signal(SIGINT, signal_handler);
 
   std::shared_ptr<LoggerFactory> logger_factory = std::make_shared<LoggerFactory>();
   std::shared_ptr<core::Logger> logger = std::move(logger_factory->create_logger("main"));
   logger->info("Инициализация core::Core");
   core::Core core(argc, argv, logger_factory);
-  return core.main();
+  g_core = &core;
+  int core_return_core = core.main();
+  g_core = nullptr;
+  return core_return_core;
 }
