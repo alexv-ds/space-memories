@@ -45,7 +45,7 @@ public:
   {
     register_service_builder(this);
   }
-
+  
   const type_index interface;
   const std::string name;
   const std::vector<type_index> require;

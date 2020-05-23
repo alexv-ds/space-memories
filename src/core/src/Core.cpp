@@ -1,6 +1,8 @@
+#include <cstdlib>
 #include <core/Core.hpp>
 #include <core/Service.hpp>
 #include "ServiceLocatorImpl.hpp"
+#include "RateLimiter.hpp"
 
 namespace core {
 
@@ -26,12 +28,28 @@ Core::Core(int argc, const char* const* argv, std::shared_ptr<LoggerFactory> log
   type_registry->add_type(type_id<TypeRegistry>(), "core::TypeRegistry");
   service_locator_impl->add_service(type_id<TypeRegistry>(), type_registry);
 
-  logger->info("Зарегестрированных сервисов: {}", service_locator_impl->service_count());
+  logger->info("Зарегестрированно сервисов: {}", service_locator_impl->service_count());
 }
 
 int Core::main() {
-
+  RateLimiter rate_limiter(60);
+  logger->info("Начало главного цикла");
+  while (!close_signal.load()) {
+    rate_limiter.wait_next();
+  }
+  logger->info("Конец главного цикла");
   return 0;
 };
+
+void Core::exit() volatile {
+  close_signal.store(true);
+}
+void Core::force_exit() volatile {
+  if (close_signal.load()) {
+    std::quick_exit(0);
+  } else {
+    std::exit(0);
+  }
+}
 
 }
