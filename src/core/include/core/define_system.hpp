@@ -22,11 +22,10 @@ class SystemDefine {
   using BuildFunc = std::function<std::unique_ptr<System>(ServiceLocator&)>;
 public:
   std::string name;
-  type_index type;
   BuildFunc build_func;
 
   static const std::vector<SystemDefine*>& get_defined_systems();
-  SystemDefine(std::string_view name, type_index type, BuildFunc build_func);
+  SystemDefine(std::string_view name, BuildFunc build_func);
 private:
   static std::vector<SystemDefine*>& get_vector();
   SystemDefine (const SystemDefine&) = delete;
@@ -39,7 +38,7 @@ SystemDefine define_system(std::string_view name, SystemBuildFunc lambda) {
   using SystemType = typename decltype(impl_build_func)::result_type::element_type;
   static_assert(std::is_base_of_v<System, SystemType>);
   static_assert(std::is_same_v<ServiceLocator&, typename decltype(impl_build_func)::argument_type>);
-  return {name, type_id<SystemType>(), std::move(impl_build_func)};
+  return {name, std::move(impl_build_func)};
 }
 
 }

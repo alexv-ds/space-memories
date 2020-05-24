@@ -53,7 +53,6 @@ int Core::main() {
   logger->debug("Инициализация core::SystemRegistry");
   SystemRegistry system_registry(
     std::move(logger_factory->create_logger("core::SystemRegistry")),
-    type_registry,
     service_locator,
     registry
   );

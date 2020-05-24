@@ -6,13 +6,20 @@
 
 namespace core {
 
+struct SystemSettings;
+
 class System {
 public:
+  struct Settings;
+  virtual void update(entt::registry&);
+  virtual void init(entt::registry&);
+  virtual void setup(Settings&) const;
   virtual ~System() = default;
-  virtual void update() = 0;
-  virtual void setup(std::shared_ptr<entt::registry>);
-protected:
-  std::shared_ptr<entt::registry> registry;  
 };
+
+struct System::Settings {
+  int priority = 0;
+};
+
 
 }

@@ -3,9 +3,8 @@
 
 namespace core {
 
-void System::setup(std::shared_ptr<entt::registry> registry) {
-  assert(registry != nullptr);
-  this->registry = registry;
-}
+void System::update(entt::registry&) {}
+void System::init(entt::registry&) {}
+void System::setup(Settings&) const {}
 
 }

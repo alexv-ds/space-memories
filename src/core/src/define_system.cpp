@@ -3,9 +3,8 @@
 namespace core {
 
 SystemDefine::SystemDefine(std::string_view name,
-                           type_index type,
                            BuildFunc build_func):
-  name(name), type(type), build_func(std::move(build_func))
+  name(name), build_func(std::move(build_func))
 {
   get_vector().push_back(this);
 }
