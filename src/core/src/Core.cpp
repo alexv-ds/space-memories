@@ -50,6 +50,10 @@ int Core::main() {
     system_registry.update();
   }
   logger->info("Конец главного цикла");
+  logger->info("Уничтожение всех сущностей");
+  registry->each([&registry](entt::entity entity){
+    registry->destroy(entity);
+  });
   return 0;
 };
 

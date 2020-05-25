@@ -5,6 +5,8 @@
 #include <components/ExitAfterNSec.hpp>
 #include "system_update_priority.hpp"
 
+namespace {
+
 class ExitAfterNsec final : public core::System {
   std::shared_ptr<core::Logger> logger;
   std::shared_ptr<core::Process> process;
@@ -50,3 +52,4 @@ CORE_DEFINE_SYSTEM("system::ExitAfterNsec", [](core::ServiceLocator& locator){
   );
 });
 
+}
