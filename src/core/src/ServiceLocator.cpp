@@ -8,9 +8,7 @@ std::shared_ptr<Service> ServiceLocator::get(type_index type) {
   if (service) {
     return service;
   }
-  auto [name, found] = type_registry->get_name(type);
-  std::string throw_msg = "Сервис не найден: ";
-  throw_msg += name;
+  std::string throw_msg = "запрашиваемый сервис не найден";
   throw std::logic_error(throw_msg);
 }
 

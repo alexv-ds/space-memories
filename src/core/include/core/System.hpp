@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <entt/entity/registry.hpp>
+#include <entt/entity/observer.hpp>
 
 namespace core {
 

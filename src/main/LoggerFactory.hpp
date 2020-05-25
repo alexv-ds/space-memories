@@ -8,4 +8,7 @@ public:
   std::shared_ptr<core::Logger> create_logger(std::string_view name) override {
     return logger->clone(std::string(name));
   }
+  std::string_view impl_name() const noexcept override {
+    return "main::LoggerFactory";
+  }
 };

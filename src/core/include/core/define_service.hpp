@@ -1,5 +1,4 @@
 #pragma once
-//Сплошной говнокод, переписать это дерьмо
 
 #include <functional>
 #include <vector>
@@ -9,53 +8,44 @@
 #include <core/ServiceLocator.hpp>
 #include <core/define_helpers.hpp>
 
-#define CORE_DEFINE_SERVICE(interface, name, require, lambda)\
+#define CORE_DEFINE_SERVICE(interface, name, after, lambda)\
   namespace {\
-    const ::core::ServiceBuilder CORE_GENERATE_UNIQUE_NAME(service_builder) = \
-      ::core::create_service_builder<interface>(name, std::move(require), std::move(lambda));\
+    const ::core::ServiceDefine CORE_GENERATE_UNIQUE_NAME(service_define) =\
+      ::core::define_service<interface>(name, std::move(after), std::move(lambda));\
   }
 
 namespace core {
 
-class ServiceBuilder;
-void register_service_builder(ServiceBuilder* builder);
-std::vector<ServiceBuilder*>& get_registered_service_builders();
+template<class... Args>
+std::vector<type_index> after() {
+  return {type_id<Args>()...}; 
+}
 
-class ServiceBuilder {
+class ServiceDefine {
   using BuildFunc = std::function<std::shared_ptr<Service>(ServiceLocator&)>;
 public:
-  ServiceBuilder(type_index interface,
-                        std::string_view name,
-                        std::vector<type_index> require,
-                        BuildFunc build_func):
-            //init
-            interface(interface),
-            name(name),
-            require(std::move(require)),
-            build_func(build_func)
-  {
-    register_service_builder(this);
-  }
-  
-  const type_index interface;
-  const std::string name;
-  const std::vector<type_index> require;
-  const BuildFunc build_func;
+  type_index interface;
+  std::vector<type_index> after;
+  std::string name;
+  BuildFunc build_func;
+
+  static const std::vector<ServiceDefine*>& get_defined_services();
+  ServiceDefine(type_index, std::vector<type_index>, std::string_view, BuildFunc);  
+  ServiceDefine (const ServiceDefine&) = delete;
+  ServiceDefine & operator = (const ServiceDefine&) = delete;
+private:
+  static std::vector<ServiceDefine*>& get_vector();
 };
 
-template<class Interface, class BuildFunc>
-const ServiceBuilder create_service_builder(std::string_view name,
-                                            std::vector<type_index> require,
-                                            BuildFunc lambda)
-{
-  std::function impl_builder = std::move(lambda);
-  using ImplType = typename decltype(impl_builder)::result_type::element_type;
-  static_assert(std::is_base_of_v<Service, Interface>);
-  static_assert(std::is_base_of_v<Interface, ImplType>);
-  static_assert(std::is_same_v<ServiceLocator&, typename decltype(impl_builder)::argument_type>);
-  std::function<std::shared_ptr<Service>(ServiceLocator&)> service_builder = std::move(impl_builder);
-
-  return ServiceBuilder(type_id<Interface>(), name, std::move(require), std::move(service_builder));
+template <class InterfaceType, class ServiceBuildFunc>
+ServiceDefine define_service(std::string_view name, std::vector<type_index> after, ServiceBuildFunc lambda) {
+  std::function impl_build_func = std::move(lambda);
+  using ImplType = typename decltype(impl_build_func)::result_type::element_type;
+  static_assert(std::is_base_of_v<Service, InterfaceType>);
+  static_assert(std::is_base_of_v<InterfaceType, ImplType>);
+  std::function<std::shared_ptr<Service>(ServiceLocator&)> service_builder = std::move(impl_build_func);
+  return {type_id<InterfaceType>(), std::move(after), name, service_builder};
 }
 
 }
+

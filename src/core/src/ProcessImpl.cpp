@@ -25,4 +25,8 @@ void ProcessImpl::force_exit(std::string_view reason) {
   fn_force_exit();
 }
 
+std::string_view ProcessImpl::impl_name() const noexcept {
+  return "core::ProcessImpl";
+}
+
 }
