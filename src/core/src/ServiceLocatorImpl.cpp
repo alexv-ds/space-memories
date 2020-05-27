@@ -32,7 +32,9 @@ void ServiceLocatorImpl::init_service_defines() {
     try {
       std::shared_ptr service = service_define->build_func(*this);
       if (service == nullptr) {
-        logger->error("Не удалось создать сервис {}, функция создания вернула nullptr");
+        logger->error(
+          "Не удалось создать сервис {}, функция создания вернула nullptr", service_define->name
+        );
         continue;
       }
       add_service(service_define->name, service_define->interface, std::move(service));
