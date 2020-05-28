@@ -3,8 +3,12 @@
 namespace component {
 
 struct RenderWindow {
-  unsigned int width = 800;
-  unsigned int height = 600;
+  //Изменение этих значение ничего не изменит, readonly
+  unsigned int width;
+  unsigned int height;
 };
+
+//Выход из программы, если будет найден этот компонент без RenderWindow
+struct ExitIfWindowClosed {};
 
 }

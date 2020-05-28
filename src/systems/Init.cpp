@@ -3,29 +3,54 @@
 #include <core/define_system.hpp>
 #include <core/LoggerFactory.hpp>
 #include <core/Logger.hpp>
-
+#include <services/Input.hpp>
 #include <components/RenderWindow.hpp>
 #include <components/ExitAfterNSec.hpp>
+#include <components/Input.hpp>
+
+
+#include <SFML/Graphics.hpp>
 
 namespace {
 
 class Init final : public core::System {
   std::shared_ptr<core::Logger> logger;
+  std::shared_ptr<service::Input> input;
+  int counter = 360;
+  bool delete_window = true;
 public:
-  Init(std::shared_ptr<core::Logger> logger): logger(logger) {};
+  Init(std::shared_ptr<core::Logger> logger,
+       std::shared_ptr<service::Input> input):
+    //init
+    logger(logger),
+    input(input)
+  {}
+
   void setup(Settings& setting) const override {
     setting.priority = update_priority::Init;
   }
   void init(entt::registry& registry) override {
     entt::entity entity = registry.create();
     registry.emplace<component::RenderWindow>(entity);
-    registry.emplace<component::ExitAfterNsec>(entity, "Тестинг", 7);
+    registry.emplace<component::ExitIfWindowClosed>(entity);
+    registry.emplace<component::ListenKeyboard>(entity);
+  }
+
+  void update(entt::registry& registry) override {
+    registry.view<component::ListenKeyboard>().each([this](auto entity){
+      if (input->is_key_up(entity, Key::Escape)) {
+        logger->critical("^_^");
+      }
+    });
   }
 
 };
 
 CORE_DEFINE_SYSTEM("system::Init", [](core::ServiceLocator& locator){
-  return std::make_unique<Init>(locator.get<core::LoggerFactory>()->create_logger("system::Init"));
+  return std::make_unique<Init>(
+    locator.get<core::LoggerFactory>()->create_logger("system::Init"),
+    locator.get<service::Input>()
+  );
 });
 
 

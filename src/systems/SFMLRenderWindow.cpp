@@ -19,11 +19,16 @@ public:
 
   void init(entt::registry& registry) override {
     this->registry = &registry;
-    registry.view<component::RenderWindow>().each([this](auto entity, auto& window){
+    registry.view<component::RenderWindow>().each([this](auto entity, auto& window) {
       render_window_service->update_window(entity, window);
     });
     registry.on_construct<component::RenderWindow>().connect<&SFMLRenderWindow::on_construct_cb>(this);
     registry.on_destroy<component::RenderWindow>().connect<&SFMLRenderWindow::on_destroy_cb>(this);
+  }
+  void update(entt::registry& registry) override {
+    registry.view<component::RenderWindow>().each([this](auto entity, auto& window) {
+      render_window_service->update_window(entity, window);
+    });
   }
 
   ~SFMLRenderWindow() {

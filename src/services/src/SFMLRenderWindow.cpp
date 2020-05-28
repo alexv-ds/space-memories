@@ -11,17 +11,25 @@ std::string_view SFMLRenderWindow::impl_name() const noexcept {
   return "service::SFMLRenderWindow";
 }
 
-void SFMLRenderWindow::update_window(entt::entity entity, component::RenderWindow& comp_window) {
-  if(auto it = windows.find(entity); it == windows.end()) {
-    logger->debug("Открытие окна для entity-{}", entity);
-    std::unique_ptr sf_window = std::make_unique<sf::RenderWindow>(
-      sf::VideoMode::getDesktopMode(), "SFML WIndow"
-    );
-    windows[entity] = std::move(sf_window);
-  }
-}
 SFMLRenderWindow::~SFMLRenderWindow() {
   windows.clear();
+}
+
+void SFMLRenderWindow::update_window(entt::entity entity, component::RenderWindow& comp_window) {
+  auto it = windows.find(entity);
+  if(it == windows.end()) {
+    logger->debug("Открытие окна для entity-{}", entity);
+    std::unique_ptr sf_window = std::make_unique<sf::RenderWindow>(
+      sf::VideoMode(800u, 600u), "Space Memories"
+    );
+    //Первоначальная очистка, что бы пользователь
+    //не видел мусор (разноцветный шум/части других окон/т.д) из видеобуффера
+    sf_window->clear(sf::Color::Black);
+    sf_window->display();
+
+    sf_window->setKeyRepeatEnabled(false);
+    windows[entity] = std::move(sf_window);
+  }
 }
 
 void SFMLRenderWindow::destroy_window(entt::entity entity) {
@@ -32,6 +40,15 @@ void SFMLRenderWindow::destroy_window(entt::entity entity) {
     return;
   }
   windows.erase(it);
+}
+
+sf::RenderWindow* SFMLRenderWindow::get_window(entt::entity entity) {
+  auto it = windows.find(entity);
+  if (it == windows.end()) {
+    logger->warn("У entity-{} нет ассоциированного окна", entity);
+    return nullptr;
+  }
+  return it->second.get();
 }
 
 CORE_DEFINE_SERVICE(SFMLRenderWindow, "service::SFMLRenderWindow", core::after<core::LoggerFactory>(),

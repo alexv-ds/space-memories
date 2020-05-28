@@ -13,9 +13,11 @@ class SFMLRenderWindow final : public core::Service {
 public:
   SFMLRenderWindow(std::shared_ptr<core::Logger>);
   ~SFMLRenderWindow();
+  std::string_view impl_name() const noexcept override;
+
   void update_window(entt::entity, component::RenderWindow& window);
   void destroy_window(entt::entity);
-  std::string_view impl_name() const noexcept override;
+  sf::RenderWindow* get_window(entt::entity); //can be nullptr
 private:
   std::shared_ptr<core::Logger> logger;
   std::map<entt::entity,std::unique_ptr<sf::RenderWindow>> windows;
