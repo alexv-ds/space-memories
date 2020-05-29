@@ -13,6 +13,7 @@ public:
     settings.priority = update_priority::WindowEventHandlerClear;
   }
   void update(entt::registry& registry) override {
+    input_service->input_frame_end();
   }
 };
 

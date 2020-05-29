@@ -6,8 +6,6 @@ namespace service {
 
 void Input::update_keys(entt::entity entity, const std::vector<sf::Event>& key_events) {
   KeyboardState& state = states[entity];
-  state.reset_all_down();
-  state.reset_all_up();
   for (const sf::Event& event : key_events) {
     assert(event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased);
     if (event.type == sf::Event::KeyPressed) {
@@ -15,6 +13,13 @@ void Input::update_keys(entt::entity entity, const std::vector<sf::Event>& key_e
     } else {
       state.set(static_cast<Key>(event.key.code), KeyboardState::UP);
     }
+  }
+}
+
+void Input::input_frame_end() {
+  for(auto& [id, state] : states) {
+    state.reset_all_down();
+    state.reset_all_up();
   }
 }
 

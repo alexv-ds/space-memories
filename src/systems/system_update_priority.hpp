@@ -8,8 +8,8 @@ enum UpdatePriority : int {
   RenderEnd,
   SFMLRenderWindow,
   ExitIfWindowClosed,
-  WindowEventHandlerClear,
   Init,
+  WindowEventHandlerClear,
 };
 
 
