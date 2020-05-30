@@ -7,6 +7,7 @@ target_sources(main PRIVATE
   WindowEventsHandler.cpp
   ExitIfWindowClosed.cpp
   WindowEventsHandlerClear.cpp
+  TimeUpdate.cpp
 )
 
 
