@@ -8,6 +8,7 @@ target_sources(main PRIVATE
   ExitIfWindowClosed.cpp
   WindowEventsHandlerClear.cpp
   TimeUpdate.cpp
+  QuadRenderSystem.cpp
 )
 
 

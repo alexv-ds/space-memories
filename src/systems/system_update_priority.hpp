@@ -6,11 +6,12 @@ enum UpdatePriority : int {
   WindowEventHandler,
   ExitAfter10sec,
   RenderBegin,
+  QuadRenderSystem,
   RenderEnd,
   SFMLRenderWindow,
   ExitIfWindowClosed,
-  Init,
   WindowEventHandlerClear,
+  Init,
 };
 
 

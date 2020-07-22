@@ -3,4 +3,5 @@ target_sources(main PRIVATE
   src/SFMLRenderWindow.cpp
   src/Input.cpp
   src/TimeImpl.cpp
+  src/Camera.cpp
 )
