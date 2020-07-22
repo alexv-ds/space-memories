@@ -62,33 +62,22 @@ public:
       float vsize_x;
       float vsize_y;
       const sf::Vector2f rtarget_size = vec2u_to_vec2f(last_render_target->getSize());
-      float test = rtarget_size.x / rtarget_size.y;
+      float rtarget_aspect_ratio = rtarget_size.x / rtarget_size.y;
+      float camera_aspect_ratio = comp_camera->size_x / comp_camera->size_y;
+      float combined_aspect_ratio = rtarget_aspect_ratio / camera_aspect_ratio;
       
-      if (test > 1.0f) {
-        vsize_x = comp_camera->size_x * test;
+      if (combined_aspect_ratio > 1.0f) {
+        vsize_x = comp_camera->size_x * combined_aspect_ratio;
         vsize_y = comp_camera->size_y;
-        render_view.setViewport({(1.0f - 1.0f / test) / 2.0f, 0.0f, 1.0f, 1.0f});
+        render_view.setViewport({(1.0f - 1.0f / combined_aspect_ratio) / 2.0f, 0.0f, 1.0f, 1.0f});
       } else {
         vsize_x = comp_camera->size_x;
-        vsize_y = comp_camera->size_y / test;
-        render_view.setViewport({0.0f, -(1.0f - 1.0f * test) / 2.0f, 1.0f, 1.0f});    
+        vsize_y = comp_camera->size_y / combined_aspect_ratio;
+        render_view.setViewport({0.0f, -(1.0f - 1.0f * combined_aspect_ratio) / 2.0f, 1.0f, 1.0f});    
       }
 
       render_view.setSize(vsize_x, -vsize_y);
       render_view.setCenter(vsize_x / 2.0f, vsize_y / 2.0f);
-
-
-  
-      /*const sf::Vector2f rtarget_size = vec2u_to_vec2f(last_render_target->getSize());
-      std::cout << rtarget_size.x / rtarget_size.y << std::endl;
-
-      float test = rtarget_size.x / rtarget_size.y;
-      if (test > 1.0f) {
-        render_view.setViewport({0.0f, 0.0f, 1.0f-(test-1.0f), 1.0f});
-      }*/
-
-      //render_view.setViewport({0.0f,0.0f,1.0f,1.0f});
-
       
       last_render_target->setView(render_view);
       last_render_target->draw(rect);
