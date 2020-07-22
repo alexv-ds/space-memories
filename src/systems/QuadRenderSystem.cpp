@@ -4,6 +4,7 @@
 #include <services/Camera.hpp>
 #include <components/Camera.hpp>
 #include <components/Position.hpp>
+#include <iostream>
 
 namespace {
 
@@ -13,6 +14,10 @@ sf::Vector2f calculate_cell_size(const component::Camera& cam, const sf::RenderT
   cell_size.x = cell_size.x / cam.size_x;
   cell_size.y = cell_size.y / cam.size_y;
   return cell_size;
+}
+
+sf::Vector2f vec2u_to_vec2f(const sf::Vector2u& vec2u) {
+  return {static_cast<float>(vec2u.x), static_cast<float>(vec2u.y)};
 }
 
 class QuadRenderSystem final : public core::System {
@@ -45,14 +50,46 @@ public:
       }
 
       sf::Vector2f cell_size = calculate_cell_size(*comp_camera, *last_render_target);
-      sf::RectangleShape rect({cell_size.x,cell_size.y});
+      sf::RectangleShape rect({1,1});
       rect.setFillColor(rquad.color);
-      rect.setPosition({cell_size.x*screen_pos.x, cell_size.y*screen_pos.y});
+      rect.setPosition({screen_pos.x, screen_pos.y});
 
       const sf::View old_render_view = last_render_target->getView();
       sf::View render_view = old_render_view;
       const sf::Vector2f& render_view_size = old_render_view.getSize(); 
-      render_view.setSize(render_view_size.x, -render_view_size.y);
+
+      
+      float vsize_x;
+      float vsize_y;
+      const sf::Vector2f rtarget_size = vec2u_to_vec2f(last_render_target->getSize());
+      float test = rtarget_size.x / rtarget_size.y;
+      
+      if (test > 1.0f) {
+        vsize_x = comp_camera->size_x * test;
+        vsize_y = comp_camera->size_y;
+        render_view.setViewport({(1.0f - 1.0f / test) / 2.0f, 0.0f, 1.0f, 1.0f});
+      } else {
+        vsize_x = comp_camera->size_x;
+        vsize_y = comp_camera->size_y / test;
+        render_view.setViewport({0.0f, -(1.0f - 1.0f * test) / 2.0f, 1.0f, 1.0f});    
+      }
+
+      render_view.setSize(vsize_x, -vsize_y);
+      render_view.setCenter(vsize_x / 2.0f, vsize_y / 2.0f);
+
+
+  
+      /*const sf::Vector2f rtarget_size = vec2u_to_vec2f(last_render_target->getSize());
+      std::cout << rtarget_size.x / rtarget_size.y << std::endl;
+
+      float test = rtarget_size.x / rtarget_size.y;
+      if (test > 1.0f) {
+        render_view.setViewport({0.0f, 0.0f, 1.0f-(test-1.0f), 1.0f});
+      }*/
+
+      //render_view.setViewport({0.0f,0.0f,1.0f,1.0f});
+
+      
       last_render_target->setView(render_view);
       last_render_target->draw(rect);
       last_render_target->setView(old_render_view);
