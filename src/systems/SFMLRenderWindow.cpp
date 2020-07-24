@@ -9,7 +9,7 @@ class SFMLRenderWindow final : public core::System {
   std::shared_ptr<service::SFMLRenderWindow> render_window_service;
 
   //Временный костыль
-  entt::registry* registry;
+  entt::registry* registry = nullptr;
 
 public:
   SFMLRenderWindow(std::shared_ptr<service::SFMLRenderWindow>);
@@ -32,8 +32,10 @@ public:
   }
 
   ~SFMLRenderWindow() {
-    registry->on_construct<component::RenderWindow>().disconnect<&SFMLRenderWindow::on_construct_cb>(this);
-    registry->on_destroy<component::RenderWindow>().disconnect<&SFMLRenderWindow::on_destroy_cb>(this);
+    if (registry) {
+      registry->on_construct<component::RenderWindow>().disconnect<&SFMLRenderWindow::on_construct_cb>(this);
+      registry->on_destroy<component::RenderWindow>().disconnect<&SFMLRenderWindow::on_destroy_cb>(this);
+    }
   }
 
   void on_construct_cb(entt::registry& registry, entt::entity entity) {
