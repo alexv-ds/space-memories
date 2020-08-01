@@ -4,4 +4,5 @@ target_sources(main PRIVATE
   src/Input.cpp
   src/TimeImpl.cpp
   src/Camera.cpp
+  src/World.cpp
 )
