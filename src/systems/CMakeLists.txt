@@ -9,6 +9,7 @@ target_sources(main PRIVATE
   WindowEventsHandlerClear.cpp
   TimeUpdate.cpp
   QuadRenderSystem.cpp
+  WorldUpdate.cpp
 )
 
 
