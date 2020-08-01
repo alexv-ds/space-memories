@@ -63,6 +63,7 @@
     "cinttypes": "cpp",
     "typeinfo": "cpp",
     "variant": "cpp",
-    "codecvt": "cpp"
+    "codecvt": "cpp",
+    "forward_list": "cpp"
   }
 }
