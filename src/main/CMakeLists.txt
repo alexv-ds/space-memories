@@ -5,3 +5,4 @@ add_executable(main
 
 target_link_libraries(main PRIVATE core::core)
 target_link_libraries(main PRIVATE sfml-system sfml-window sfml-graphics)
+target_include_directories(main PRIVATE "${CMAKE_SOURCE_DIR}/third_party/loose_quadtree/src/include")
