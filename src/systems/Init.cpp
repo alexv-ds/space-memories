@@ -6,11 +6,13 @@
 #include <services/Input.hpp>
 #include <services/Time.hpp>
 #include <services/Camera.hpp>
+#include <services/World.hpp>
 #include <components/RenderWindow.hpp>
 #include <components/ExitAfterNSec.hpp>
 #include <components/Input.hpp>
 #include <components/Camera.hpp>
 #include <components/Position.hpp>
+
 
 #include <SFML/Graphics.hpp>
 
@@ -21,19 +23,22 @@ class Init final : public core::System {
   std::shared_ptr<service::Input> input;
   std::shared_ptr<service::Time> time;
   std::shared_ptr<service::Camera> camera_service;
+  std::shared_ptr<service::World> world;
   int counter = 360;
   bool delete_window = true;
 public:
   Init(std::shared_ptr<core::Logger> logger,
        std::shared_ptr<service::Input> input,
        std::shared_ptr<service::Time> time,
-       std::shared_ptr<service::Camera> camera_service
+       std::shared_ptr<service::Camera> camera_service,
+       std::shared_ptr<service::World> world
        ):
     //init
     logger(logger),
     input(input),
     time(time),
-    camera_service(camera_service)
+    camera_service(camera_service),
+    world(world)
   {}
 
   void setup(Settings& setting) const override {
@@ -49,12 +54,13 @@ public:
     registry.emplace<component::Camera>(camera, 10.0f, 10.0f);
     registry.emplace<component::BindCameraToRenderWindow>(camera, window);
 
-    for (size_t i = 0; i < 1; ++i) {
-      entt::entity quad = registry.create();
-      registry.emplace<component::RenderableQuad>(quad);
-      registry.emplace<component::ScreenPosition>(quad, camera, 0.0f, 0.0f);
+    for (size_t x = 0; x < 10; ++x) {
+      for (size_t y = 0; y < 10; ++y) {
+        entt::entity entity = registry.create();
+        registry.emplace<component::Position>(entity, static_cast<float>(x), static_cast<float>(y));
+        registry.emplace<component::Body>(entity);
+      }
     }
-
   }
 
   void update(entt::registry& registry) override {
@@ -75,6 +81,20 @@ public:
         }
       }
     });
+    
+    static thread_local bool print = true;
+    if (!print) {
+      return;
+    }
+    print = false;
+    std::vector<entt::entity> entities;
+    world->query_intersects_region(entities, {5.0f, 5.0f, 1.0f, 1.0f});
+
+    for (entt::entity entity : entities) {
+      const auto& comp_pos = registry.get<component::Position>(entity);
+      logger->trace("entity-{}, x: {}, y: {}", entity, comp_pos.x, comp_pos.y);
+    }
+    logger->trace("Количество: {}", entities.size());
   }
 };
 
@@ -83,7 +103,8 @@ CORE_DEFINE_SYSTEM("system::Init", [](core::ServiceLocator& locator){
     locator.get<core::LoggerFactory>()->create_logger("system::Init"),
     locator.get<service::Input>(),
     locator.get<service::Time>(),
-    locator.get<service::Camera>()
+    locator.get<service::Camera>(),
+    locator.get<service::World>()
   );
 });
 
