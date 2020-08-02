@@ -39,7 +39,7 @@ public:
       sf::Vector2f view_abs_size = view.getSize();
       view_abs_size.x = std::abs(view_abs_size.x);
       view_abs_size.y = std::abs(view_abs_size.y);
-      shape.setFillColor(sf::Color::Red);
+      shape.setFillColor(sf::Color::Black);
       if (view_abs_size.x - cam.size_x > std::numeric_limits<float>::epsilon()) {
         float half_delta = (view_abs_size.x - cam.size_x) * 0.5;
         shape.setSize({half_delta, cam.size_y});
