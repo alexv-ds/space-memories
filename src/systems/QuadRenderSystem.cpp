@@ -22,6 +22,13 @@ sf::Vector2f vec2u_to_vec2f(const sf::Vector2u& vec2u) {
   return {static_cast<float>(vec2u.x), static_cast<float>(vec2u.y)};
 }
 
+sf::Vector2f calculate_camera_offcet(const component::Camera& cam, const component::Position& pos) {
+  return {
+    ( (cam.size_x-1.0f)/-2 ) + pos.x,
+    ( (cam.size_y-1.0f)/-2 ) + pos.y
+  };
+}
+
 struct RenderElement {
   RenderElement(entt::entity entity,
                 component::Position* p_position,
@@ -33,7 +40,7 @@ struct RenderElement {
       p_body(p_body),
       p_quad(p_quad)
   {}
-  
+
   entt::entity entity;
   component::Position* p_position;
   component::Body* p_body;
@@ -52,7 +59,7 @@ class QuadRenderSystem final : public core::System {
   std::vector<entt::entity> query_buffer;
   std::vector<RenderElement> render_queue;
   sf::RectangleShape quad_shape;
-  
+
 public:
   QuadRenderSystem(std::shared_ptr<service::Camera> service_camera,
                    std::shared_ptr<service::World> world):
@@ -87,13 +94,13 @@ public:
       //Устанавливаем view
       sf::View old_view = r_target->getView();
       sf::View current_view = service_camera->calculate_camera_view(camera, old_view);
-      current_view.setCenter(pos.x, pos.y);
+      current_view.move(calculate_camera_offcet(camera, pos));
       r_target->setView(current_view);
       //Рендерим
       for (const RenderElement& elem : render_queue) {
         quad_shape.setSize({elem.p_body->size_x, elem.p_body->size_y});
-        quad_shape.setPosition(elem.p_position->x - elem.p_body->size_x * 0.5f, 
-                               elem.p_position->y - elem.p_body->size_y * 0.5f);
+        quad_shape.setPosition(elem.p_position->x + (0.5f - elem.p_body->size_x / 2.0f),
+                               elem.p_position->y + (0.5f - elem.p_body->size_y / 2.0f) );
         quad_shape.setFillColor(elem.p_quad->color);
         r_target->draw(quad_shape);
       }
@@ -131,7 +138,7 @@ public:
       last_render_target->draw(rect);
       last_render_target->setView(old_render_view);
     });
-    
+
   }
 
 };
