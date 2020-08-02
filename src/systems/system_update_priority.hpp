@@ -5,6 +5,7 @@ enum UpdatePriority : int {
   TimeUpdate,
   WorldUpdate,
   WindowEventHandler,
+  WASDRawInputMovable,
   ExitAfter10sec,
   RenderBegin,
   QuadRenderSystem,

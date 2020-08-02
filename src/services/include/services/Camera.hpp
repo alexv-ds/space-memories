@@ -3,12 +3,14 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <services/SFMLRenderWindow.hpp>
+#include <components/Camera.hpp>
 
 namespace service {
 
 class Camera final : public core::Service {
 public:
   sf::RenderTarget* get_render_target(entt::entity camera, const entt::registry& registry); //can return nullptr
+  sf::View calculate_camera_view(const component::Camera& camera, const sf::View& oldview);
   Camera(std::shared_ptr<core::Logger>, std::shared_ptr<service::SFMLRenderWindow>);
   std::string_view impl_name() const noexcept override;
   void render_begin();

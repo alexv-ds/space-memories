@@ -18,6 +18,10 @@
 
 namespace {
 
+sf::Uint8 get_random_uint8() {
+  return static_cast<sf::Uint8>(std::rand() % 256);
+}
+
 class Init final : public core::System {
   std::shared_ptr<core::Logger> logger;
   std::shared_ptr<service::Input> input;
@@ -53,18 +57,31 @@ public:
     entt::entity camera = registry.create();
     registry.emplace<component::Camera>(camera, 10.0f, 10.0f);
     registry.emplace<component::BindCameraToRenderWindow>(camera, window);
+    registry.emplace<component::Position>(camera, 0.0f, 0.0f);
+    registry.emplace<component::WASDRawInputMovable>(camera, window);
 
-    for (size_t x = 0; x < 10; ++x) {
-      for (size_t y = 0; y < 10; ++y) {
+    sf::Color colors[] = {sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color::White};
+    for (size_t x = 0; x < 30; ++x) {
+      for (size_t y = 0; y < 30; ++y) {
         entt::entity entity = registry.create();
-        registry.emplace<component::Position>(entity, static_cast<float>(x), static_cast<float>(y));
+        registry.emplace<component::Position>(
+          entity, static_cast<float>(x), static_cast<float>(y), static_cast<float>(std::rand() % 1000)
+        );
         registry.emplace<component::Body>(entity);
+        registry.emplace<component::RenderableQuad>(
+          entity, 
+          sf::Color{get_random_uint8(),get_random_uint8(),get_random_uint8()}
+        );
       }
     }
+
+    entt::entity entity = registry.create();
+    registry.emplace<component::RenderableQuad>(entity);
+    registry.emplace<component::ScreenPosition>(entity, camera, 0.0f, 0.0f);
   }
 
   void update(entt::registry& registry) override {
-    auto view = registry.view<component::RenderableQuad, component::ScreenPosition>();
+    /*auto view = registry.view<component::RenderableQuad, component::ScreenPosition>();
     view.each([&](auto entity, auto& comp_quad, auto& comp_screen_pos) {
       if (registry.valid(comp_screen_pos.camera)) {
         auto* camera_component = registry.try_get<component::Camera>(comp_screen_pos.camera);
@@ -94,7 +111,7 @@ public:
       const auto& comp_pos = registry.get<component::Position>(entity);
       logger->trace("entity-{}, x: {}, y: {}", entity, comp_pos.x, comp_pos.y);
     }
-    logger->trace("Количество: {}", entities.size());
+    logger->trace("Количество: {}", entities.size());*/
   }
 };
 

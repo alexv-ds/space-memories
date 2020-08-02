@@ -10,6 +10,7 @@ target_sources(main PRIVATE
   TimeUpdate.cpp
   QuadRenderSystem.cpp
   WorldUpdate.cpp
+  WASDRawInputMovable.cpp
 )
 
 
