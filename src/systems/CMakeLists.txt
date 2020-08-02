@@ -11,7 +11,5 @@ target_sources(main PRIVATE
   QuadRenderSystem.cpp
   WorldUpdate.cpp
   WASDRawInputMovable.cpp
+  CameraPillarbox.cpp
 )
-
-
-

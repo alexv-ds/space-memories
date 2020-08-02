@@ -15,6 +15,10 @@ struct BindCameraToRenderWindow {
   entt::entity window = entt::null;
 };
 
+//Черные полосы по бокам (рисуется за областью камеры что бы перекрыть вылезающие изображения)
+//работает в связке с BindCameraToRenderWindow
+struct CameraPillarbox {};
+
 struct RenderableQuad {
   sf::Color color = sf::Color::White;
 };

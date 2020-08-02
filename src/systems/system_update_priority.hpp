@@ -9,6 +9,7 @@ enum UpdatePriority : int {
   ExitAfter10sec,
   RenderBegin,
   QuadRenderSystem,
+  CameraPillarbox,
   RenderEnd,
   SFMLRenderWindow,
   ExitIfWindowClosed,

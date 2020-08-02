@@ -55,21 +55,22 @@ public:
     registry.emplace<component::ExitIfWindowClosed>(window);
     registry.emplace<component::ListenKeyboard>(window);
     entt::entity camera = registry.create();
-    registry.emplace<component::Camera>(camera, 10.0f, 10.0f);
+    registry.emplace<component::Camera>(camera, 11.0f, 11.0f);
     registry.emplace<component::BindCameraToRenderWindow>(camera, window);
     registry.emplace<component::Position>(camera, 0.0f, 0.0f);
     registry.emplace<component::WASDRawInputMovable>(camera, window);
+    registry.emplace<component::CameraPillarbox>(camera);
 
     sf::Color colors[] = {sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color::White};
-    for (size_t x = 0; x < 30; ++x) {
-      for (size_t y = 0; y < 30; ++y) {
+    for (size_t x = 0; x < 31; ++x) {
+      for (size_t y = 0; y < 31; ++y) {
         entt::entity entity = registry.create();
         registry.emplace<component::Position>(
           entity, static_cast<float>(x), static_cast<float>(y), static_cast<float>(std::rand() % 1000)
         );
-        registry.emplace<component::Body>(entity);
+        registry.emplace<component::Body>(entity, 0.9f, 0.9f);
         registry.emplace<component::RenderableQuad>(
-          entity, 
+          entity,
           sf::Color{get_random_uint8(),get_random_uint8(),get_random_uint8()}
         );
       }
@@ -77,7 +78,7 @@ public:
 
     entt::entity entity = registry.create();
     registry.emplace<component::RenderableQuad>(entity);
-    registry.emplace<component::ScreenPosition>(entity, camera, 0.0f, 0.0f);
+    //registry.emplace<component::ScreenPosition>(entity, camera, 5.0f, 5.0f);
   }
 
   void update(entt::registry& registry) override {
@@ -98,7 +99,7 @@ public:
         }
       }
     });
-    
+
     static thread_local bool print = true;
     if (!print) {
       return;
