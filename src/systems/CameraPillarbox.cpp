@@ -41,11 +41,11 @@ public:
       view_abs_size.y = std::abs(view_abs_size.y);
       shape.setFillColor(sf::Color::Black);
       if (view_abs_size.x - cam.size_x > std::numeric_limits<float>::epsilon()) {
-        float half_delta = (view_abs_size.x - cam.size_x) * 0.5;
+        float half_delta = (view_abs_size.x - cam.size_x) * 0.55; //Чуть больше половины из-за просветов
         shape.setSize({half_delta, cam.size_y});
         shape.setPosition({cam.size_x, 0.0f});
       } else {
-        float half_delta = (view_abs_size.y - cam.size_y) * 0.5;
+        float half_delta = (view_abs_size.y - cam.size_y) * 0.55; //Чуть больше половины из-за просветов
         shape.setSize({cam.size_x, half_delta});
         shape.setPosition({0.0f, cam.size_y});
       }
