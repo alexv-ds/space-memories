@@ -18,6 +18,10 @@ public:
     for (entt::entity entity : registry.view<component::RenderWindow>()) {
       sf::RenderWindow* window = sfml_render_window->get_window(entity);
       if (window) {
+        sf::Vector2u window_size = window->getSize();
+        window->setView(
+          sf::View({0.0f, 0.0f, static_cast<float>(window_size.x), static_cast<float>(window_size.y)})
+        );
         window->clear(sf::Color::Black);
       }
     }
