@@ -6,21 +6,8 @@
 #include <components/Camera.hpp>
 #include <components/Position.hpp>
 #include <algorithm>
-#include <iostream>
 
 namespace {
-
-sf::Vector2f calculate_cell_size(const component::Camera& cam, const sf::RenderTarget& rtarget) {
-  const sf::View& render_view = rtarget.getView();
-  sf::Vector2f cell_size = render_view.getSize();
-  cell_size.x = cell_size.x / cam.size_x;
-  cell_size.y = cell_size.y / cam.size_y;
-  return cell_size;
-}
-
-sf::Vector2f vec2u_to_vec2f(const sf::Vector2u& vec2u) {
-  return {static_cast<float>(vec2u.x), static_cast<float>(vec2u.y)};
-}
 
 sf::Vector2f calculate_camera_offcet(const component::Camera& cam, const component::Position& pos) {
   return {
