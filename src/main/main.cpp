@@ -1,5 +1,6 @@
 #include <cstdlib> //getenv
 #include <csignal>
+#include <ctime>
 #include <core/Core.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -29,6 +30,8 @@ int main(int argc, const char* const* argv) {
 
   std::signal(SIGTERM, signal_handler);
   std::signal(SIGINT, signal_handler);
+
+  std::srand(std::time(nullptr));
 
   std::shared_ptr<LoggerFactory> logger_factory = std::make_shared<LoggerFactory>();
   std::shared_ptr<core::Logger> logger = std::move(logger_factory->create_logger("main"));
