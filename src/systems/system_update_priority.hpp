@@ -12,9 +12,9 @@ enum UpdatePriority : int {
   CameraPillarbox,
   RenderEnd,
   SFMLRenderWindow,
-  ExitIfWindowClosed,
   WindowEventHandlerClear,
   Init,
+  ExitIfWindowClosed,
 };
 
 
