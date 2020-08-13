@@ -3,9 +3,11 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <services/Camera.hpp>
 #include <services/World.hpp>
+#include <services/SpriteManager.hpp>
 #include <components/Camera.hpp>
 #include <components/Position.hpp>
 #include <algorithm>
+#include <iostream>
 
 namespace {
 
@@ -41,6 +43,7 @@ inline bool render_queue_sort_func(const RenderElement& lhs, const RenderElement
 class QuadRenderSystem final : public core::System {
   std::shared_ptr<service::Camera> service_camera;
   std::shared_ptr<service::World> world;
+  std::shared_ptr<service::SpriteManager> sprite_manager;
   entt::entity last_entity_camera = entt::null;
   sf::RenderTarget* last_render_target = nullptr;
   std::vector<entt::entity> query_buffer;
@@ -49,9 +52,11 @@ class QuadRenderSystem final : public core::System {
 
 public:
   QuadRenderSystem(std::shared_ptr<service::Camera> service_camera,
-                   std::shared_ptr<service::World> world):
+                   std::shared_ptr<service::World> world,
+                   std::shared_ptr<service::SpriteManager> sprite_manager):
       service_camera(std::move(service_camera)),
-      world(std::move(world))
+      world(std::move(world)),
+      sprite_manager(std::move(sprite_manager))
   {}
   void setup(Settings& settings) const override {
     settings.priority = update_priority::QuadRenderSystem;
@@ -89,6 +94,13 @@ public:
         quad_shape.setPosition(elem.p_position->x + (0.5f - elem.p_body->size_x / 2.0f),
                                elem.p_position->y + (0.5f - elem.p_body->size_y / 2.0f) );
         quad_shape.setFillColor(elem.p_quad->color);
+        component::Sprite* p_sprite = registry.try_get<component::Sprite>(elem.entity);
+        if (p_sprite) {
+          sf::Texture* texture = sprite_manager->get_texture(p_sprite->id);
+          if (texture) {
+            quad_shape.setTexture(texture);
+          }
+        }
         r_target->draw(quad_shape);
       }
       r_target->setView(old_view);
@@ -117,6 +129,7 @@ public:
       }
 
       sf::RectangleShape rect({1,1});
+
       rect.setFillColor(rquad.color);
       rect.setPosition({screen_pos.x, screen_pos.y});
 
@@ -134,7 +147,8 @@ public:
 CORE_DEFINE_SYSTEM("system::QuadRenderSystem", [](core::ServiceLocator& locator){
   return std::make_unique<QuadRenderSystem>(
     locator.get<service::Camera>(),
-    locator.get<service::World>()
+    locator.get<service::World>(),
+    locator.get<service::SpriteManager>()
   );
 });
 

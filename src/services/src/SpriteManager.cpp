@@ -37,6 +37,12 @@ public:
       logger->warn("Не удалось загрузить {}", name);
       return -1;
     }
+    texture->setRepeated(false);
+    bool mipmap_success = texture->generateMipmap();
+    if (!mipmap_success) {
+      logger->warn("Не удалось сгенерировать mipmap для {}", name);
+    }
+    //texture->setSmooth(true);
     textures.push_back(std::move(texture));
     int id = static_cast<int>(textures.size() - 1);
     loaded_textures[string_name] = id;
