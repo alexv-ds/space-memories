@@ -7,6 +7,7 @@ enum UpdatePriority : int {
   WindowEventHandler,
   WASDRawInputMovable,
   ExitAfter10sec,
+  PixelPerfectCameraSize,
   RenderBegin,
   QuadRenderSystem,
   CameraPillarbox,

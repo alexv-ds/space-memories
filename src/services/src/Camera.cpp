@@ -81,4 +81,13 @@ sf::View Camera::calculate_camera_view(const component::Camera& camera, const sf
   return newview;
 }
 
+sf::FloatRect Camera::get_render_region(entt::entity camera, const entt::registry& registry) {
+  sf::RenderTarget* target = get_render_target(camera, registry);
+  if (!target) {
+    return {0.0f,0.0f,800.0f,600.0f};
+  }
+  sf::Vector2u size = target->getSize();
+  return {0.0f,0.0f, static_cast<float>(size.x), static_cast<float>(size.y)};
+}
+
 }

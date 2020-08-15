@@ -10,6 +10,7 @@ namespace service {
 class Camera final : public core::Service {
 public:
   sf::RenderTarget* get_render_target(entt::entity camera, const entt::registry& registry); //can return nullptr
+  sf::FloatRect get_render_region(entt::entity camera, const entt::registry& registry);
   sf::View calculate_camera_view(const component::Camera& camera, const sf::View& oldview);
   Camera(std::shared_ptr<core::Logger>, std::shared_ptr<service::SFMLRenderWindow>);
   std::string_view impl_name() const noexcept override;

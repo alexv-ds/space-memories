@@ -12,4 +12,5 @@ target_sources(main PRIVATE
   WorldUpdate.cpp
   WASDRawInputMovable.cpp
   CameraPillarbox.cpp
+  PixelPerfectCameraSize.cpp
 )
