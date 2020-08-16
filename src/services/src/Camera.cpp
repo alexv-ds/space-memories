@@ -67,6 +67,13 @@ sf::FloatRect Camera::get_render_region(entt::entity entity, const entt::registr
   }
   sf::Vector2u size = target->getSize();
   sf::Vector2f f_size(static_cast<float>(size.x), static_cast<float>(size.y));
+
+  const component::OverrideRenderRegion* p_region_override =
+    registry.try_get<component::OverrideRenderRegion>(entity);
+  if (p_region_override) {
+    return p_region_override->rect;
+  }
+
   if (registry.has<component::KeepCameraProportions>(entity)) {
     float combined_aspect_ratio = (f_size.x / f_size.y) / (p_camera->size_x / p_camera->size_y);
     if (combined_aspect_ratio > 1.0f) {
