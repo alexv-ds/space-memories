@@ -34,4 +34,22 @@ struct RenderableQuad {
   sf::Color color = sf::Color::White;
 };
 
+//С этим компонентом камера будет по центру рендер окна(рендер таргета)
+//И не будет искажаться при изменении размеров окна
+//Этот компомент учитывается в сервисе service::Camera
+//При запросе области рендера окна
+struct KeepCameraProportions {};
+
+//Рамка (границой наружу) вокруг области рендеринга камеры
+struct DebugRenderRegionFrame {
+  sf::Color color = sf::Color::White;
+};
+
+//изменяет рекомендуемые размеры камеры так, что бы не было искажений
+//но нужно указать рекомендуемые размеры для рекомендуемых размеров
+//лол
+struct CameraAutoPrefferedSize {
+  float size_x = 1.0f;
+  float size_y = 1.0f;
+};
 }

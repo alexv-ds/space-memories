@@ -13,4 +13,6 @@ target_sources(main PRIVATE
   WASDRawInputMovable.cpp
   CameraPillarbox.cpp
   PixelPerfectCameraSize.cpp
+  DebugRenderRegionFrame.cpp
+  CameraAutoPrefferedSize.cpp
 )

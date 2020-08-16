@@ -13,7 +13,7 @@ static auto build_after() {
 
 CORE_DEFINE_SERVICE(Camera,
                     "service::Camera",
-                    build_after(), 
+                    build_after(),
   [](core::ServiceLocator& locator){
     auto logger_factory = locator.get<core::LoggerFactory>();
     auto sfml_render_widow = locator.get<service::SFMLRenderWindow>();
@@ -53,7 +53,7 @@ sf::RenderTarget* Camera::get_render_target(entt::entity camera, const entt::reg
 }
 
 void Camera::render_begin() {
-  
+
 }
 void Camera::render_end() {
 
@@ -74,20 +74,35 @@ sf::View Camera::calculate_camera_view(const component::Camera& camera, const sf
   } else {
     vsize_x = camera.size_x;
     vsize_y = camera.size_y / combined_aspect_ratio;
-    newview.setViewport({0.0f, -(1.0f - 1.0f * combined_aspect_ratio) / 2.0f, 1.0f, 1.0f});    
+    newview.setViewport({0.0f, -(1.0f - 1.0f * combined_aspect_ratio) / 2.0f, 1.0f, 1.0f});
   }
   newview.setSize(vsize_x, -vsize_y);
   newview.setCenter(vsize_x / 2.0f, vsize_y / 2.0f);
   return newview;
 }
-
-sf::FloatRect Camera::get_render_region(entt::entity camera, const entt::registry& registry) {
-  sf::RenderTarget* target = get_render_target(camera, registry);
-  if (!target) {
+sf::FloatRect Camera::get_render_region(entt::entity entity, const entt::registry& registry) {
+  sf::RenderTarget* target = get_render_target(entity, registry);
+  const component::Camera* p_camera = registry.try_get<component::Camera>(entity);
+  if (!target || !p_camera) {
     return {0.0f,0.0f,800.0f,600.0f};
   }
   sf::Vector2u size = target->getSize();
-  return {0.0f,0.0f, static_cast<float>(size.x), static_cast<float>(size.y)};
+  sf::Vector2f f_size(static_cast<float>(size.x), static_cast<float>(size.y));
+  if (registry.has<component::KeepCameraProportions>(entity)) {
+    float combined_aspect_ratio = (f_size.x / f_size.y) / (p_camera->size_x / p_camera->size_y);
+    if (combined_aspect_ratio > 1.0f) {
+      float region_size_x = f_size.x / combined_aspect_ratio;
+      sf::FloatRect region((f_size.x - region_size_x) * 0.5f, 0.0f, region_size_x, f_size.y);
+      return region;
+    } else if (combined_aspect_ratio < 1.0f) {
+      float region_size_y = f_size.y * combined_aspect_ratio;
+      sf::FloatRect region(0.0f, (f_size.y - region_size_y) * 0.5f, f_size.x, region_size_y);
+      return region;
+    } else {
+      return {0.0f,0.0f, f_size.x, f_size.y};
+    }
+  }
+  return {0.0f,0.0f, f_size.x, f_size.y};
 }
 
 }

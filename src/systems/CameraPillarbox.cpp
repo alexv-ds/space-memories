@@ -19,38 +19,35 @@ public:
       //init
       rwindow_service(std::move(rwindow)),
       camera_service(std::move(camera))
-  {}
+  {
+    shape.setFillColor({0,0,0,0});
+    shape.setOutlineColor(sf::Color::Black);
+  }
 
   void setup(Settings& settings) const override {
     settings.priority = update_priority::CameraPillarbox;
   }
 
   void update(entt::registry& registry) override {
-    auto view = registry.view<component::Camera,
-                              component::CameraPillarbox>();
+    auto view = registry.view<component::Camera, component::CameraPillarbox>();
     view.each([&registry, this](entt::entity entity, auto& cam){
       sf::RenderTarget* r_target = camera_service->get_render_target(entity, registry);
       if (!r_target) {
         return;
       }
-      sf::View old_view = r_target->getView();
-      sf::View view = camera_service->calculate_camera_view(cam, old_view);
-      r_target->setView(view);
-      sf::Vector2f view_abs_size = view.getSize();
-      view_abs_size.x = std::abs(view_abs_size.x);
-      view_abs_size.y = std::abs(view_abs_size.y);
-      shape.setFillColor(sf::Color::Black);
-      if (view_abs_size.x - cam.size_x > std::numeric_limits<float>::epsilon()) {
-        float half_delta = (view_abs_size.x - cam.size_x) * 0.55; //Чуть больше половины из-за просветов
-        shape.setSize({half_delta, cam.size_y});
-        shape.setPosition({cam.size_x, 0.0f});
-      } else {
-        float half_delta = (view_abs_size.y - cam.size_y) * 0.55; //Чуть больше половины из-за просветов
-        shape.setSize({cam.size_x, half_delta});
-        shape.setPosition({0.0f, cam.size_y});
-      }
+      sf::FloatRect region = camera_service->get_render_region(entity, registry);
+
+      shape.setPosition({region.left, region.top});
+      shape.setSize({region.width, region.height});
+
+      sf::Vector2u r_target_size = r_target->getSize();
+      sf::Vector2f region_size = region.getSize();
+      float horizontal_space = static_cast<float>(r_target_size.x) - region_size.x;
+      float vertical_space = static_cast<float>(r_target_size.y) - region_size.y;
+      shape.setOutlineThickness(
+        (horizontal_space > vertical_space ? horizontal_space : vertical_space ) * 1.1f
+      );
       r_target->draw(shape);
-      r_target->setView(old_view);
     });
   }
 };

@@ -8,14 +8,23 @@
 #include <components/Position.hpp>
 #include <algorithm>
 #include <iostream>
+#include <cmath>
 
 namespace {
 
-sf::Vector2f calculate_camera_offcet(const component::Camera& cam, const component::Position& pos) {
-  return {
-    ( (cam.size_x-1.0f)/-2 ) + pos.x,
-    ( (cam.size_y-1.0f)/-2 ) + pos.y
-  };
+sf::Transform calculate_render_transform(const sf::FloatRect& region,
+                                         component::Camera& camera,
+                                         component::Position& camera_pos)
+{
+  sf::Transform transform;
+  const sf::Vector2f region_size = region.getSize();
+  const sf::Vector2f step_size(region_size.x / camera.size_x, region_size.y / camera.size_y);
+
+  float translate_x = region.left + region.width * 0.5 - step_size.x * camera_pos.x - step_size.x * 0.5;
+  float translate_y = region.top + region.height * 0.5 + step_size.y * camera_pos.y + step_size.y * 0.5;
+  transform.translate(translate_x, translate_y);
+  transform.scale(step_size.x,-step_size.y);
+  return transform;
 }
 
 struct RenderElement {
@@ -83,60 +92,28 @@ public:
       }
       //Сортируем render_queue по layer
       std::sort(render_queue.begin(), render_queue.end(), render_queue_sort_func);
-      //Устанавливаем view
-      sf::View old_view = r_target->getView();
-      sf::View current_view = service_camera->calculate_camera_view(camera, old_view);
-      current_view.move(calculate_camera_offcet(camera, pos));
-      r_target->setView(current_view);
+
+      sf::FloatRect render_region = service_camera->get_render_region(entity, registry);
+      //resize_to_pixel_perfect(camera, render_region.getSize());
+      sf::Transform render_transform = calculate_render_transform(render_region, camera, pos);
       //Рендерим
       for (const RenderElement& elem : render_queue) {
-        quad_shape.setSize({elem.p_body->size_x, elem.p_body->size_y});
-        quad_shape.setPosition(elem.p_position->x + (0.5f - elem.p_body->size_x / 2.0f),
-                               elem.p_position->y + (0.5f - elem.p_body->size_y / 2.0f) );
+        sf::FloatRect rect(elem.p_position->x, elem.p_position->y, elem.p_body->size_x, elem.p_body->size_y);
+        rect = render_transform.transformRect(rect);
+        quad_shape.setSize({rect.width, rect.height});
+        quad_shape.setPosition({rect.left, rect.top});
         quad_shape.setFillColor(elem.p_quad->color);
         component::Sprite* p_sprite = registry.try_get<component::Sprite>(elem.entity);
         if (p_sprite) {
           sf::Texture* texture = sprite_manager->get_texture(p_sprite->id);
           if (texture) {
             quad_shape.setTexture(texture);
+          } else {
+            quad_shape.setTexture(nullptr);
           }
         }
         r_target->draw(quad_shape);
       }
-      r_target->setView(old_view);
-    });
-
-
-
-
-    last_entity_camera = entt::null;
-    last_render_target = nullptr;
-    auto view = registry.view<component::RenderableQuad, component::ScreenPosition>();
-    view.each([this, &registry](auto entity, auto& rquad, auto& screen_pos) {
-      if (!registry.valid(screen_pos.camera)) {
-        return;
-      }
-      const component::Camera* comp_camera = registry.try_get<component::Camera>(screen_pos.camera);
-      if (!comp_camera) {
-        return;
-      }
-      if (last_entity_camera != entity) {
-        last_entity_camera = entity;
-        last_render_target = service_camera->get_render_target(screen_pos.camera, registry);
-      }
-      if (!last_render_target) {
-        return;
-      }
-
-      sf::RectangleShape rect({1,1});
-
-      rect.setFillColor(rquad.color);
-      rect.setPosition({screen_pos.x, screen_pos.y});
-
-      const sf::View old_render_view = last_render_target->getView();
-      last_render_target->setView(service_camera->calculate_camera_view(*comp_camera, old_render_view));
-      last_render_target->draw(rect);
-      last_render_target->setView(old_render_view);
     });
 
   }

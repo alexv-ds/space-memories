@@ -56,12 +56,12 @@ public:
     registry.emplace<component::ExitIfWindowClosed>(window);
     registry.emplace<component::ListenKeyboard>(window);
     entt::entity camera = registry.create();
-    registry.emplace<component::Camera>(camera, 10.0f, 10.0f, 10.0f, 10.0f);
+    registry.emplace<component::Camera>(camera);
     registry.emplace<component::BindCameraToRenderWindow>(camera, window);
     registry.emplace<component::Position>(camera, 0.0f, 0.0f);
     registry.emplace<component::WASDRawInputMovable>(camera, window);
     registry.emplace<component::PixelPerfectCameraSize>(camera, 32);
-    //registry.emplace<component::CameraPillarbox>(camera);
+    registry.emplace<component::CameraAutoPrefferedSize>(camera, 10.0f, 10.0f);
 
     for (size_t x = 0; x < 31; ++x) {
       for (size_t y = 0; y < 31; ++y) {
@@ -78,14 +78,10 @@ public:
         registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floor.png"));
       }
     }
-
-    entt::entity entity = registry.create();
-    registry.emplace<component::RenderableQuad>(entity);
-    //registry.emplace<component::ScreenPosition>(entity, camera, 5.0f, 5.0f);
   }
 
   void update(entt::registry& registry) override {
-    
+
   }
 };
 
