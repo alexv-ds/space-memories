@@ -30,10 +30,6 @@ struct BindCameraToRenderWindow {
 //работает в связке с BindCameraToRenderWindow
 struct CameraPillarbox {};
 
-struct RenderableQuad {
-  sf::Color color = sf::Color::White;
-};
-
 //С этим компонентом камера будет по центру рендер окна(рендер таргета)
 //И не будет искажаться при изменении размеров окна
 //Этот компомент учитывается в сервисе service::Camera

@@ -14,12 +14,17 @@
 #include <components/Camera.hpp>
 #include <components/Position.hpp>
 #include <components/Sprite.hpp>
+#include <components/RenderMode.hpp>
 
 namespace {
 
 sf::Uint8 get_random_uint8() {
   return static_cast<sf::Uint8>(std::rand() % 256);
 }
+
+struct TestComponent {
+  entt::entity sync_with = entt::null;
+};
 
 class Init final : public core::System {
   std::shared_ptr<core::Logger> logger;
@@ -58,23 +63,22 @@ public:
     entt::entity camera = registry.create();
     registry.emplace<component::Camera>(camera);
     registry.emplace<component::BindCameraToRenderWindow>(camera, window);
-    registry.emplace<component::Position>(camera, 0.0f, 0.0f);
+    registry.emplace<component::Position>(camera, 0.0f, 0.0f, 1.0f);
     registry.emplace<component::WASDRawInputMovable>(camera, window);
     registry.emplace<component::CameraFixedUnitSize>(camera, 64.0f, 64.0f);
+    registry.emplace<component::Body>(camera);
+    registry.emplace<component::DefaultRenderMode>(camera, sf::Color::Red, sf::BlendMultiply);
+    //registry.emplace<component::Sprite>(camera, sprite_manager->load_sprite("resources/floor-white.png"));
 
     for (size_t x = 0; x < 31; ++x) {
       for (size_t y = 0; y < 31; ++y) {
         entt::entity entity = registry.create();
         registry.emplace<component::Position>(
-          entity, static_cast<float>(x), static_cast<float>(y), static_cast<float>(std::rand() % 1000)
+          entity, static_cast<float>(x), static_cast<float>(y), 0.0f
         );
         registry.emplace<component::Body>(entity, 1.0f, 1.0f);
-        registry.emplace<component::RenderableQuad>(
-          entity,
-          //sf::Color{get_random_uint8(),get_random_uint8(),get_random_uint8()}
-          sf::Color::White
-        );
         registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floor.png"));
+        registry.emplace<component::DefaultRenderMode>(entity);
       }
     }
   }

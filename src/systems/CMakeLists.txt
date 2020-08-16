@@ -8,7 +8,6 @@ target_sources(main PRIVATE
   ExitIfWindowClosed.cpp
   WindowEventsHandlerClear.cpp
   TimeUpdate.cpp
-  QuadRenderSystem.cpp
   WorldUpdate.cpp
   WASDRawInputMovable.cpp
   CameraPillarbox.cpp
@@ -16,4 +15,5 @@ target_sources(main PRIVATE
   DebugRenderRegionFrame.cpp
   CameraAutoPrefferedSize.cpp
   CameraFixedUnitSize.cpp
+  DefaultRenderSystem.cpp
 )

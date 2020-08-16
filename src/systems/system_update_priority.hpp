@@ -11,14 +11,14 @@ enum UpdatePriority : int {
   PixelPerfectCameraSize,
   CameraFixedUnitSize,
   RenderBegin,
-  QuadRenderSystem,
+  DefaultRenderSystem,
   CameraPillarbox,
   DebugRenderRegionFrame,
   RenderEnd,
   SFMLRenderWindow,
   WindowEventHandlerClear,
   Init,
-  ExitIfWindowClosed,
+  ExitIfWindowClosed
 };
 
 
