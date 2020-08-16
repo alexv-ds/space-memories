@@ -59,27 +59,6 @@ void Camera::render_end() {
 
 }
 
-sf::View Camera::calculate_camera_view(const component::Camera& camera, const sf::View& oldview) {
-  sf::View newview = oldview;
-  float vsize_x;
-  float vsize_y;
-  const sf::Vector2f rtarget_size = oldview.getSize();
-  float rtarget_aspect_ratio = rtarget_size.x / rtarget_size.y;
-  float camera_aspect_ratio = camera.size_x / camera.size_y;
-  float combined_aspect_ratio = rtarget_aspect_ratio / camera_aspect_ratio;
-  if (combined_aspect_ratio > 1.0f) {
-    vsize_x = camera.size_x * combined_aspect_ratio;
-    vsize_y = camera.size_y;
-    newview.setViewport({(1.0f - 1.0f / combined_aspect_ratio) / 2.0f, 0.0f, 1.0f, 1.0f});
-  } else {
-    vsize_x = camera.size_x;
-    vsize_y = camera.size_y / combined_aspect_ratio;
-    newview.setViewport({0.0f, -(1.0f - 1.0f * combined_aspect_ratio) / 2.0f, 1.0f, 1.0f});
-  }
-  newview.setSize(vsize_x, -vsize_y);
-  newview.setCenter(vsize_x / 2.0f, vsize_y / 2.0f);
-  return newview;
-}
 sf::FloatRect Camera::get_render_region(entt::entity entity, const entt::registry& registry) {
   sf::RenderTarget* target = get_render_target(entity, registry);
   const component::Camera* p_camera = registry.try_get<component::Camera>(entity);
