@@ -52,4 +52,10 @@ struct CameraAutoPrefferedSize {
   float size_x = 1.0f;
   float size_y = 1.0f;
 };
+
+struct CameraFixedUnitSize {
+  float x = 32.0f;
+  float y = 32.0f;
+};
+
 }

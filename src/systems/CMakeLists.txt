@@ -15,4 +15,5 @@ target_sources(main PRIVATE
   PixelPerfectCameraSize.cpp
   DebugRenderRegionFrame.cpp
   CameraAutoPrefferedSize.cpp
+  CameraFixedUnitSize.cpp
 )

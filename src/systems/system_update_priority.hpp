@@ -9,6 +9,7 @@ enum UpdatePriority : int {
   ExitAfter10sec,
   CameraAutoPrefferedSize,
   PixelPerfectCameraSize,
+  CameraFixedUnitSize,
   RenderBegin,
   QuadRenderSystem,
   CameraPillarbox,
