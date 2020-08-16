@@ -85,7 +85,12 @@ public:
       sf::FloatRect render_region = camera_service->get_render_region(entity, registry);
       sf::Transform render_transform = calculate_render_transform(render_region, camera, position);
       for (const RenderElement& elem : render_queue) {
-        sf::FloatRect rect(elem.p_position->x, elem.p_position->y, elem.p_body->size_x, elem.p_body->size_y);
+        sf::FloatRect rect(
+          elem.p_position->x + (0.5f - elem.p_body->size_x / 2.0f),
+          elem.p_position->y + (0.5f - elem.p_body->size_y / 2.0f),
+          elem.p_body->size_x,
+          elem.p_body->size_y
+        );
         rect = render_transform.transformRect(rect);
         shape.setSize({rect.width, rect.height});
         shape.setPosition({rect.left, rect.top});
