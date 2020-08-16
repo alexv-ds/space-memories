@@ -4,7 +4,7 @@
 #include <LooseQuadtree.h>
 #include <unordered_set>
 #include <limits>
-
+#include <cmath>
 
 namespace service {
 
@@ -36,7 +36,7 @@ class WorldImpl final : public World {
   constexpr static float epsilon = std::numeric_limits<float>::epsilon();
   std::shared_ptr<core::Logger> logger;
   std::unordered_map<entt::entity, std::unique_ptr<QuadTreeObject>> qt_objects;
-  std::vector<entt::entity> remove_queue; 
+  std::vector<entt::entity> remove_queue;
   loose_quadtree::LooseQuadtree<float, QuadTreeObject, BBoxExtractor> quad_tree;
 public:
   WorldImpl(std::shared_ptr<core::Logger> logger): logger(std::move(logger)) {}
@@ -52,7 +52,7 @@ public:
       body.size_y,
     };
   }
-  
+
   void create_body(const entt::registry& registry, entt::entity entity) override {
     const auto [comp_pos, comp_body] = registry.get<component::Position, component::Body>(entity);
     //Надо будет как-нибудь намутить пулл QuadTreeObject объектов
@@ -89,8 +89,8 @@ public:
       }
 
       World::BBox bbox = create_bbox(*p_position, *p_body);
-      if ((bbox.x - qt_obj->bbox.x > epsilon) || (bbox.y - qt_obj->bbox.y > epsilon) ||
-          (bbox.size_x - qt_obj->bbox.size_x > epsilon) || (bbox.size_y - qt_obj->bbox.size_y > epsilon))
+      if ((std::fabs(bbox.x - qt_obj->bbox.x) > epsilon) || (std::fabs(bbox.y - qt_obj->bbox.y) > epsilon) ||
+          (std::fabs(bbox.size_x - qt_obj->bbox.size_x) > epsilon) || (std::fabs(bbox.size_y - qt_obj->bbox.size_y) > epsilon))
       {
         update_qt_object(*p_position, *p_body, qt_obj.get());
       }
@@ -112,15 +112,15 @@ public:
   }
   void query_inside_region(std::vector<entt::entity>& result, const BBox& region) override {
     auto query = quad_tree.QueryInsideRegion(create_qt_bbox(region));
-    extract_entities(result, query); 
+    extract_entities(result, query);
   }
   void query_contains_region(std::vector<entt::entity>& result, const BBox& region) override {
     auto query = quad_tree.QueryContainsRegion(create_qt_bbox(region));
-    extract_entities(result, query);  
+    extract_entities(result, query);
   }
 };
 
-CORE_DEFINE_SERVICE(World, 
+CORE_DEFINE_SERVICE(World,
                    "service::World",
                    core::after<core::LoggerFactory>(),
   [](core::ServiceLocator& locator) {
@@ -128,10 +128,5 @@ CORE_DEFINE_SERVICE(World,
     return std::make_shared<WorldImpl>(logger_factory->create_logger("service::World"));
   }
 );
-
-
-
-
-
 
 };
