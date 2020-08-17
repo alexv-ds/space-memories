@@ -5,5 +5,5 @@ target_sources(main PRIVATE
   src/TimeImpl.cpp
   src/Camera.cpp
   src/World.cpp
-  src/SpriteManager.cpp
+  src/SpriteManager/SpriteManager.cpp
 )

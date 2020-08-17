@@ -4,6 +4,7 @@
 #include <services/SpriteManager.hpp>
 #include <unordered_map>
 #include <chrono>
+#include "fix_me_png_icon.h"
 
 namespace service {
 
@@ -12,13 +13,16 @@ class SpriteManagerImpl : public SpriteManager {
   std::shared_ptr<service::Time> time;
   std::vector<std::unique_ptr<sf::Texture>> textures;
   std::unordered_map<std::string, int> loaded_textures;
+  sf::Texture error_texture;
 public:
   SpriteManagerImpl(std::shared_ptr<core::Logger> logger,
                     std::shared_ptr<service::Time> time):
     //init
     logger(std::move(logger)),
     time(std::move(time))
-  {}
+  {
+    error_texture.loadFromMemory(MagickImage, sizeof(MagickImage));
+  }
 
   std::string_view impl_name() const noexcept override {
     return "service::SpriteManagerImpl";
@@ -53,10 +57,13 @@ public:
   }
 
   std::pair<sf::Texture*, sf::IntRect> get_texture(const component::Sprite& sprite) override {
+    sf::Texture* texture;
     if (sprite.id < 0 || static_cast<size_t>(sprite.id) >= textures.size()) {
-      return {nullptr, {0,0,0,0}};
+      //return {nullptr, {0,0,0,0}};
+      texture = &error_texture;
+    } else {
+      texture = textures[static_cast<size_t>(sprite.id)].get();
     }
-    sf::Texture* texture = textures[static_cast<size_t>(sprite.id)].get();
     sf::Vector2u texture_size = texture->getSize();
     return {texture, {0,0,static_cast<int>(texture_size.x), static_cast<int>(texture_size.y)}};
   }

@@ -61,14 +61,13 @@ public:
     registry.emplace<component::ExitIfWindowClosed>(window);
     registry.emplace<component::ListenKeyboard>(window);
     entt::entity camera = registry.create();
-    registry.emplace<component::Camera>(camera);
+    registry.emplace<component::Camera>(camera, 10.0f, 10.0f);
     registry.emplace<component::BindCameraToRenderWindow>(camera, window);
     registry.emplace<component::Position>(camera, 0.0f, 0.0f, 1.0f);
     registry.emplace<component::WASDRawInputMovable>(camera, window);
     registry.emplace<component::CameraFixedUnitSize>(camera, 64.0f, 64.0f);
-    registry.emplace<component::Body>(camera);
-    registry.emplace<component::DefaultRenderMode>(camera, sf::Color::Red, sf::BlendMultiply);
-    //registry.emplace<component::Sprite>(camera, sprite_manager->load_sprite("resources/floor-white.png"));
+    registry.emplace<component::Body>(camera, 3.0f, 3.0f);
+    registry.emplace<component::DefaultRenderMode>(camera, sf::Color(255,0,255,200), sf::BlendMultiply);
 
     for (size_t x = 0; x < 31; ++x) {
       for (size_t y = 0; y < 31; ++y) {
