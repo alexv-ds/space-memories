@@ -52,11 +52,13 @@ public:
     return id;
   }
 
-  sf::Texture* get_texture(int id) override {
-    if (id < 0 || static_cast<size_t>(id) >= textures.size()) {
-      return nullptr;
+  std::pair<sf::Texture*, sf::IntRect> get_texture(const component::Sprite& sprite) override {
+    if (sprite.id < 0 || static_cast<size_t>(sprite.id) >= textures.size()) {
+      return {nullptr, {0,0,0,0}};
     }
-    return textures[static_cast<size_t>(id)].get();
+    sf::Texture* texture = textures[static_cast<size_t>(sprite.id)].get();
+    sf::Vector2u texture_size = texture->getSize();
+    return {texture, {0,0,static_cast<int>(texture_size.x), static_cast<int>(texture_size.y)}};
   }
 };
 

@@ -95,15 +95,16 @@ public:
         shape.setSize({rect.width, rect.height});
         shape.setPosition({rect.left, rect.top});
         shape.setFillColor(elem.p_render_mode->color);
-        shape.setTexture(nullptr);
-        component::Sprite* p_sprite = registry.try_get<component::Sprite>(elem.entity);
+        const component::Sprite* p_sprite = registry.try_get<component::Sprite>(elem.entity);
         if (p_sprite) {
-          sf::Texture* texture = sprite_manager->get_texture(p_sprite->id);
+          auto [texture, texture_rect] = sprite_manager->get_texture(*p_sprite);
           if (texture) {
             shape.setTexture(texture);
+            shape.setTextureRect(texture_rect);
           }
         }
         r_target->draw(shape, {elem.p_render_mode->blend_mode});
+        shape.setTexture(nullptr);
       }
     });
   }
