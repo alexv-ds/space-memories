@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 project(SpaceMemories VERSION 0.0.1 LANGUAGES CXX)
- 
+
 add_subdirectory(third_party/spdlog)
 
 option(BUILD_SHARED_LIBS off)
@@ -14,8 +14,19 @@ add_subdirectory(src/systems)
 add_subdirectory(src/components)
 add_subdirectory(src/services)
 
-add_custom_target(
-  create_resource_symlink ALL COMMAND ${CMAKE_COMMAND} -E create_symlink 
-  ${CMAKE_CURRENT_SOURCE_DIR}/resources 
-  ${CMAKE_CURRENT_BINARY_DIR}/resources
-)
+function(add_resource_symlink_target)
+  add_custom_target(
+    create_resource_symlink ALL COMMAND ${CMAKE_COMMAND} -E create_symlink
+    ${CMAKE_CURRENT_SOURCE_DIR}/resources
+    ${CMAKE_CURRENT_BINARY_DIR}/resources
+  )
+endfunction()
+
+if(WIN32)
+  option(WINDOWS_CREATE_RESOURCE_SYMLINK "Requires admin privileges" off)
+  if(${WINDOWS_CREATE_RESOURCE_SYMLINK})
+    add_resource_symlink_target()
+  endif()
+else()
+  add_resource_symlink_target()
+endif()
