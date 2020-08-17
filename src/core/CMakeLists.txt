@@ -21,8 +21,6 @@ target_include_directories(core_interface INTERFACE
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
   "${CMAKE_SOURCE_DIR}/third_party/entt/src"
 )
-target_compile_features(core_interface INTERFACE cxx_std_17)
 
 target_link_libraries(core PUBLIC core::core_interface)
 target_link_libraries(core PUBLIC spdlog::spdlog)
-
