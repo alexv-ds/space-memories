@@ -66,11 +66,9 @@ public:
     registry.emplace<component::Position>(camera, 0.0f, 0.0f, 1.0f);
     registry.emplace<component::WASDRawInputMovable>(camera, window);
     registry.emplace<component::CameraFixedUnitSize>(camera, 64.0f, 64.0f);
-    registry.emplace<component::Body>(camera, 3.0f, 3.0f);
-    registry.emplace<component::DefaultRenderMode>(camera, sf::Color(255,0,255,200), sf::BlendMultiply);
 
-    for (size_t x = 0; x < 31; ++x) {
-      for (size_t y = 0; y < 31; ++y) {
+    for (size_t x = 0; x < 30; ++x) {
+      for (size_t y = 0; y < 30; ++y) {
         entt::entity entity = registry.create();
         registry.emplace<component::Position>(
           entity, static_cast<float>(x), static_cast<float>(y), 0.0f
@@ -80,6 +78,11 @@ public:
         registry.emplace<component::DefaultRenderMode>(entity);
       }
     }
+    entt::entity entity = registry.create();
+    registry.emplace<component::Position>(entity, 6.0f, 6.0f, 0.1f);
+    registry.emplace<component::Body>(entity, 8.0f, 8.0f);
+    registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floors.dmi"));
+    registry.emplace<component::DefaultRenderMode>(entity);
   }
 
   void update(entt::registry& registry) override {
