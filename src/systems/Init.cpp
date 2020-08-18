@@ -74,14 +74,14 @@ public:
           entity, static_cast<float>(x), static_cast<float>(y), 0.0f
         );
         registry.emplace<component::Body>(entity, 1.0f, 1.0f);
-        registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floor.png"));
+        registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floors.dmi", "steel_dirty"));
         registry.emplace<component::DefaultRenderMode>(entity);
       }
     }
     entt::entity entity = registry.create();
-    registry.emplace<component::Position>(entity, 6.0f, 6.0f, 0.1f);
-    registry.emplace<component::Body>(entity, 8.0f, 8.0f);
-    registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floors.dmi"));
+    registry.emplace<component::Position>(entity, 6.3f, 6.3f, 0.1f);
+    registry.emplace<component::Body>(entity, 2.0f, 2.0f);
+    registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floors.dmi", "freezer"));
     registry.emplace<component::DefaultRenderMode>(entity);
   }
 

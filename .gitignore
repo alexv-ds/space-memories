@@ -33,3 +33,6 @@
 
 # popular build directory
 build
+# resources dummy dme project
+resources/dummy.int
+resources/dummy.lk

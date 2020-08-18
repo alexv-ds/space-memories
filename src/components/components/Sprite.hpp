@@ -3,7 +3,10 @@
 namespace component {
 
 struct Sprite {
-  int id = -1;
+  int icon = -1;
+  int state = -1;
+  int dir = 0;
+  int frame = 0;
 };
 
 }
