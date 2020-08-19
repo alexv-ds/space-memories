@@ -13,7 +13,7 @@ struct Turf {
 };
 
 constexpr Turf floor_steel {"resources/floors.dmi", "steel"};
-constexpr Turf floor_freezer {"resources/floors.dmi", "freezer"};
+constexpr Turf floor_freezer {"resources/floors.dmi", "cult-narsie"};
 constexpr Turf floor_showroom {"resources/floors.dmi", "showroomfloor"};
 constexpr Turf wall_0 {"resources/walls.dmi", "0"};
 
@@ -49,6 +49,7 @@ public:
         registry.emplace<component::Body>(entity, 1.0f, 1.0f);
         registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite(map[y][x].icon, map[y][x].state));
         registry.emplace<component::DefaultRenderMode>(entity);
+        registry.emplace<component::SpriteFrameAnimation>(entity);
       }
     }
   }
