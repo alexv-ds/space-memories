@@ -8,6 +8,7 @@ namespace service {
 class PrototypeBuilder : core::Service {
 public:
   virtual entt::entity build(const std::string_view name, entt::registry& registry) = 0;
+  virtual ~PrototypeBuilder() = default;
 };
 
 }

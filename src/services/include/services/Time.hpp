@@ -6,11 +6,12 @@ namespace service {
 
 class Time : public core::Service {
 public:
-  inline float get_time() const noexcept; 
+  inline float get_time() const noexcept;
   inline float get_delta() const noexcept;
   inline std::uintmax_t get_tick() const noexcept;
 
   virtual void update() = 0;
+  virtual ~Time() = default;
 protected:
   float time = 0.0f; //in secs
   float delta = 0.0f; //время прошедшее с предыдушего кадра
