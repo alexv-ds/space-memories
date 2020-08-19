@@ -10,6 +10,7 @@ enum UpdatePriority : int {
   CameraAutoPrefferedSize,
   PixelPerfectCameraSize,
   CameraFixedUnitSize,
+  SpriteFrameAnimation,
   RenderBegin,
   DefaultRenderSystem,
   CameraPillarbox,
@@ -18,6 +19,7 @@ enum UpdatePriority : int {
   SFMLRenderWindow,
   WindowEventHandlerClear,
   Init,
+  MapInit,
   ExitIfWindowClosed
 };
 

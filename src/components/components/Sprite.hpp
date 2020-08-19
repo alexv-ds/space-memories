@@ -9,4 +9,11 @@ struct Sprite {
   int frame = 0;
 };
 
+struct SpriteFrameAnimation {
+  int icon_cache = -1;
+  int state_cache = -1;
+  float delay = 0.0f; //time
+  bool no_animation = false;
+};
+
 }

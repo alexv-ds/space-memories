@@ -16,4 +16,6 @@ target_sources(main PRIVATE
   CameraAutoPrefferedSize.cpp
   CameraFixedUnitSize.cpp
   DefaultRenderSystem.cpp
+  MapInit.cpp
+  SpriteFrameAnimation.cpp
 )
