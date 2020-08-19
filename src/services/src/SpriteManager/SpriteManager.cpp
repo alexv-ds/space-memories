@@ -235,6 +235,9 @@ std::unique_ptr<SpriteSheet> SpriteManagerImpl::load_dmi(std::string_view file) 
       }
       state.dirs.push_back(std::move(vec_dir));
     }
+    for (float& delay : state.delays) {
+      delay /= 10; //потому что в бьенде указано время в тиках (1 тик 1/10 секунды)
+    }
     sprite_sheet->states.push_back(std::move(state));
   }
   return sprite_sheet;
