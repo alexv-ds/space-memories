@@ -9,5 +9,5 @@ target_sources(main PRIVATE
   src/SpriteManager/SpriteManager.cpp
   src/SpriteManager/DmiMetadata.cpp
 
-
+  src/PrototypeBuilder/PrototypeBuilder.cpp
 )
