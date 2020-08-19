@@ -26,6 +26,7 @@ public:
 
   component::Sprite load_sprite(std::string_view name, std::string_view state = "") override;
   std::pair<sf::Texture*, sf::IntRect> get_texture(const component::Sprite& sprite) override;
+  const State* get_sprite_data(int icon, int state) override;
 private:
   std::unique_ptr<SpriteSheet> load_sfml(std::string_view file); //bmp, png, tga, jpg, psd, hdr and pic
   std::unique_ptr<SpriteSheet> load_dmi(std::string_view file); //dmi
@@ -237,6 +238,22 @@ std::unique_ptr<SpriteSheet> SpriteManagerImpl::load_dmi(std::string_view file) 
     sprite_sheet->states.push_back(std::move(state));
   }
   return sprite_sheet;
+}
+
+const State* SpriteManagerImpl::get_sprite_data(int icon, int state) {
+  if (icon < 0 || state < 0) {
+    return nullptr;
+  }
+  size_t sprite_sheet_index = static_cast<size_t>(icon);
+  if (sprite_sheet_index >= sprite_sheets.size()) {
+    return nullptr;
+  }
+  const std::unique_ptr<SpriteSheet>& sprite_sheet = sprite_sheets[sprite_sheet_index];
+  size_t state_index = static_cast<size_t>(state);
+  if (state_index >= sprite_sheet->states.size()) {
+    return nullptr;
+  }
+  return &(sprite_sheet->states[state_index]);
 }
 
 }

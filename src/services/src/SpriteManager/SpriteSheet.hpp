@@ -4,14 +4,6 @@
 #include <map>
 #include <algorithm>
 
-struct State {
-  std::string name;
-  std::vector<float> delays;
-  std::vector<std::vector<sf::IntRect>> dirs;
-};
-
-
-
 struct SpriteSheet {
   sf::Texture texture;
   std::vector<State> states;
