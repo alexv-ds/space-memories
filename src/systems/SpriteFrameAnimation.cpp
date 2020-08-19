@@ -3,7 +3,6 @@
 #include <components/Sprite.hpp>
 #include <services/Time.hpp>
 #include <services/SpriteManager.hpp>
-#include <iostream>
 
 namespace {
 
