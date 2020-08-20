@@ -15,5 +15,10 @@ target_include_directories(lodepng PUBLIC
 )
 
 target_link_libraries(main PRIVATE lodepng)
-target_link_libraries(main PRIVATE stdc++fs)
+
+if (NOT WIN32)
+  #на винде в стандартную либу встроено
+  target_link_libraries(main PRIVATE stdc++fs)
+endif()
+
 target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
