@@ -4,13 +4,16 @@
 //#include <experimental/filesystem>
 #include <iostream>
 #include <components/Sprite.hpp>
+#include <services/SpriteManager.hpp>
 #include "ComponentEmplacer.hpp"
 #include "EmplacerBuilder.hpp"
+#include "ComponentBuilderRegistry.hpp"
 
 namespace service {
 
-component::Sprite build_Sprite() {
-  return {};
+component::Sprite build_Sprite(const json& json, core::ServiceLocator& locator, core::Logger& logger) {
+  std::shared_ptr sprite_manager = locator.get<service::SpriteManager>();
+  return sprite_manager->load_sprite("resources/floors.dmi", "snow");
 }
 
 
@@ -45,8 +48,10 @@ PrototypeBuilderImpl::PrototypeBuilderImpl(std::shared_ptr<core::Logger> new_log
               logger(std::move(new_logger)),
               locator(locator)
 {
-
-  //logger->critical("omegalul");
+  ComponentBuilderRegistry registry(logger);
+  registry.add_builder("comopnent::Sprite", build_Sprite);
+  registry.add_builder("comopnent::Sprite", build_Sprite);
+  logger->critical("omegalul");
 }
 
 }
