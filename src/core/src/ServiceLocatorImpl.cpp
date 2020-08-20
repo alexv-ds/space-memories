@@ -30,6 +30,7 @@ void ServiceLocatorImpl::init_service_defines() {
   std::vector<ServiceDefine*> defined_services = create_sorted_defines(ServiceDefine::get_defined_services());
   for (const ServiceDefine* service_define : defined_services) {
     try {
+      logger->trace("Инициализация {}", service_define->name);
       std::shared_ptr service = service_define->build_func(*this);
       if (service == nullptr) {
         logger->error(
