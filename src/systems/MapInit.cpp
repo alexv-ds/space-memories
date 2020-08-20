@@ -3,6 +3,7 @@
 #include <components/Position.hpp>
 #include <components/RenderMode.hpp>
 #include <services/SpriteManager.hpp>
+#include <services/PrototypeBuilder.hpp>
 #include <iostream>
 
 namespace {
@@ -34,9 +35,12 @@ std::vector<std::vector<Turf>> map {
 
 class MapInit : public core::System {
   std::shared_ptr<service::SpriteManager> sprite_manager;
+  std::shared_ptr<service::PrototypeBuilder> prototype_builder;
 public:
-  MapInit(std::shared_ptr<service::SpriteManager> sprite_manager):
-    sprite_manager(std::move(sprite_manager))
+  MapInit(std::shared_ptr<service::SpriteManager> sprite_manager,
+          std::shared_ptr<service::PrototypeBuilder> prototype_builder):
+    sprite_manager(std::move(sprite_manager)),
+    prototype_builder(std::move(prototype_builder))
   {}
   void setup(Settings& settings) const override {
     settings.priority = update_priority::MapInit;
@@ -52,11 +56,16 @@ public:
         registry.emplace<component::SpriteFrameAnimation>(entity);
       }
     }
+
+    prototype_builder->build("wall", registry);
   }
 };
 
 CORE_DEFINE_SYSTEM("system::MapInit", [](core::ServiceLocator& locator){
-  return std::make_unique<MapInit>(locator.get<service::SpriteManager>());
+  return std::make_unique<MapInit>(
+    locator.get<service::SpriteManager>(),
+    locator.get<service::PrototypeBuilder>()
+  );
 });
 
 

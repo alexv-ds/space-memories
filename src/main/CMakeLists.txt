@@ -15,3 +15,5 @@ target_include_directories(lodepng PUBLIC
 )
 
 target_link_libraries(main PRIVATE lodepng)
+target_link_libraries(main PRIVATE stdc++fs)
+target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
