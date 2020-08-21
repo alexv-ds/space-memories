@@ -182,6 +182,7 @@ entt::entity PrototypeBuilderImpl::build(const std::string_view name, entt::regi
     return entt::null;
   }
   std::vector<UptrEmplacer> emplacers;
+  logger->debug("Сборка прототипа: {}", name);
   for (auto j_it = prototype_it->second.begin(); j_it != prototype_it->second.end(); ++j_it) {
     if (j_it.key() == "name") {
       continue;
