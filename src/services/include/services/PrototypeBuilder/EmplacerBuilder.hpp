@@ -1,30 +1,31 @@
 #pragma once
 
-#include <core/type_index.hpp>
-#include <nlohmann/json.hpp>
 #include <memory>
 #include <functional>
 #include <type_traits>
+#include <core/type_index.hpp>
+#include <core/ServiceLocator.hpp>
+#include <nlohmann/json.hpp>
 #include "ComponentEmplacer.hpp"
 
-using json = nlohmann::json;
-
 class IEmplacerBuilder {
+protected:
+  using json = nlohmann::json;
 public:
   virtual std::unique_ptr<IComponentEmplacer> build(const json&, core::ServiceLocator&, core::Logger&) = 0;
-  virtual core::type_index component_type() = 0;
+  virtual core::type_index component_type() const = 0;
   virtual ~IEmplacerBuilder() = default;
 };
 
 template <class F>
-class EmlacerBuilder final : public IEmplacerBuilder {
+class EmplacerBuilder final : public IEmplacerBuilder {
   using component_t = std::invoke_result_t<F, const json&, core::ServiceLocator&, core::Logger&>;
   F build_function;
 public:
-  EmlacerBuilder(F func): build_function(std::move(func)) {
+  EmplacerBuilder(F func): build_function(std::move(func)) {
     static_assert(std::is_invocable_v<F, const json&, core::ServiceLocator&, core::Logger&>);
   }
-  core::type_index component_type() override {
+  core::type_index component_type() const override {
     return core::type_id<component_t>();
   }
 

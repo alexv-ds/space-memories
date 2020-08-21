@@ -10,4 +10,5 @@ target_sources(main PRIVATE
   src/SpriteManager/DmiMetadata.cpp
 
   src/PrototypeBuilder/PrototypeBuilder.cpp
+  src/PrototypeBuilder/define_component_builder.cpp
 )

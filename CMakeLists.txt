@@ -22,12 +22,18 @@ add_subdirectory(src/main)
 add_subdirectory(src/systems)
 add_subdirectory(src/components)
 add_subdirectory(src/services)
+add_subdirectory(src/prototype_component_builders)
 
 function(add_resource_symlink_target)
   add_custom_target(
     create_resource_symlink ALL COMMAND ${CMAKE_COMMAND} -E create_symlink
     ${CMAKE_CURRENT_SOURCE_DIR}/resources
     ${CMAKE_CURRENT_BINARY_DIR}/resources
+  )
+  add_custom_target(
+    create_prototypes_symlink ALL COMMAND ${CMAKE_COMMAND} -E create_symlink
+    ${CMAKE_CURRENT_SOURCE_DIR}/prototypes
+    ${CMAKE_CURRENT_BINARY_DIR}/prototypes
   )
 endfunction()
 

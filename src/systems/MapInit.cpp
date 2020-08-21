@@ -57,7 +57,15 @@ public:
       }
     }
 
-    prototype_builder->build("wall", registry);
+    entt::entity entity = prototype_builder->build("wall", registry);
+    if (entity != entt::null) {
+      std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa" << std::endl;
+      component::Sprite* p_sprite = registry.try_get<component::Sprite>(entity);
+      if (p_sprite) {
+        std::cout << "ИКАН: " << p_sprite->icon << " ИКАН СТЭЙТ: " << p_sprite->state << std::endl;
+      }
+    }
+    entt::entity entity2 = prototype_builder->build("wall", registry);
   }
 };
 
