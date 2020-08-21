@@ -9,8 +9,5 @@ struct LoadMap {
   sf::Vector2f offset;
 };
 
-struct DestroyEntityAfterLoadMap {};
-
-
 
 }
