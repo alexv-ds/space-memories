@@ -1,0 +1,18 @@
+{
+  "defines" : {
+    " " : "turf/floor",
+    "W" : ["turf/wall"]
+  },
+  "map" : [
+    "WWWWWWWWWW",
+    "W        W",
+    "W        W",
+    "W        W",
+    "W        W",
+    "W        W",
+    "W        W",
+    "W        W",
+    "W        W",
+    "WWWWWWWWWW"
+  ]
+}

@@ -15,6 +15,7 @@
 #include <components/Position.hpp>
 #include <components/Sprite.hpp>
 #include <components/RenderMode.hpp>
+#include <components/Map.hpp>
 
 namespace {
 
@@ -60,6 +61,7 @@ public:
     registry.emplace<component::Position>(camera, 3.0f, 3.0f, 1.0f);
     registry.emplace<component::WASDRawInputMovable>(camera, window);
     registry.emplace<component::CameraFixedUnitSize>(camera, 64.0f, 64.0f);
+    registry.emplace<component::LoadMap>(camera, "maps/test.json");
   }
 
   void update(entt::registry& registry) override {

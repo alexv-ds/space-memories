@@ -35,6 +35,11 @@ function(add_resource_symlink_target)
     ${CMAKE_CURRENT_SOURCE_DIR}/prototypes
     ${CMAKE_CURRENT_BINARY_DIR}/prototypes
   )
+  add_custom_target(
+    create_maps_symlink ALL COMMAND ${CMAKE_COMMAND} -E create_symlink
+    ${CMAKE_CURRENT_SOURCE_DIR}/maps
+    ${CMAKE_CURRENT_BINARY_DIR}/maps
+  )
 endfunction()
 
 if(WIN32)

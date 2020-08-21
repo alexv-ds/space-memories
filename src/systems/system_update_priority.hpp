@@ -19,7 +19,7 @@ enum UpdatePriority : int {
   SFMLRenderWindow,
   WindowEventHandlerClear,
   Init,
-  MapInit,
+  MapLoader,
   ExitIfWindowClosed
 };
 
