@@ -6,7 +6,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <limits>
 #include <cmath>
-#include <iostream>
+
 namespace {
 
 class CameraPillarbox final : public core::System {

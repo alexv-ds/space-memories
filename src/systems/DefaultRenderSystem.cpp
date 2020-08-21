@@ -9,7 +9,7 @@
 #include <components/Sprite.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <algorithm>
-#include <iostream>
+
 namespace {
 
 struct RenderElement {
