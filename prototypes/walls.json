@@ -2,7 +2,14 @@
   {
     "name" : "turf/wall",
     "component::Sprite" : {
-      "icon" : "resources/wall.png"
+      "icon" : "resources/walls.dmi",
+      "state": "steel"
+    }
+  },
+  {
+    "name" : "turf/wall/reinforced",
+    "component::Sprite" : {
+      "state": "rsteel"
     }
   }
 ]
