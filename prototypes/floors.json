@@ -1,0 +1,171 @@
+[
+  {
+    "name" : "turf/floor",
+    "component::Sprite" : {
+      "icon" : "resources/floors.dmi",
+      "state" : "steel"
+    }
+  },
+  {
+    "name" : "turf/floor/white",
+    "component::Sprite" : {
+      "state" : "white"
+    }
+  },
+  {
+    "name" : "turf/floor/plating",
+    "component::Sprite" : {
+      "state" : "plating"
+    }
+  },
+  {
+    "name" : "turf/floor/dark",
+    "component::Sprite" : {
+      "state" : "dark"
+    }
+  },
+  {
+    "name" : "turf/floor/bcircuit",
+    "component::Sprite" : {
+      "state" : "bcircuit"
+    }
+  },
+  {
+    "name" : "turf/floor/gcircuit",
+    "component::Sprite" : {
+      "state" : "gcircuit"
+    }
+  },
+  {
+    "name" : "turf/floor/freezer",
+    "component::Sprite" : {
+      "state" : "freezerfloor"
+    }
+  },
+  {
+    "name" : "turf/floor/asteroid",
+    "component::Sprite" : {
+      "state" : "asteroid"
+    }
+  },
+  {
+    "name" : "turf/floor/hydrofloor",
+    "component::Sprite" : {
+      "state" : "hydrofloor"
+    }
+  },
+  {
+    "name" : "turf/floor/carpet",
+    "component::Sprite" : {
+      "state" : "carpet"
+    }
+  },
+  {
+    "name" : "turf/floor/showroom",
+    "component::Sprite" : {
+      "state" : "showroom"
+    }
+  },
+  {
+    "name" : "turf/floor/rockvault",
+    "component::Sprite" : {
+      "state" : "rockvault"
+    }
+  },
+  {
+    "name" : "turf/floor/sandstonevault",
+    "component::Sprite" : {
+      "state" : "sandstonevault"
+    }
+  },
+  {
+    "name" : "turf/floor/alienvault",
+    "component::Sprite" : {
+      "state" : "alienvault"
+    }
+  },
+  {
+    "name" : "turf/floor/cult",
+    "component::Sprite" : {
+      "state" : "cult"
+    }
+  },
+  {
+    "name" : "turf/floor/lava",
+    "component::Sprite" : {
+      "state" : "lava"
+    }
+  },
+  {
+    "name" : "turf/floor/wood",
+    "component::Sprite" : {
+      "state" : "wood"
+    }
+  },
+  {
+    "name" : "turf/floor/snow",
+    "component::Sprite" : {
+      "state" : "snow"
+    }
+  },
+  {
+    "name" : "turf/floor/asteroidplating",
+    "component::Sprite" : {
+      "state" : "asteroidplating"
+    }
+  },
+  {
+    "name" : "turf/floor/asteroidfloor",
+    "component::Sprite" : {
+      "state" : "asteroidfloor"
+    }
+  },
+  {
+    "name" : "turf/floor/cult_narsie",
+    "component::Sprite" : {
+      "state" : "cult-narsie"
+    }
+  },
+  {
+    "name" : "turf/floor/bcarpet",
+    "component::Sprite" : {
+      "state" : "bcarpet"
+    }
+  },
+  {
+    "name" : "turf/floor/steel_dirty",
+    "component::Sprite" : {
+      "state" : "steel_dirty"
+    }
+  },
+  {
+    "name" : "turf/floor/lino",
+    "component::Sprite" : {
+      "state" : "lino"
+    }
+  },
+  {
+    "name" : "turf/floor/grass",
+    "component::Sprite" : {
+      "state" : "grass"
+    }
+  },
+  {
+    "name" : "turf/floor/reinforced",
+    "component::Sprite" : {
+      "state" : "reinforced"
+    }
+  },
+  {
+    "name" : "turf/floor/b2carpet",
+    "component::Sprite" : {
+      "state" : "b2carpet"
+    }
+  },
+  {
+    "name" : "turf/floor/stone",
+    "component::Sprite" : {
+      "state" : "stone"
+    }
+  }
+]

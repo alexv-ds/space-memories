@@ -60,17 +60,10 @@ public:
     registry.emplace<component::Position>(camera, 3.0f, 3.0f, 1.0f);
     registry.emplace<component::WASDRawInputMovable>(camera, window);
     registry.emplace<component::CameraFixedUnitSize>(camera, 64.0f, 64.0f);
-
-    entt::entity entity = registry.create();
-    registry.emplace<component::Position>(entity, 2.5f, 3.0f, 0.1f);
-    registry.emplace<component::Body>(entity, 2.0f, 2.0f);
-    registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite("resources/floors.dmi", "lava"));
-    registry.emplace<component::DefaultRenderMode>(entity);
-    registry.emplace<component::SpriteFrameAnimation>(entity);
   }
 
   void update(entt::registry& registry) override {
-    
+
   }
 };
 

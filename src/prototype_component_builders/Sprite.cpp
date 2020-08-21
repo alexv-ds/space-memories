@@ -2,19 +2,30 @@
 #include <services/SpriteManager.hpp>
 #include <components/Sprite.hpp>
 
-namespace service {
-
 PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::Sprite",
-  [](const nlohmann::json& json, core::ServiceLocator& locator, core::Logger& logger) {
+  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
+    nlohmann::json& j_icon = json["icon"];
+    nlohmann::json& j_state = json["state"];
+    std::string_view str_state;
+    if (!j_icon.is_string()) {
+      logger.warn("[component::Sprite] icon должен быть строкой");
+      return component::Sprite();
+    }
+    if (!j_state.is_null()) {
+      if (j_state.is_string()) {
+        str_state = j_state.get<std::string_view>();
+      } else {
+        logger.warn("[component::Sprite] state должен быть строкой");
+        return component::Sprite();
+      }
+    }
     std::shared_ptr sprite_manager = locator.get<service::SpriteManager>();
-    return sprite_manager->load_sprite("resources/floors.dmi", "snow");
+    return sprite_manager->load_sprite(j_icon.get<std::string_view>(), str_state);
   }
 );
 
 PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::SpriteFrameAnimation",
-  [](const nlohmann::json& json, core::ServiceLocator& locator, core::Logger& logger) {
+  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
     return component::SpriteFrameAnimation();
   }
 );
-
-}

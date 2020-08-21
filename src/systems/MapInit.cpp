@@ -8,27 +8,17 @@
 
 namespace {
 
-struct Turf {
-  std::string_view icon;
-  std::string_view state;
-};
-
-constexpr Turf floor_steel {"resources/floors.dmi", "steel"};
-constexpr Turf floor_freezer {"resources/floors.dmi", "cult-narsie"};
-constexpr Turf floor_showroom {"resources/floors.dmi", "showroomfloor"};
-constexpr Turf wall_0 {"resources/walls.dmi", "0"};
-
-
-std::vector<std::vector<Turf>> map {
-  {floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,wall_0,wall_0,wall_0,wall_0,wall_0,wall_0,wall_0,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_freezer,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,wall_0,wall_0,wall_0,wall_0,wall_0,wall_0,wall_0,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel},
-  {floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel,floor_steel}
+std::vector<std::vector<std::string>> map {
+  {"turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava"},
+  {"turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava"},
+  {"turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava"},
+  {"turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava","turf/floor/lava"},
+  {"turf/wall","turf/wall","turf/wall","turf/wall","turf/wall","turf/wall","turf/wall","turf/wall","turf/wall"},
+  {"turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor"},
+  {"turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor"},
+  {"turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor"},
+  {"turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor"},
+  {"turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor","turf/floor"}
 };
 
 
@@ -48,24 +38,19 @@ public:
   void init(entt::registry& registry) override {
     for (size_t y = 0; y < map.size(); ++y) {
       for (size_t x = 0; x < map[y].size(); ++x) {
-        entt::entity entity = registry.create();
-        registry.emplace<component::Position>(entity, static_cast<float>(x), static_cast<float>(map.size() - y), 0.0f);
-        registry.emplace<component::Body>(entity, 1.0f, 1.0f);
-        registry.emplace<component::Sprite>(entity, sprite_manager->load_sprite(map[y][x].icon, map[y][x].state));
-        registry.emplace<component::DefaultRenderMode>(entity);
-        registry.emplace<component::SpriteFrameAnimation>(entity);
-      }
-    }
+        entt::entity entity = prototype_builder->build(map[y][x], registry);
+        if (entity != entt::null) {
+          component::Position* p_pos = registry.try_get<component::Position>(entity);
+          if (p_pos) {
+            p_pos->x = static_cast<float>(x);
+            p_pos->y = static_cast<float>(map.size() - y - 1);
+          } else {
+            registry.destroy(entity);
+          }
+        }
 
-    entt::entity entity = prototype_builder->build("wall", registry);
-    if (entity != entt::null) {
-      std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa" << std::endl;
-      component::Sprite* p_sprite = registry.try_get<component::Sprite>(entity);
-      if (p_sprite) {
-        std::cout << "ИКАН: " << p_sprite->icon << " ИКАН СТЭЙТ: " << p_sprite->state << std::endl;
       }
     }
-    entt::entity entity2 = prototype_builder->build("wall", registry);
   }
 };
 
