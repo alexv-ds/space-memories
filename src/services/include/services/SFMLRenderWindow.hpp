@@ -15,7 +15,7 @@ public:
   ~SFMLRenderWindow();
   std::string_view impl_name() const noexcept override;
 
-  void update_window(entt::entity, component::RenderWindow& window);
+  void update_window(entt::entity);
   void destroy_window(entt::entity);
   sf::RenderWindow* get_window(entt::entity); //can be nullptr
 private:

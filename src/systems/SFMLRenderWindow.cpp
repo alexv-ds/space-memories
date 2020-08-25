@@ -19,15 +19,15 @@ public:
 
   void init(entt::registry& registry) override {
     this->registry = &registry;
-    registry.view<component::RenderWindow>().each([this](auto entity, auto& window) {
-      render_window_service->update_window(entity, window);
+    registry.view<component::RenderWindow>().each([this](auto entity) {
+      render_window_service->update_window(entity);
     });
     registry.on_construct<component::RenderWindow>().connect<&SFMLRenderWindow::on_construct_cb>(this);
     registry.on_destroy<component::RenderWindow>().connect<&SFMLRenderWindow::on_destroy_cb>(this);
   }
   void update(entt::registry& registry) override {
-    registry.view<component::RenderWindow>().each([this](auto entity, auto& window) {
-      render_window_service->update_window(entity, window);
+    registry.view<component::RenderWindow>().each([this](auto entity) {
+      render_window_service->update_window(entity);
     });
   }
 
@@ -39,7 +39,7 @@ public:
   }
 
   void on_construct_cb(entt::registry& registry, entt::entity entity) {
-    render_window_service->update_window(entity, registry.get<component::RenderWindow>(entity));
+    render_window_service->update_window(entity);
   }
   void on_destroy_cb(entt::registry& registry, entt::entity entity) {
     render_window_service->destroy_window(entity);
@@ -55,4 +55,3 @@ CORE_DEFINE_SYSTEM("system::SFMLRenderWindow", [](core::ServiceLocator& locator)
 });
 
 }
-

@@ -15,7 +15,7 @@ SFMLRenderWindow::~SFMLRenderWindow() {
   windows.clear();
 }
 
-void SFMLRenderWindow::update_window(entt::entity entity, component::RenderWindow& comp_window) {
+void SFMLRenderWindow::update_window(entt::entity entity) {
   auto it = windows.find(entity);
   if(it == windows.end()) {
     logger->debug("Открытие окна для entity-{}", entity);
