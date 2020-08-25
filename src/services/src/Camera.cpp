@@ -39,7 +39,7 @@ sf::RenderTarget* Camera::get_render_target(entt::entity camera, const entt::reg
   const component::BindCameraToRenderWindow* bind_component =
     registry.try_get<component::BindCameraToRenderWindow>(camera);
   if (bind_component) {
-    if (registry.valid(bind_component->window) && registry.try_get<component::RenderWindow>(bind_component->window)) {
+    if (registry.valid(bind_component->window) && registry.has<component::RenderWindow>(bind_component->window)) {
       sf::RenderWindow* render_window = sfml_render_window->get_window(bind_component->window);
       if (!render_window) {
         logger->warn("Не удалось получить sf::RenderWindow");
