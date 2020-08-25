@@ -1,0 +1,24 @@
+[
+  {
+    "name" : "main_window",
+    "component::RenderWindow" : {},
+    "component::ExitIfWindowClosed" : {},
+    "component::ListenKeyboard" : {},
+    "component::LoadMap" : {
+      "file" : "maps/room.json"
+    }
+  },
+  {
+    "name" : "main_camera",
+    "component::Camera" : {},
+    "component::Position" : {
+      "x" : 6,
+      "y" : 7,
+      "layer" : 100
+    },
+    "component::CameraFixedUnitSize" : {
+      "x" : 64,
+      "y" : 64
+    }
+  }
+]
