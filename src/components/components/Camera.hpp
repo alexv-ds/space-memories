@@ -1,19 +1,19 @@
 #pragma once
 
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <entt/entity/entity.hpp>
 #include "Position.hpp"
 
 namespace component {
 
-//C++ only
 struct Camera {
   float size_x = 1.0;
   float size_y = 1.0;
   //Рекомендуемый размер, используется в системах которые подгоняют размер камеры по каким-то параметрам
   //например PixelPerfectCameraSize
-  float preferred_size_x = 1.0f;
-  float preferred_size_y = 1.0f;
+  float preferred_size_x = 1.0f; //C++ only
+  float preferred_size_y = 1.0f; //C++ only
 };
 
 //Немного изменяет размеры камеры, что бы не было артефатов при рисовании спрайтов
@@ -56,7 +56,6 @@ struct CameraAutoPrefferedSize {
   float size_y = 1.0f;
 };
 
-//C++ only
 struct CameraFixedUnitSize {
   float x = 32.0f;
   float y = 32.0f;

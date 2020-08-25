@@ -3,8 +3,9 @@
 
 namespace component {
 
-//C++ only
+//Вешается на энтитю с component::RenderWindow
 struct ListenKeyboard {};
+
 //Костыль для теста
 //C++ only
 struct WASDRawInputMovable {

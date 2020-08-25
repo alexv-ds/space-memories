@@ -4,10 +4,9 @@
 
 namespace component {
 
-//C++ only
 struct LoadMap {
   std::string file;
-  sf::Vector2f offset;
+  sf::Vector2f offset;//в json аrray [x,y]
 };
 
 
