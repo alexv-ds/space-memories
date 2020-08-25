@@ -1,0 +1,193 @@
+[
+  {
+    "name" : "other",
+    "component::Position" : {
+      "layer" : 1.0
+    },
+    "component::Body" : {},
+    "component::DefaultRenderMode" : {},
+    "component::SpriteFrameAnimation" : {},
+    "component::Sprite" : {
+      "icon" : "resources/other.dmi"
+    }
+  },
+  {
+    "name" : "other/closed",
+    "component::Sprite" : {
+      "state" : "secure1"
+    }
+  },
+  {
+    "name" : "other/closed/green",
+    "component::Sprite" : {
+      "state" : "green"
+    }
+  },
+  {
+    "name" : "other/closed/rainbow",
+    "component::Sprite" : {
+      "state" : "mixed"
+    }
+  },
+  {
+    "name" : "other/closed/white",
+    "component::Sprite" : {
+      "state" : "white"
+    }
+  },
+  {
+    "name" : "other/closed/grey",
+    "component::Sprite" : {
+      "state" : "grey"
+    }
+  },
+  {
+    "name" : "other/closed/black",
+    "component::Sprite" : {
+      "state" : "black"
+    }
+  },
+  {
+    "name" : "other/door",
+    "component::Sprite" : {
+      "state" : "dyelow"
+    }
+  },
+  {
+    "name" : "other/door/green",
+    "component::Sprite" : {
+      "state" : "dgreen"
+    }
+  },
+  {
+    "name" : "other/door/glass",
+    "component::Sprite" : {
+      "state" : "dglass"
+    }
+  },
+  {
+    "name" : "other/washing_mashine",
+    "component::Sprite" : {
+      "state" : "wm_10"
+    }
+  },
+  {
+    "name" : "other/warn_line",
+    "component::Position" : {
+      "layer" : 0.1
+    }
+  },
+  {
+    "name" : "other/warn_line/S",
+    "component::Sprite" : {
+      "state" : "S"
+    }
+  },
+  {
+    "name" : "other/warn_line/W",
+    "component::Sprite" : {
+      "state" : "W"
+    }
+  },
+  {
+    "name" : "other/warn_line/SW-out",
+    "component::Sprite" : {
+      "state" : "SW-out"
+    }
+  },
+  {
+    "name" : "other/warn_line/SE-out",
+    "component::Sprite" : {
+      "state" : "SE-out"
+    }
+  },
+  {
+    "name" : "other/light_tube",
+    "component::Position" : {
+      "layer" : 1.1
+    }
+  },
+  {
+    "name" : "other/light_tube/left",
+    "component::Sprite" : {
+      "state" : "light-tube-left"
+    }
+  },
+  {
+    "name" : "other/light_tube/top",
+    "component::Sprite" : {
+      "state" : "light-tube-top"
+    }
+  },
+  {
+    "name" : "other/light_tube/bot",
+    "component::Sprite" : {
+      "state" : "light-tube-bot"
+    }
+  },
+  {
+    "name" : "other/light_tube/right",
+    "component::Sprite" : {
+      "state" : "light-tube-right"
+    }
+  },
+  {
+    "name" : "turf/floor/decal1",
+    "component::Sprite" : {
+      "icon" : "resources/other.dmi",
+      "state" : "fdecal1"
+    },
+    "component::Position" : {
+      "layer" : 0.01
+    }
+  },
+  {
+    "name" : "turf/floor/decal2",
+    "component::Sprite" : {
+      "icon" : "resources/other.dmi",
+      "state" : "fdecal2"
+    },
+    "component::DefaultRenderMode" : {
+      "color" : [106,151,176]
+    },
+    "component::Position" : {
+      "layer" : 0.01
+    }
+  },
+  {
+    "name" : "other/theater",
+    "component::Sprite" : {
+      "state" : "Theater"
+    }
+  },
+  {
+    "name" : "other/arcade",
+    "component::Sprite" : {
+      "state" : "arcadelul"
+    }
+  },
+  {
+    "name" : "other/cola",
+    "component::Sprite" : {
+      "state" : "Cola_Machine_red"
+    }
+  },
+  {
+    "name" : "other/coffee",
+    "component::Sprite" : {
+      "state" : "coffee"
+    }
+  },
+  {
+    "name" : "other/cigs",
+    "component::Sprite" : {
+      "state" : "cigs-vend"
+    }
+  },
+  {
+    "name" : "other/snack",
+    "component::Sprite" : {
+      "state" : "snack"
+    }
+  }
+]
