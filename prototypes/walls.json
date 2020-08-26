@@ -4,7 +4,8 @@
     "component::Sprite" : {
       "icon" : "resources/walls.dmi",
       "state": "steel"
-    }
+    },
+    "component::DenseObject" : {}
   },
   {
     "name" : "turf/wall/reinforced",
