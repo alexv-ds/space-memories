@@ -6,4 +6,5 @@ target_sources(main PRIVATE
   RenderWindow.cpp
   Input.cpp
   Map.cpp
+  ObjectTypes.cpp
 )
