@@ -7,4 +7,5 @@ target_sources(main PRIVATE
   Input.cpp
   Map.cpp
   ObjectTypes.cpp
+  Movement.cpp
 )
