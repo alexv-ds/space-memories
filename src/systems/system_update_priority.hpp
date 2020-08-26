@@ -6,6 +6,7 @@ enum UpdatePriority : int {
   WorldUpdate,
   WindowEventHandler,
   WASDRawInputMovable,
+  DenseIntersectionControll,
   ExitAfter10sec,
   CameraAutoPrefferedSize,
   PixelPerfectCameraSize,
