@@ -80,22 +80,17 @@ public:
     quad_tree.Update(qt_object);
   }
 
-  void update(const entt::registry& registry) override {
-    for (auto& [entity, qt_obj] : qt_objects) {
-      const auto& [p_position, p_body] = registry.try_get<component::Position, component::Body>(entity);
-      //Это условие возможно никогда не выполнится
-      if (!p_position || !p_body) {
-        continue;
-      }
-
-      World::BBox bbox = create_bbox(*p_position, *p_body);
-      if ((std::fabs(bbox.x - qt_obj->bbox.x) > epsilon) || (std::fabs(bbox.y - qt_obj->bbox.y) > epsilon) ||
-          (std::fabs(bbox.size_x - qt_obj->bbox.size_x) > epsilon) || (std::fabs(bbox.size_y - qt_obj->bbox.size_y) > epsilon))
-      {
-        update_qt_object(*p_position, *p_body, qt_obj.get());
-      }
+  void update_entity(const entt::registry& registry, entt::entity entity) override {
+    const auto& [p_position, p_body] = registry.try_get<component::Position, component::Body>(entity);
+    auto it_qt_obj = qt_objects.find(entity);
+    //Это условие возможно никогда не выполнится
+    if ( !p_position || !p_body || (it_qt_obj == qt_objects.end()) ) {
+      return;
     }
-  }
+    World::BBox bbox = create_bbox(*p_position, *p_body);
+    update_qt_object(*p_position, *p_body, it_qt_obj->second.get());
+    
+  };
 
   //Отрефакторить копипасту
   void extract_entities(std::vector<entt::entity>& result, QueryT& query) {

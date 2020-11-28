@@ -15,6 +15,9 @@ public:
       p_registry->on_construct<component::Body>().disconnect<&WorldUpdate::on_construct_cb>(this);
       p_registry->on_destroy<component::Position>().disconnect<&WorldUpdate::on_destroy_cb>(this);
       p_registry->on_destroy<component::Body>().disconnect<&WorldUpdate::on_destroy_cb>(this);
+
+      p_registry->on_update<component::Position>().disconnect<&service::World::update_entity>(world.get());
+      p_registry->on_update<component::Body>().disconnect<&service::World::update_entity>(world.get());
     }
   }
   void setup(Settings& settings) const override {
@@ -26,11 +29,11 @@ public:
     registry.on_construct<component::Body>().connect<&WorldUpdate::on_construct_cb>(this);
     registry.on_destroy<component::Position>().connect<&WorldUpdate::on_destroy_cb>(this);
     registry.on_destroy<component::Body>().connect<&WorldUpdate::on_destroy_cb>(this);
-    p_registry = &registry;
 
-  }
-  void update(entt::registry& registry) override {
-    world->update(registry);
+    registry.on_update<component::Position>().connect<&service::World::update_entity>(world.get());
+    registry.on_update<component::Body>().connect<&service::World::update_entity>(world.get());
+
+    p_registry = &registry;
   }
 
   void on_construct_cb(entt::registry& registry, entt::entity entity) {

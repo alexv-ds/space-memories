@@ -20,7 +20,7 @@ public:
   virtual void query_inside_region(std::vector<entt::entity>&, const BBox&) = 0;
   virtual void query_contains_region(std::vector<entt::entity>&, const BBox&) = 0;
 
-  virtual void update(const entt::registry&) = 0;
+  virtual void update_entity(const entt::registry&, entt::entity) = 0;
   virtual void create_body(const entt::registry&, entt::entity) = 0;
   virtual void destroy_body(const entt::registry&, entt::entity) = 0;
   virtual ~World() = default;
