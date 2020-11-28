@@ -3,7 +3,6 @@
 #include <services/PrototypeBuilder.hpp>
 #include <services/PrototypeBuilder/EmplacerBuilder.hpp>
 #include <services/PrototypeBuilder/define_component_builder.hpp>
-#include <experimental/filesystem>
 #include <fstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,6 +11,17 @@
 #include <chrono>
 #include <algorithm>
 #include <nlohmann/json.hpp>
+
+#ifdef __cpp_lib_filesystem
+    #include <filesystem>
+    namespace fs = std::filesystem;
+#elif __cpp_lib_experimental_filesystem
+    #include <experimental/filesystem>
+    namespace fs = std::experimental::filesystem;
+#else
+    #error "no filesystem support ='("
+#endif
+
 
 namespace service {
 
@@ -48,7 +58,7 @@ std::string_view PrototypeBuilderImpl::impl_name() const noexcept {
 }
 
 std::vector<std::string> PrototypeBuilderImpl::get_file_list() {
-  namespace fs = std::experimental::filesystem;
+
   logger->trace("Получение списка файлов");
   std::vector<std::string> files;
   try {
