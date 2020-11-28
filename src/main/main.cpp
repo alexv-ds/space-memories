@@ -7,6 +7,10 @@
 #include <spdlog/cfg/env.h>
 #include "LoggerFactory.hpp"
 
+#ifdef _WIN32
+  #include <windows.h>
+#endif
+
 namespace {
   volatile core::Core* g_core = nullptr;
 }
@@ -20,6 +24,10 @@ extern "C" void signal_handler(int sig) {
 }
 
 int main(int argc, const char* const* argv) {
+#ifdef _WIN32
+  SetConsoleOutputCP(CP_UTF8);
+  SetConsoleCP(CP_UTF8);
+#endif
   spdlog::set_pattern("[%H:%M:%S][%^%l%$][%n]: %v");
 #ifndef NDEBUG
   spdlog::set_level(spdlog::level::trace);  
