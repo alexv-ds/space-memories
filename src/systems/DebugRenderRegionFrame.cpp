@@ -21,7 +21,7 @@ public:
   }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::DebugRenderRegionFrame>();
-    view.each([&registry, this](auto entity, auto& camera, auto& debug_frame) {
+    view.each([&registry, this](auto entity, const auto& camera, const auto& debug_frame) {
       sf::RenderTarget* r_target = camera_service->get_render_target(entity, registry);
       if (!r_target) {
         return;

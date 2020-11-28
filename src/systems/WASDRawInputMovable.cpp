@@ -19,21 +19,30 @@ public:
 
   void update(entt::registry& registry) override {
     auto view = registry.view<component::WASDRawInputMovable, component::Position>();
-    view.each([&, this](auto entity, auto& wasd_movable, auto& position) {
+    view.each([&, this](auto entity, const auto& wasd_movable, auto position) {
       if (registry.valid(wasd_movable.input_listener)) {
+        bool need_update = false;
         if (input->is_key_pressed(wasd_movable.input_listener, Key::W)) {
           position.y += speed;
+          need_update = true;
         }
         if (input->is_key_pressed(wasd_movable.input_listener, Key::A)) {
           position.x -= speed;
+          need_update = true;
         }
         if (input->is_key_pressed(wasd_movable.input_listener, Key::S)) {
           position.y -= speed;
+          need_update = true;
         }
         if (input->is_key_pressed(wasd_movable.input_listener, Key::D)) {
           position.x += speed;
+          need_update = true;
+        }
+        if (need_update) {
+          registry.replace<component::Position>(entity, position);
         }
       }
+      
     });
   }
 };

@@ -30,7 +30,7 @@ public:
 
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::CameraPillarbox>();
-    view.each([&registry, this](entt::entity entity, auto& cam){
+    view.each([&registry, this](entt::entity entity, const auto& cam){
       sf::RenderTarget* r_target = camera_service->get_render_target(entity, registry);
       if (!r_target) {
         return;

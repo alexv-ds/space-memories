@@ -35,8 +35,8 @@ inline bool render_queue_sort_func(const RenderElement& lhs, const RenderElement
 }
 
 sf::Transform calculate_render_transform(const sf::FloatRect& region,
-                                         component::Camera& camera,
-                                         component::Position& camera_pos)
+                                         const component::Camera& camera,
+                                         const component::Position& camera_pos)
 {
   sf::Transform transform;
   const sf::Vector2f region_size = region.getSize();
@@ -72,7 +72,7 @@ public:
 
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::Position>();
-    view.each([this, &registry](auto entity, auto& camera, auto& position) {
+    view.each([this, &registry](auto entity, const auto& camera, const auto& position) {
       sf::RenderTarget* r_target = camera_service->get_render_target(entity, registry);
       if (!r_target) {
         return;
@@ -97,7 +97,7 @@ public:
         shape.setFillColor(elem.p_render_mode->color);
         const component::Sprite* p_sprite = registry.try_get<component::Sprite>(elem.entity);
         if (p_sprite) {
-          auto [texture, texture_rect] = sprite_manager->get_texture(*p_sprite);
+          const auto [texture, texture_rect] = sprite_manager->get_texture(*p_sprite);
           if (texture) {
             shape.setTexture(texture);
             shape.setTextureRect(texture_rect);
@@ -111,7 +111,7 @@ public:
 
   void fill_render_queue(const entt::registry& registry) {
     for (entt::entity entity : world_query_buffer) {
-      auto [p_position, p_body, p_render_mode] = registry.try_get<component::Position, component::Body, component::DefaultRenderMode>(entity);
+      const auto [p_position, p_body, p_render_mode] = registry.try_get<component::Position, component::Body, component::DefaultRenderMode>(entity);
       if (p_position && p_body && p_render_mode) {
         render_queue.emplace_back(entity, p_position, p_body, p_render_mode);
       }

@@ -21,7 +21,7 @@ public:
                               component::Body,
                               component::DenseIntersectionControll,
                               component::DenseObject>();
-    view.each([this, &registry](auto entity, auto& position, auto& body, auto& intersect_contr) {
+    view.each([this, &registry](auto entity, auto position, const auto& body, auto intersect_contr) {
       querry_buffer.clear();
       world->query_intersects_region(querry_buffer, {position.x,position.y,body.size_x, body.size_y});
       for (entt::entity other_entity : querry_buffer) {
@@ -31,12 +31,13 @@ public:
         if (registry.has<component::DenseObject>(other_entity)) {
           position.x = intersect_contr.old_x;
           position.y = intersect_contr.old_y;
+          registry.replace<component::Position>(entity, position);
           return;
         }
       }
       intersect_contr.old_x = position.x;
       intersect_contr.old_y = position.y;
-
+      registry.replace<component::DenseIntersectionControll>(entity, intersect_contr);
     });
   }
 };

@@ -16,10 +16,11 @@ public:
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::CameraFixedUnitSize>();
 
-    view.each([&registry, this](auto entity, auto& camera, auto& unit_size) {
+    view.each([&registry, this](auto entity, auto camera, const auto& unit_size) {
       sf::Vector2f render_size = camera_service->get_render_region(entity, registry).getSize();
       camera.size_x = render_size.x / unit_size.x;
       camera.size_y = render_size.y / unit_size.y;
+      registry.replace<component::Camera>(entity, camera);
     });
   }
 };

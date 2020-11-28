@@ -34,7 +34,7 @@ public:
     auto view = registry.view<component::LoadMap>();
     //load_map передается не по ссылке потому что сразу удалим компонент
     //c энтити, но данные компонента еще понадобятся
-    view.each([this, &registry](auto entity, auto load_map_component) {
+    view.each([this, &registry](auto entity, const auto load_map_component) {
       registry.remove<component::LoadMap>(entity);
       logger->info("Загрузка карты: {}", load_map_component.file);
       auto time_begin = std::chrono::steady_clock::now();
@@ -81,10 +81,11 @@ public:
               float x = static_cast<float>(map_pos_x) + load_map_component.offset.x;
               float y = static_cast<float>(map_pos_y) + load_map_component.offset.y;
               if (entity != entt::null) {
-                component::Position* pos_component = registry.try_get<component::Position>(entity);
-                if (pos_component) {
-                  pos_component->x = x;
-                  pos_component->y = y;
+                if (registry.has<component::Position>(entity)) {
+                  registry.patch<component::Position>(entity, [x,y](auto& pos_component) {
+                    pos_component.x = x;
+                    pos_component.y = y;
+                  });
                 } else {
                   registry.emplace<component::Position>(entity, x, y);
                 }

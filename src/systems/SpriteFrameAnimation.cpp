@@ -21,7 +21,7 @@ public:
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Sprite, component::SpriteFrameAnimation>();
     float dtime = time->get_delta();
-    view.each([dtime,this](auto entity, auto& sprite, auto& animation) {
+    view.each([dtime,this,&registry](auto entity, auto sprite, auto animation) {
       if (animation.icon_cache != sprite.icon || animation.state_cache != sprite.state) {
         animation.icon_cache = sprite.icon;
         animation.state_cache = sprite.state;
@@ -30,9 +30,13 @@ public:
         const State* state = sprite_manager->get_sprite_data(animation.icon_cache, animation.state_cache);
         if (!state || state->delays.size() == 0) {
           animation.no_animation = true;
+          registry.replace<component::Sprite>(entity, sprite);
+          registry.replace<component::SpriteFrameAnimation>(entity, animation);
           return;
         }
         animation.delay = state->delays.front();
+        registry.replace<component::Sprite>(entity, sprite);
+        registry.replace<component::SpriteFrameAnimation>(entity, animation);
         return;
       }
       if (animation.no_animation) {
@@ -45,6 +49,8 @@ public:
           animation.no_animation = true;
           sprite.icon = -1;
           sprite.state = -1;
+          registry.replace<component::Sprite>(entity, sprite);
+          registry.replace<component::SpriteFrameAnimation>(entity, animation);
           return;
         }
         ++sprite.frame;
@@ -59,6 +65,8 @@ public:
           sprite.state = -1;
         }
       }
+      registry.replace<component::Sprite>(entity, sprite);
+      registry.replace<component::SpriteFrameAnimation>(entity, animation);
     });
   }
 };

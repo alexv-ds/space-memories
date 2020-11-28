@@ -30,14 +30,14 @@ public:
     if (delta_t > 0) {
       auto view = registry.view<component::ExitAfterNsec>();
       for (entt::entity entity : view) {
-        component::ExitAfterNsec& exit_comp = view.get<component::ExitAfterNsec>(entity);
-        exit_comp.delay -= delta_t;
-        if (exit_comp.delay <= 0) {
-          process->exit(exit_comp.reason);
-          registry.destroy(entity);
-          continue;
-        }
-        logger->info("Выход через: {}", exit_comp.delay);
+        registry.patch<component::ExitAfterNsec>(entity, [&, this](auto& exit_comp) {
+          exit_comp.delay -= delta_t;
+          if (exit_comp.delay <= 0) {
+            process->exit(exit_comp.reason);
+            registry.destroy(entity);
+          }
+          logger->info("Выход через: {}", exit_comp.delay);
+        });
       }
     }
   };

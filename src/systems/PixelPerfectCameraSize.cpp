@@ -16,7 +16,7 @@ public:
   }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::PixelPerfectCameraSize>();
-    view.each([&registry, this](auto entity, auto& camera, auto& pixel_perfect) {
+    view.each([&registry, this](auto entity, auto camera, const auto& pixel_perfect) {
       const sf::Vector2f draw_size = camera_service->get_render_region(entity, registry).getSize();
       int step_x = static_cast<int>(std::round(draw_size.x / camera.preferred_size_x));
       int step_y = static_cast<int>(std::round(draw_size.y / camera.preferred_size_y));
@@ -30,6 +30,7 @@ public:
         camera.size_x = draw_size.x / static_cast<float>(step_x);
         camera.size_y = draw_size.y / static_cast<float>(step_y);
       }
+      registry.replace<component::Camera>(entity, camera);
     });
   }
 };

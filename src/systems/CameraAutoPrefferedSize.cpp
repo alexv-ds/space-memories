@@ -19,7 +19,7 @@ public:
       entt::exclude<component::KeepCameraProportions>
     );
 
-    view.each([&registry, this](auto entity, auto& camera, auto& auto_size) {
+    view.each([&registry, this](auto entity, auto camera, const auto& auto_size) {
       sf::Vector2f render_size = camera_service->get_render_region(entity, registry).getSize();
       float combined_aspect_ratio = (render_size.x / render_size.y) / (auto_size.size_x / auto_size.size_y);
       if (combined_aspect_ratio > 1.0f) {
@@ -29,6 +29,7 @@ public:
         camera.size_x = auto_size.size_x;
         camera.size_y = auto_size.size_y / combined_aspect_ratio;
       }
+      registry.replace<component::Camera>(entity, camera);
     });
   }
 };
