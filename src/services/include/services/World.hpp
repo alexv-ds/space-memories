@@ -1,5 +1,4 @@
 #include <core/Service.hpp>
-#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 #include <components/Position.hpp>
 #include <vector>

@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include <entt/entity/entity.hpp>
+#include <entt/entity/fwd.hpp>
 #include "Position.hpp"
 
 namespace component {

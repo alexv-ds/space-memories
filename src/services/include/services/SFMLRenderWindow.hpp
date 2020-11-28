@@ -5,7 +5,7 @@
 #include <core/Logger.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <components/RenderWindow.hpp>
-#include <entt/entity/entity.hpp>
+#include <entt/entity/fwd.hpp>
 
 namespace service {
 

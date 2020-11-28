@@ -3,7 +3,7 @@
 #include <map>
 #include <core/Service.hpp>
 #include <SFML/Window/Event.hpp>
-#include <entt/entity/entity.hpp>
+#include <entt/entity/fwd.hpp>
 #include "Input/Key.hpp"
 #include "Input/KeyboardState.hpp"
 
