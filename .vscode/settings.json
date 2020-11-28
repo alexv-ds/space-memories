@@ -64,6 +64,7 @@
     "typeinfo": "cpp",
     "variant": "cpp",
     "codecvt": "cpp",
-    "forward_list": "cpp"
+    "forward_list": "cpp",
+    "xhash": "cpp"
   }
 }
