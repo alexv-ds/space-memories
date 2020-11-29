@@ -11,6 +11,8 @@ enum UpdatePriority : int {
   CameraAutoPrefferedSize,
   PixelPerfectCameraSize,
   CameraFixedUnitSize,
+  SpaceIconInitialise,
+  AddSpriteFrameeAnimationIfNeeded,
   SpriteFrameAnimation,
   RenderBegin,
   DefaultRenderSystem,

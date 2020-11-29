@@ -18,5 +18,7 @@ target_sources(main PRIVATE
   DefaultRenderSystem.cpp
   SpriteFrameAnimation.cpp
   MapLoader.cpp
-  DenseIntersectionControll
+  DenseIntersectionControll.cpp
+  AddSpriteFrameeAnimationIfNeeded.cpp
+  SpaceIconInitialise.cpp
 )

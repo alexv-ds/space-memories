@@ -1,15 +1,24 @@
-{
-  "name" : "turf",
-  "component::Position" : {
-    "layer" : 0.0
+[
+  {
+    "name" : "turf",
+    "component::Position" : {
+      "layer" : 0.0
+    },
+    "component::Body" : {
+      "size_x" : 1.0,
+      "size_y" : 1.0
+    },
+    "component::DefaultRenderMode" : {
+      "color" : [255,255,255],
+      "blend_mode" : "ALPHA"
+    },
+    "component::AddSpriteFrameeAnimationIfNeeded" : {}
   },
-  "component::Body" : {
-    "size_x" : 1.0,
-    "size_y" : 1.0
-  },
-  "component::DefaultRenderMode" : {
-    "color" : [255,255,255],
-    "blend_mode" : "ALPHA"
-  },
-  "component::SpriteFrameAnimation" : {}
-}
+  {
+    "name" : "turf/space",
+    "component::SpaceIconInitialise" : {
+      "dmi" : "resources/space.dmi"
+    }
+  }
+]
+

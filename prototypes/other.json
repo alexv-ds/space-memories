@@ -6,7 +6,7 @@
     },
     "component::Body" : {},
     "component::DefaultRenderMode" : {},
-    "component::SpriteFrameAnimation" : {},
+    "component::AddSpriteFrameeAnimationIfNeeded" : {},
     "component::Sprite" : {
       "icon" : "resources/other.dmi"
     }
