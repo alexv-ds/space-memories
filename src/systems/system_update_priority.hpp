@@ -4,7 +4,8 @@ namespace update_priority {
 enum UpdatePriority : int {
   TimeUpdate,
   WorldUpdate,
-  WindowEventHandler,
+  ListenWindowEvents,
+  InputServiceUpdate,
   WASDRawInputMovable,
   DenseIntersectionControll,
   ExitAfter10sec,
@@ -20,9 +21,10 @@ enum UpdatePriority : int {
   DebugRenderRegionFrame,
   RenderEnd,
   SFMLRenderWindow,
-  WindowEventHandlerClear,
+  InputServiceClear,
   Init,
   MapLoader,
+  CloseWindowEventHandler,
   ExitIfWindowClosed
 };
 

@@ -4,6 +4,7 @@
     "component::RenderWindow" : {},
     "component::ExitIfWindowClosed" : {},
     "component::ListenKeyboard" : {},
+    "component::ListenWindowEvents" : {},
     "component::LoadMap" : {
       "file" : "maps/room.json"
     }

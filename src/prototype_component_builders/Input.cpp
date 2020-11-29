@@ -6,3 +6,9 @@ PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::ListenKeyboard",
     return component::ListenKeyboard();
   }
 );
+
+PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::ListenWindowEvents",
+  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
+    return component::ListenWindowEvents();
+  }
+);

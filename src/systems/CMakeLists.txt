@@ -4,9 +4,8 @@ target_sources(main PRIVATE
   SFMLRenderWindow.cpp
   RenderBegin.cpp
   RenderEnd.cpp
-  WindowEventsHandler.cpp
+  ListenWindowEvents.cpp
   ExitIfWindowClosed.cpp
-  WindowEventsHandlerClear.cpp
   TimeUpdate.cpp
   WorldUpdate.cpp
   WASDRawInputMovable.cpp
@@ -21,4 +20,7 @@ target_sources(main PRIVATE
   DenseIntersectionControll.cpp
   AddSpriteFrameeAnimationIfNeeded.cpp
   SpaceIconInitialise.cpp
+  InputServiceUpdate.cpp
+  InputServiceClear.cpp
+  CloseWindowEventHandler.cpp
 )
