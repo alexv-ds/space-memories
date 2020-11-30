@@ -2,6 +2,7 @@
 #include <core/LoggerFactory.hpp>
 #include <services/SFMLRenderWindow.hpp>
 #include <components/RenderWindow.hpp>
+#include <imgui-SFML.h>
 
 namespace service {
 
@@ -28,6 +29,8 @@ void SFMLRenderWindow::update_window(entt::entity entity) {
     sf_window->display();
 
     sf_window->setKeyRepeatEnabled(false);
+    
+    ImGui::SFML::Init(*sf_window);
     windows[entity] = std::move(sf_window);
   }
 }
@@ -39,6 +42,7 @@ void SFMLRenderWindow::destroy_window(entt::entity entity) {
     logger->warn("Не удалось уничтожить окно для entity-{}, ассоциированное окно не найдено", entity);
     return;
   }
+  ImGui::SFML::Init(*it->second);
   windows.erase(it);
 }
 

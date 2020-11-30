@@ -17,6 +17,10 @@ option(JSON_Install off)
 option(JSON_ImplicitConversions off)
 add_subdirectory(third_party/json)
 
+option(IMGUI_SFML_FIND_SFML off)
+set(IMGUI_DIR "${CMAKE_CURRENT_LIST_DIR}/third_party/imgui" CACHE PATH "")
+add_subdirectory(third_party/imgui-sfml)
+
 add_subdirectory(src/core)
 add_subdirectory(src/main)
 add_subdirectory(src/systems)

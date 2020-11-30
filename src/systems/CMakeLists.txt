@@ -23,4 +23,7 @@ target_sources(main PRIVATE
   InputServiceUpdate.cpp
   InputServiceClear.cpp
   CloseWindowEventHandler.cpp
+  ImguiUpdate.cpp
+  ImguiRender.cpp
+  ImguiDebugMenu.cpp
 )
