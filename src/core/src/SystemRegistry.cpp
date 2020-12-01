@@ -11,33 +11,11 @@ SystemRegistry::SystemRegistry(std::shared_ptr<Logger> logger,
                                std::shared_ptr<entt::registry> registry,
                                std::shared_ptr<Process> process):
         //init
-        logger(logger),
-        locator(locator),
-        registry(registry),
-        process(process)
-{
-  logger->info("Инициализация систем");
-  std::unordered_map<std::string, int> priorities = load_systems_priorities();
-  for (SystemDefine* system_define : SystemDefine::get_defined_systems()) {
-    SystemData system_data;
-    system_data.name = system_define->name;
-    system_data.factory = system_define->build_func;
-    
-    auto priorities_it = priorities.find(system_data.name);
-    if (priorities_it == priorities.end()) {
-      logger->error("{} не будет зарегестрирована, ее нет в списке приоритетов", system_data.name);
-      continue;
-    }
-    system_data.priority = priorities_it->second;
-    systems.push_back(std::move(system_data));
-  }
-  logreport_unused_systems(priorities);
-  
-  sort_systems();
-  for (SystemData& system_data : systems) {
-    enable_system(system_data);
-  }
-}
+        logger(std::move(logger)),
+        locator(std::move(locator)),
+        registry(std::move(registry)),
+        process(std::move(process))
+{}
 
 void SystemRegistry::update() {
   for (SystemData& system_data : systems) {
@@ -101,6 +79,52 @@ bool SystemRegistry::enable_system(SystemData& system_data) {
   }
   system_data.system->init(*registry);
   return true;
+}
+
+bool SystemRegistry::disable_system(SystemData& system_data) {
+  logger->trace("Уничтожение {}", system_data.name);
+  if (!system_data.system) {
+    return false;
+  }
+  system_data.system = nullptr;
+  return true;
+}
+
+void SystemRegistry::init_embeded_systems() {
+  logger->info("Инициализация систем");
+  std::unordered_map<std::string, int> priorities = load_systems_priorities();
+  for (SystemDefine* system_define : SystemDefine::get_defined_systems()) {
+    SystemData system_data;
+    system_data.name = system_define->name;
+    system_data.factory = system_define->build_func;
+    
+    auto priorities_it = priorities.find(system_data.name);
+    if (priorities_it == priorities.end()) {
+      logger->error("{} не будет зарегестрирована, ее нет в списке приоритетов", system_data.name);
+      continue;
+    }
+    system_data.priority = priorities_it->second;
+    systems.push_back(std::move(system_data));
+  }
+  logreport_unused_systems(priorities);
+  
+  sort_systems();
+  for (SystemData& system_data : systems) {
+    enable_system(system_data);
+  }  
+}
+
+const std::vector<SystemRegistry::SystemData>& SystemRegistry::get_systems() const {
+  return systems;
+}
+
+SystemRegistry::SystemData* SystemRegistry::find_system(std::string_view name) {
+  for (SystemData& system_data : systems) {
+    if (name == system_data.name) {
+      return &system_data;
+    }
+  }
+  return nullptr;
 }
 
 }

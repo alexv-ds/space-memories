@@ -13,15 +13,20 @@ namespace core {
 
 class SystemRegistry {
 public:
+  struct SystemData;
   SystemRegistry(std::shared_ptr<Logger>, 
                  std::shared_ptr<ServiceLocator>,
                  std::shared_ptr<entt::registry>,
                  std::shared_ptr<Process>);
   ~SystemRegistry();
   void update();
+  void init_embeded_systems();
+  const std::vector<SystemData>& get_systems() const;
+  bool enable_system(SystemData&);
+  bool disable_system(SystemData&);
+  SystemData* find_system(std::string_view name);
 
 private:
-  struct SystemData;
   std::shared_ptr<Logger> logger;
   std::shared_ptr<ServiceLocator> locator;
   std::shared_ptr<entt::registry> registry;
@@ -32,7 +37,6 @@ private:
   std::unordered_map<std::string, int> load_systems_priorities();
   void sort_systems();
   void logreport_unused_systems(const std::unordered_map<std::string, int>& priorities) const;
-  bool enable_system(SystemData&);
 };
 
 struct SystemRegistry::SystemData {

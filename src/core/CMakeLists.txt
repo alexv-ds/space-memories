@@ -11,6 +11,7 @@ add_library(core STATIC
   src/SystemRegistry.cpp
   src/ProcessImpl.cpp
   src/Service.cpp
+  src/SystemManagerImpl.cpp
 )
 add_library(core::core ALIAS core)
 
