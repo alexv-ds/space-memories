@@ -23,10 +23,13 @@ void SFMLRenderWindow::update_window(entt::entity entity) {
     std::unique_ptr sf_window = std::make_unique<sf::RenderWindow>(
       sf::VideoMode(800u, 600u), "Space Memories"
     );
-    //Первоначальная очистка, что бы пользователь
-    //не видел мусор (разноцветный шум/части других окон/т.д) из видеобуффера
-    sf_window->clear(sf::Color::Black);
-    sf_window->display();
+    //Странный баг замеченный на одной машине с семеркой
+    //Белое пятно на 2/3 экрана, изменение размера окна фиксит это
+    //Предполагаю это баг драйвера
+#ifdef _WIN32
+    sf_window->setSize({800u, 590u});
+#endif
+    
 
     sf_window->setKeyRepeatEnabled(false);
     
