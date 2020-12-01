@@ -44,6 +44,11 @@ function(add_resource_symlink_target)
     ${CMAKE_CURRENT_SOURCE_DIR}/maps
     ${CMAKE_CURRENT_BINARY_DIR}/maps
   )
+  add_custom_target(
+    create_system_exec_priority_symlink ALL COMMAND ${CMAKE_COMMAND} -E create_symlink
+    ${CMAKE_CURRENT_SOURCE_DIR}/systems-execute-priorities.txt
+    ${CMAKE_CURRENT_BINARY_DIR}/systems-execute-priorities.txt
+  )
 endfunction()
 
 if(WIN32)

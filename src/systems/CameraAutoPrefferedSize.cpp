@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/Camera.hpp>
 #include <components/Camera.hpp>
@@ -11,9 +10,6 @@ public:
   CameraAutoPrefferedSize(std::shared_ptr<service::Camera> camera_service):
     camera_service(std::move(camera_service))
   { }
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::CameraAutoPrefferedSize;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::CameraAutoPrefferedSize>(
       entt::exclude<component::KeepCameraProportions>

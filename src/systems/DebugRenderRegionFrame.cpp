@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/Camera.hpp>
 #include <components/Camera.hpp>
@@ -15,9 +14,6 @@ public:
   {
     shape.setFillColor({0,0,0,0});
     shape.setOutlineThickness(2.0f);
-  }
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::DebugRenderRegionFrame;
   }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::DebugRenderRegionFrame>();

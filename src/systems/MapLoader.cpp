@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <core/LoggerFactory.hpp>
 #include <services/PrototypeBuilder.hpp>
@@ -27,9 +26,6 @@ public:
     logger(std::move(logger)),
     prototype_builder(std::move(prototype_builder))
   {}
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::MapLoader;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::LoadMap>();
     //load_map передается не по ссылке потому что сразу удалим компонент

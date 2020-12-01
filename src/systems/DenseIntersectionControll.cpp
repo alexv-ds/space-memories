@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/World.hpp>
 #include <components/Position.hpp>
@@ -13,9 +12,6 @@ class DenseIntersectionControll final : public core::System {
   std::vector<entt::entity> querry_buffer;
 public:
   DenseIntersectionControll(std::shared_ptr<service::World> world): world(std::move(world)) {}
-  void setup(Settings& setting) const override {
-    setting.priority = update_priority::DenseIntersectionControll;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Position,
                               component::Body,

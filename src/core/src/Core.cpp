@@ -41,7 +41,8 @@ int Core::main() {
   SystemRegistry system_registry(
     std::move(logger_factory->create_logger("core::SystemRegistry")),
     service_locator,
-    registry
+    registry,
+    service_locator->get<Process>()
   );
 
   logger->info("Начало главного цикла");

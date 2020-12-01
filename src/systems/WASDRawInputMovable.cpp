@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/Input.hpp>
 #include <components/Input.hpp>
@@ -12,10 +11,6 @@ class WASDRawInputMovable final : public core::System {
   float speed = 0.1f;
 public:
   WASDRawInputMovable(std::shared_ptr<service::Input> input): input(input) {}
-
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::WASDRawInputMovable;
-  }
 
   void update(entt::registry& registry) override {
     auto view = registry.view<component::WASDRawInputMovable, component::Position>();

@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/World.hpp>
 
@@ -19,9 +18,6 @@ public:
       p_registry->on_update<component::Position>().disconnect<&service::World::update_entity>(world.get());
       p_registry->on_update<component::Body>().disconnect<&service::World::update_entity>(world.get());
     }
-  }
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::WorldUpdate;
   }
 
   void init(entt::registry& registry) override {

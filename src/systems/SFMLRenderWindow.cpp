@@ -1,7 +1,6 @@
 #include <core/define_system.hpp>
 #include <services/SFMLRenderWindow.hpp>
 #include <components/RenderWindow.hpp>
-#include "system_update_priority.hpp"
 
 namespace {
 
@@ -13,9 +12,6 @@ class SFMLRenderWindow final : public core::System {
 
 public:
   SFMLRenderWindow(std::shared_ptr<service::SFMLRenderWindow>);
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::SFMLRenderWindow;
-  }
 
   void init(entt::registry& registry) override {
     this->registry = &registry;

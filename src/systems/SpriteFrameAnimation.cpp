@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <components/Sprite.hpp>
 #include <services/Time.hpp>
@@ -15,9 +14,6 @@ public:
     sprite_manager(std::move(sprite_manager)),
     time(std::move(time))
   {}
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::SpriteFrameAnimation;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Sprite, component::SpriteFrameAnimation>();
     float dtime = time->get_delta();

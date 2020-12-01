@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <components/Sprite.hpp>
 #include <services/SpriteManager.hpp>
@@ -11,9 +10,6 @@ public:
   AddSpriteFrameeAnimationIfNeeded(std::shared_ptr<service::SpriteManager> sprite_manager):
     sprite_manager(std::move(sprite_manager))
   {}
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::AddSpriteFrameeAnimationIfNeeded;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::AddSpriteFrameeAnimationIfNeeded>();
     view.each([this, &registry](auto entity) {

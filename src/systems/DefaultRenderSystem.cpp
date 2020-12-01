@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/Camera.hpp>
 #include <services/World.hpp>
@@ -65,10 +64,6 @@ public:
     world(std::move(world)),
     sprite_manager(std::move(sprite_manager))
   {}
-
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::DefaultRenderSystem;
-  }
 
   void update(entt::registry& registry) override {
     auto view = registry.view<component::Camera, component::Position>();

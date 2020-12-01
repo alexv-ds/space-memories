@@ -3,7 +3,6 @@
 #include <core/Process.hpp>
 #include <core/LoggerFactory.hpp>
 #include <components/ExitAfterNSec.hpp>
-#include "system_update_priority.hpp"
 
 namespace {
 
@@ -18,9 +17,6 @@ public:
     this->logger = logger;
     this->process = process;
     std::time(&last_time);
-  }
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::ExitAfter10sec;
   }
   void update(entt::registry& registry) override {
     time_t current_time;

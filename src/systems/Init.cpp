@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <core/LoggerFactory.hpp>
 #include <core/Process.hpp>
@@ -22,10 +21,6 @@ public:
     prototype_builder(prototype_builder),
     process(process)
   {}
-
-  void setup(Settings& setting) const override {
-    setting.priority = update_priority::Init;
-  }
 
   void init(entt::registry& registry) override {
     entt::entity window = prototype_builder->build("main_window", registry);

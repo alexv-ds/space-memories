@@ -1,5 +1,5 @@
 target_sources(main PRIVATE
-  ExitAfter10sec.cpp
+  ExitAfterNsec.cpp
   Init.cpp
   SFMLRenderWindow.cpp
   RenderBegin.cpp

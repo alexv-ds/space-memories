@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/SFMLRenderWindow.hpp>
 #include <services/Input.hpp>
@@ -15,9 +14,6 @@ class ListenWindowEvents : public core::System {
 
 public:
   ListenWindowEvents(std::shared_ptr<service::SFMLRenderWindow>);
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::ListenWindowEvents;
-  }
   void update(entt::registry& registry) override {
     for (entt::entity entity : registry.view<component::RenderWindow>()) {
       sf::RenderWindow* window = render_window_service->get_window(entity);

@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <components/Sprite.hpp>
 #include <components/Position.hpp>
@@ -13,9 +12,6 @@ public:
   SpaceIconInitialise(std::shared_ptr<service::SpriteManager> sprite_manager):
     sprite_manager(std::move(sprite_manager))
   {}
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::SpaceIconInitialise;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::SpaceIconInitialise>();
     //space_initialise не по константной ссылке потому что муваем строку

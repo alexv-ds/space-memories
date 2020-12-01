@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/SFMLRenderWindow.hpp>
 #include <components/Input.hpp>
@@ -12,9 +11,6 @@ class ImguiUpdate final : public core::System {
   sf::Clock delta_clock;
 public:
   ImguiUpdate(std::shared_ptr<service::SFMLRenderWindow>);
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::ImguiUpdate;
-  }
   void update(entt::registry& registry) override {
     sf::Time delta = delta_clock.restart();
     for (entt::entity entity : registry.view<component::RenderWindow>()) {

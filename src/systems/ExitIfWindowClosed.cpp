@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <core/Process.hpp>
 #include <components/RenderWindow.hpp>
@@ -10,9 +9,6 @@ class ExitIfWindowClosed final : public core::System {
   std::string msg;
 public:
   ExitIfWindowClosed(std::shared_ptr<core::Process> process): process(process) {}
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::ExitIfWindowClosed;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::ExitIfWindowClosed>(entt::exclude<component::RenderWindow>);
     for (entt::entity entity : view) {

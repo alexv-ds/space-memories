@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/SFMLRenderWindow.hpp>
 #include <components/Input.hpp>
@@ -12,9 +11,6 @@ class ImguiDebugMenu final : public core::System {
   std::shared_ptr<service::SFMLRenderWindow> sfml_render_window;
 public:
   ImguiDebugMenu(std::shared_ptr<service::SFMLRenderWindow>);
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::ImguiDebugMenu;
-  }
   void update(entt::registry& registry) override {
     auto view = registry.view<component::ImguiDebugMenu, component::RenderWindow>();
     view.each([this](auto entity) {

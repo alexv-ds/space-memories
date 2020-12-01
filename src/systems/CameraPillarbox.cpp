@@ -1,4 +1,3 @@
-#include "system_update_priority.hpp"
 #include <core/define_system.hpp>
 #include <services/SFMLRenderWindow.hpp>
 #include <services/Camera.hpp>
@@ -22,10 +21,6 @@ public:
   {
     shape.setFillColor({0,0,0,0});
     shape.setOutlineColor(sf::Color::Black);
-  }
-
-  void setup(Settings& settings) const override {
-    settings.priority = update_priority::CameraPillarbox;
   }
 
   void update(entt::registry& registry) override {
