@@ -37,6 +37,17 @@ public:
     }
     registry.emplace_or_replace<component::WASDRawInputMovable>(camera, window);
     registry.emplace_or_replace<component::BindCameraToRenderWindow>(camera, window);
+    registry.emplace_or_replace<component::CopyWindowEvents>(camera, window);
+    
+    for (int x = -10; x < 50; ++x) {
+      for (int y = -10; y < 50; ++y) {
+        entt::entity space = prototype_builder->build("turf/space", registry);
+        if (space == entt::null) {
+          continue;
+        }
+        registry.emplace_or_replace<component::Position>(space, (float)x, (float)y, -1.0f);
+      }
+    }
   }
 
   void update(entt::registry& registry) override {

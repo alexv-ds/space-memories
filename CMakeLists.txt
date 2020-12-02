@@ -27,6 +27,7 @@ add_subdirectory(src/systems)
 add_subdirectory(src/components)
 add_subdirectory(src/services)
 add_subdirectory(src/prototype_component_builders)
+add_subdirectory(src/helpers)
 
 function(add_resource_symlink_target)
   add_custom_target(

@@ -1,6 +1,5 @@
 #include <core/define_system.hpp>
 #include <services/SFMLRenderWindow.hpp>
-#include <services/Input.hpp>
 #include <components/RenderWindow.hpp>
 #include <components/Input.hpp>
 #include <SFML/Window.hpp>
@@ -20,13 +19,13 @@ public:
       if (!window) {
         continue;
       }
+      event_buffer.clear();
       sf::Event event;
       while (window->pollEvent(event)) {
         event_buffer.push_back(event);
       }
       if (registry.has<component::ListenWindowEvents>(entity)) {
         registry.patch<component::ListenWindowEvents>(entity, [this](auto& listen_comp) {
-          listen_comp.events.clear();//Из-за этого не нужно очищать event_buffer
           std::swap(listen_comp.events, event_buffer); //Из-за этого не нужно очищать event_buffer
         });
       }

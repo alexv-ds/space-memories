@@ -22,5 +22,7 @@ if (NOT WIN32)
 endif()
 
 target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
-
 target_link_libraries(main PRIVATE ImGui-SFML)
+target_link_libraries(main PRIVATE helpers::helpers)
+
+

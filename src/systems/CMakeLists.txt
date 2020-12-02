@@ -20,10 +20,12 @@ target_sources(main PRIVATE
   DenseIntersectionControll.cpp
   AddSpriteFrameeAnimationIfNeeded.cpp
   SpaceIconInitialise.cpp
-  InputServiceUpdate.cpp
-  InputServiceClear.cpp
+  InputUpdate.cpp
+  InputClear.cpp
   CloseWindowEventHandler.cpp
   ImguiUpdate.cpp
   ImguiRender.cpp
   ImguiDebugMenu.cpp
+  CopyWindowEvents.cpp
+  ListenWindowEventsClear.cpp
 )

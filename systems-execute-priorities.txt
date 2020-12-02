@@ -3,7 +3,8 @@ system::WorldUpdate
 system::ListenWindowEvents
 system::ImguiUpdate
 system::ImguiDebugMenu
-system::InputServiceUpdate
+system::CopyWindowEvents
+system::InputUpdate
 system::WASDRawInputMovable
 system::DenseIntersectionControll
 system::ExitAfterNsec
@@ -20,8 +21,9 @@ system::DebugRenderRegionFrame
 system::ImguiRender
 system::RenderEnd
 system::SFMLRenderWindow
-system::InputServiceClear
 system::Init
 system::MapLoader
 system::CloseWindowEventHandler
 system::ExitIfWindowClosed
+system::InputClear
+system::ListenWindowEventsClear

@@ -8,7 +8,7 @@
     "component::LoadMap" : {
       "file" : "maps/room.json"
     },
-    "component::ImguiDebugMenu" : {}
+    "component::DebugSystemMenu" : {}
   },
   {
     "name" : "main_camera",
@@ -30,6 +30,7 @@
       "color" : [255,255,0,180]
     },
     "component::DenseIntersectionControll" : {},
-    "component::DenseObject" : {}
+    "component::DenseObject" : {},
+    "component::ListenKeyboard" : {}
   }
 ]
