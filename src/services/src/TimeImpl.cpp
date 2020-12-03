@@ -5,6 +5,7 @@
 namespace service {
 
 class TimeImpl final : public Time {
+  using FpSecondsDuration = std::chrono::duration<float, std::chrono::seconds::period>;
 public:
   TimeImpl(): start_time(std::chrono::steady_clock::now()) {}
 
@@ -13,15 +14,19 @@ public:
   }
 
   void update() override {
-    using FpSecondsDuration = std::chrono::duration<float, std::chrono::seconds::period>;
     ++tick;
     std::chrono::steady_clock::time_point current_time = std::chrono::steady_clock::now();
     float fp_current_time = FpSecondsDuration(current_time - start_time).count();
     delta = fp_current_time - time;
     time = fp_current_time;
   }
+  
+  float get_real_time() const noexcept override {
+    return FpSecondsDuration(std::chrono::high_resolution_clock::now() - start_time).count();
+  }
+  
 private:
-  std::chrono::steady_clock::time_point start_time;
+  const std::chrono::steady_clock::time_point start_time;
 };
 
 CORE_DEFINE_SERVICE(Time, "service::Time", core::after(), [](core::ServiceLocator&) {

@@ -9,6 +9,7 @@ public:
   inline float get_time() const noexcept;
   inline float get_delta() const noexcept;
   inline std::uintmax_t get_tick() const noexcept;
+  virtual float get_real_time() const noexcept = 0;
 
   virtual void update() = 0;
   virtual ~Time() = default;
