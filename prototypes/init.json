@@ -8,7 +8,7 @@
     "component::LoadMap" : {
       "file" : "maps/room.json"
     },
-    "component::DebugSystemMenu" : {}
+    "component::UseDebugMenus" : {}
   },
   {
     "name" : "main_camera",

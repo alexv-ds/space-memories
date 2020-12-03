@@ -6,3 +6,9 @@ PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::DebugSystemMenu",
     return component::DebugSystemMenu();
   }
 );
+
+PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::UseDebugMenus",
+  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
+    return component::UseDebugMenus();
+  }
+);
