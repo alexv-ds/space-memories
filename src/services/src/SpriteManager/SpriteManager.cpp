@@ -3,7 +3,6 @@
 #include <services/Time.hpp>
 #include <services/SpriteManager.hpp>
 #include <lodepng.h>
-#include <chrono>
 #include <map>
 #include <vector>
 #include "SpriteSheet.hpp"
@@ -12,7 +11,7 @@
 
 namespace service {
 
-class SpriteManagerImpl : public SpriteManager {
+class SpriteManagerImpl final : public SpriteManager {
   std::shared_ptr<core::Logger> logger;
   std::shared_ptr<service::Time> time;
   std::vector<std::unique_ptr<SpriteSheet>> sprite_sheets;
@@ -66,7 +65,7 @@ std::string_view SpriteManagerImpl::impl_name() const noexcept {
 }
 
 component::Sprite SpriteManagerImpl::load_sprite(std::string_view name, std::string_view state) {
-  auto time_begin = std::chrono::steady_clock::now();
+  float time_begin = time->get_real_time();
   auto it = loaded_sprite_sheets.find({name.begin(), name.end()});
   if (it != loaded_sprite_sheets.end()) {
     if (it->second < 0) {
@@ -86,9 +85,8 @@ component::Sprite SpriteManagerImpl::load_sprite(std::string_view name, std::str
   sprite_sheets.push_back(std::move(sprite_sheet));
   sprite.icon = sprite_sheets.size() - 1;
   loaded_sprite_sheets[{name.begin(), name.end()}] = sprite.icon;
-  auto time_end = std::chrono::steady_clock::now();
-  std::chrono::duration<float, std::milli> elapsed_ms = time_end - time_begin;
-  logger->info("Загружен {}, id {}, время {:03.2f} мс", name, sprite.icon, elapsed_ms.count());
+  float time_end = time->get_real_time();
+  logger->info("Загружен {}, id {}, время {:03.2f} мс", name, sprite.icon, (time_end - time_begin) * 1000.0f);
   return sprite;
 }
 
