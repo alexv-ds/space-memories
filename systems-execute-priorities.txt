@@ -2,9 +2,9 @@ system::TimeUpdate
 system::WorldUpdate
 system::ListenWindowEvents
 system::ImguiUpdate
-system::ImguiDebugMenu
 system::CopyWindowEvents
 system::InputUpdate
+system::ImguiDebugMenu
 system::WASDRawInputMovable
 system::DenseIntersectionControll
 system::ExitAfterNsec
