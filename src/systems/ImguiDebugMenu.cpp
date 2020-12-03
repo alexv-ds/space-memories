@@ -9,20 +9,20 @@
 
 namespace {
 
-class ImguiMenuToggler {
+class ImguiMenuActivator {
 public:
   const char* name;
   
-  ImguiMenuToggler(const char* name): name(name) {}
+  ImguiMenuActivator(const char* name): name(name) {}
   virtual void toggle(entt::registry&, entt::entity) = 0;
-  virtual ~ImguiMenuToggler() = default;
+  virtual ~ImguiMenuActivator() = default;
 };
 
 template <class T>
-class ImguiMenuTogglerImpl final : public ImguiMenuToggler {
+class ImguiMenuActivatorImpl final : public ImguiMenuActivator {
   using ShowMenuFunc = std::function<void(entt::registry&, entt::entity)>;
 public:
-  ImguiMenuTogglerImpl(const char* name): ImguiMenuToggler(name) {};
+  ImguiMenuActivatorImpl(const char* name): ImguiMenuActivator(name) {};
   void toggle(entt::registry& registry, entt::entity entity) override {
     if (registry.has<T>(entity)) {
       registry.remove<T>(entity);
@@ -33,8 +33,8 @@ public:
 };
 
 template <class T>
-std::unique_ptr<ImguiMenuToggler> create_toggler(const char* name) {
-  return std::make_unique<ImguiMenuTogglerImpl<T>>(name);
+std::unique_ptr<ImguiMenuActivator> create_activator(const char* name) {
+  return std::make_unique<ImguiMenuActivatorImpl<T>>(name);
 }
 
 class ImguiDebugMenu final : public core::System {
@@ -42,7 +42,8 @@ class ImguiDebugMenu final : public core::System {
   std::shared_ptr<core::SystemManager> system_manager;
   entt::observer keyboad_update_observer;
   entt::registry* p_registry = nullptr;
-  std::map<sf::Keyboard::Key, std::unique_ptr<ImguiMenuToggler>> menu_activators;
+  std::map<sf::Keyboard::Key, std::unique_ptr<ImguiMenuActivator>> menu_activators;
+  std::vector<entt::entity> to_remove_entities_buffer; //используется в функциях рисования меню
   
 public:
   ImguiDebugMenu(std::shared_ptr<service::SFMLRenderWindow>,
@@ -62,12 +63,17 @@ public:
   void update(entt::registry& registry) override {
     process_menu_activators(registry);
     debug_system_menu(registry);
-    //ImGui::ShowDemoWindow();
+    debug_menus_list(registry);
+    debug_system_performance_menu(registry);
+    debug_imgui_demo(registry);
+    
   }
   
   void process_menu_activators(entt::registry& registry);
   void debug_system_menu(entt::registry& registry);
-  
+  void debug_menus_list(entt::registry& registry);
+  void debug_imgui_demo(entt::registry& registry);
+  void debug_system_performance_menu(entt::registry& registry);
 };
 
 CORE_DEFINE_SYSTEM("system::ImguiDebugMenu", [](core::ServiceLocator& locator){
@@ -82,7 +88,10 @@ ImguiDebugMenu::ImguiDebugMenu(std::shared_ptr<service::SFMLRenderWindow> sfml_r
   sfml_render_window(std::move(sfml_render_window)),
   system_manager(std::move(system_manager))
 {
-  menu_activators[sf::Keyboard::F2] = create_toggler<component::DebugSystemMenu>("System Menu");
+  menu_activators[sf::Keyboard::F1] = create_activator<component::DebugMenusList>("Debug Menus List");
+  menu_activators[sf::Keyboard::F2] = create_activator<component::DebugSystemMenu>("System");
+  menu_activators[sf::Keyboard::F3] = create_activator<component::DebugSystemPerformance>("System Performance");
+  menu_activators[sf::Keyboard::F4] = create_activator<component::DebugImguiDemoMenu>("Imgui Demo");
 }
 
 void ImguiDebugMenu::process_menu_activators(entt::registry& registry) {
@@ -101,10 +110,10 @@ void ImguiDebugMenu::process_menu_activators(entt::registry& registry) {
 }
 
 void ImguiDebugMenu::debug_system_menu(entt::registry& registry) {
-  std::vector<entt::entity> to_remove_entities;
+  to_remove_entities_buffer.clear();
   
   auto view = registry.view<component::DebugSystemMenu, component::RenderWindow>();
-  view.each([this, &to_remove_entities](auto entity) {
+  view.each([this](auto entity) {
     sf::RenderWindow* window = sfml_render_window->get_window(entity);
     if (!window) {
       return;
@@ -128,11 +137,75 @@ void ImguiDebugMenu::debug_system_menu(entt::registry& registry) {
       
     }
     if (!show_window) {
-      to_remove_entities.push_back(entity);
+      to_remove_entities_buffer.push_back(entity);
     }
     ImGui::End();
   });
-  registry.remove<component::DebugSystemMenu>(to_remove_entities.begin(), to_remove_entities.end());
+  registry.remove<component::DebugSystemMenu>(to_remove_entities_buffer.begin(), to_remove_entities_buffer.end());
+}
+
+void ImguiDebugMenu::debug_menus_list(entt::registry& registry) {
+  to_remove_entities_buffer.clear();
+  auto view = registry.view<component::DebugMenusList, component::RenderWindow>();
+  view.each([this, &registry](auto entity) {
+    sf::RenderWindow* window = sfml_render_window->get_window(entity);
+    if (!window) {
+      return;
+    }
+    ImGui::SFML::SetCurrentWindow(*window);
+    bool show_window = true;
+    if (ImGui::Begin("Debug Menus List", &show_window, ImGuiWindowFlags_NoCollapse)) {
+      for (auto& [key, p_menu_activator] : menu_activators) {
+        if (ImGui::Button(p_menu_activator->name, {200,0})) {
+          p_menu_activator->toggle(registry, entity);
+        }
+      }
+    }
+    if (!show_window) {
+      to_remove_entities_buffer.push_back(entity);
+    }
+    ImGui::End();
+  });
+  registry.remove<component::DebugMenusList>(to_remove_entities_buffer.begin(), to_remove_entities_buffer.end()); 
+}
+
+void ImguiDebugMenu::debug_imgui_demo(entt::registry& registry) {
+  to_remove_entities_buffer.clear();
+  auto view = registry.view<component::DebugImguiDemoMenu, component::RenderWindow>();
+  view.each([this, &registry](auto entity) {
+    sf::RenderWindow* window = sfml_render_window->get_window(entity);
+    if (!window) {
+      return;
+    }
+    ImGui::SFML::SetCurrentWindow(*window);
+    bool show_window = true;
+    ImGui::ShowDemoWindow(&show_window);
+    if (!show_window) {
+      to_remove_entities_buffer.push_back(entity);
+    }
+  });
+  registry.remove<component::DebugImguiDemoMenu>(to_remove_entities_buffer.begin(), to_remove_entities_buffer.end());   
+}
+
+void ImguiDebugMenu::debug_system_performance_menu(entt::registry& registry) {
+  to_remove_entities_buffer.clear();
+  auto view = registry.view<component::DebugSystemPerformance, component::RenderWindow>();
+  view.each([this, &registry](auto entity) {
+    sf::RenderWindow* window = sfml_render_window->get_window(entity);
+    if (!window) {
+      return;
+    }
+    ImGui::SFML::SetCurrentWindow(*window);
+    bool show_window = true;
+    if (ImGui::Begin("System Performance", &show_window, ImGuiWindowFlags_NoCollapse)) {
+    
+    }
+    if (!show_window) {
+      to_remove_entities_buffer.push_back(entity);
+    }
+    ImGui::End();
+  });
+  registry.remove<component::DebugSystemPerformance>(to_remove_entities_buffer.begin(), to_remove_entities_buffer.end());   
 }
 
 }
