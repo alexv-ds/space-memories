@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <exception>
 #include <fstream>
+#include <chrono>
 #include <core/define_system.hpp>
 #include "SystemRegistry.hpp"
 
@@ -18,11 +19,24 @@ SystemRegistry::SystemRegistry(std::shared_ptr<Logger> logger,
 {}
 
 void SystemRegistry::update() {
+  auto full_update_t1 = std::chrono::high_resolution_clock::now();
   for (SystemData& system_data : systems) {
     if (system_data.system) {
+      auto t1 = std::chrono::high_resolution_clock::now();
       system_data.system->update(*registry);
+      auto t2 = std::chrono::high_resolution_clock::now();
+      std::chrono::duration<double> second_duraton = t2 - t1;
+      system_data.current_execution_time = second_duraton.count();
+    } else {
+      system_data.current_execution_time = 0;
     }
   }
+  for (SystemData& system_data : systems) {
+    system_data.execution_time = system_data.current_execution_time;
+  }
+  auto full_update_t2 = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> second_duraton = full_update_t2 - full_update_t1;
+  update_time = second_duraton.count();
 }
 
 std::unordered_map<std::string, int> SystemRegistry::load_systems_priorities() {
