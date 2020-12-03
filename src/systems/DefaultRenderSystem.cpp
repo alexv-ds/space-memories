@@ -90,9 +90,8 @@ public:
         shape.setSize({rect.width, rect.height});
         shape.setPosition({rect.left, rect.top});
         shape.setFillColor(elem.p_render_mode->color);
-        const component::Sprite* p_sprite = registry.try_get<component::Sprite>(elem.entity);
-        if (p_sprite) {
-          const auto [texture, texture_rect] = sprite_manager->get_texture(*p_sprite);
+        if (registry.has<component::Sprite>(elem.entity)) {
+          const auto [texture, texture_rect] = sprite_manager->get_texture(registry, elem.entity);
           if (texture) {
             shape.setTexture(texture);
             shape.setTextureRect(texture_rect);

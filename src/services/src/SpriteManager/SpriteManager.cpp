@@ -5,6 +5,7 @@
 #include <lodepng.h>
 #include <map>
 #include <vector>
+#include <cmath>
 #include "SpriteSheet.hpp"
 #include "DmiMetadata.hpp"
 #include "fix_me_png_icon.h"
@@ -24,8 +25,9 @@ public:
   std::string_view impl_name() const noexcept override;
 
   component::Sprite load_sprite(std::string_view name, std::string_view state = "") override;
-  std::pair<sf::Texture*, sf::IntRect> get_texture(const component::Sprite& sprite) override;
+  std::pair<sf::Texture*, sf::IntRect> get_texture(const entt::registry&, entt::entity) override;
   const State* get_sprite_data(int icon, int state) override;
+  void update() noexcept override;
 private:
   std::unique_ptr<SpriteSheet> load_sfml(std::string_view file); //bmp, png, tga, jpg, psd, hdr and pic
   std::unique_ptr<SpriteSheet> load_dmi(std::string_view file); //dmi
@@ -90,24 +92,36 @@ component::Sprite SpriteManagerImpl::load_sprite(std::string_view name, std::str
   return sprite;
 }
 
-std::pair<sf::Texture*, sf::IntRect> SpriteManagerImpl::get_texture(const component::Sprite& sprite) {
-  if (sprite.icon < 0 || sprite.state < 0) {
+std::pair<sf::Texture*, sf::IntRect> SpriteManagerImpl::get_texture(const entt::registry& registry, entt::entity entity) {
+  const component::Sprite* p_sprite = registry.try_get<component::Sprite>(entity);
+  if (!p_sprite) {
     return get_error_texture();
   }
-  size_t sprite_sheet_index = static_cast<size_t>(sprite.icon);
+  if (p_sprite->icon < 0 || p_sprite->state < 0) {
+    return get_error_texture();
+  }
+  size_t sprite_sheet_index = static_cast<size_t>(p_sprite->icon);
   if (sprite_sheet_index >= sprite_sheets.size()) {
     return get_error_texture();
   }
   const std::unique_ptr<SpriteSheet>& sprite_sheet = sprite_sheets[sprite_sheet_index];
-  size_t state_index = static_cast<size_t>(sprite.state);
+  size_t state_index = static_cast<size_t>(p_sprite->state);
   if (state_index >= sprite_sheet->states.size()) {
     return get_error_texture();
   }
-  size_t dir_index = static_cast<size_t>(sprite.dir);
+  size_t dir_index = static_cast<size_t>(p_sprite->dir);
   if (dir_index >= sprite_sheet->states[state_index].dirs.size()) {
     return get_error_texture();
   }
-  size_t frame_index = static_cast<size_t>(sprite.frame);
+  
+  size_t frame_index;
+  const component::ForceSpriteFrame* p_force_frame = registry.try_get<component::ForceSpriteFrame>(entity);
+  if (p_force_frame) {
+    frame_index = p_force_frame->frame;
+  } else {
+    frame_index = static_cast<size_t>(sprite_sheet->states[state_index].frame);
+  }
+ 
   if (frame_index >= sprite_sheet->states[state_index].dirs[dir_index].size()) {
     return get_error_texture();
   }
@@ -235,7 +249,9 @@ std::unique_ptr<SpriteSheet> SpriteManagerImpl::load_dmi(std::string_view file) 
     }
     for (float& delay : state.delays) {
       delay /= 10; //потому что в бьенде указано время в тиках (1 тик 1/10 секунды)
+      state.full_animation_time += delay;
     }
+    
     sprite_sheet->states.push_back(std::move(state));
   }
   return sprite_sheet;
@@ -255,6 +271,26 @@ const State* SpriteManagerImpl::get_sprite_data(int icon, int state) {
     return nullptr;
   }
   return &(sprite_sheet->states[state_index]);
+}
+
+void SpriteManagerImpl::update() noexcept {
+  float current_time = time->get_time();
+  for (std::unique_ptr<SpriteSheet>& p_sprite_sheet : sprite_sheets) {
+    for (State& state : p_sprite_sheet->states) {
+      if (state.delays.size() == 0) {
+        continue;
+      }
+      float modulo = std::fmod(current_time, state.full_animation_time > 0.0f ? state.full_animation_time : 1.0f);
+      size_t frame = 0;
+      for (; frame < state.delays.size(); ++frame) {
+        modulo -= state.delays[frame];
+        if (modulo <= 0) {
+          break;
+        }
+      }
+      state.frame = static_cast<int>(frame);
+    }
+  }
 }
 
 }

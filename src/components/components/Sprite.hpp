@@ -25,4 +25,8 @@ struct SpaceIconInitialise {
   std::string dmi;
 };
 
+struct ForceSpriteFrame {
+  int frame = 0;
+};
+
 }

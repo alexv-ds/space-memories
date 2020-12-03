@@ -1,4 +1,5 @@
 system::TimeUpdate
+system::SpriteManagerUpdate
 system::WorldUpdate
 system::ListenWindowEvents
 system::ImguiUpdate
@@ -13,7 +14,6 @@ system::PixelPerfectCameraSize
 system::CameraFixedUnitSize
 system::SpaceIconInitialise
 system::AddSpriteFrameeAnimationIfNeeded
-system::SpriteFrameAnimation
 system::RenderBegin
 system::DefaultRenderSystem
 system::CameraPillarbox

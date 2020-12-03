@@ -15,7 +15,6 @@ target_sources(main PRIVATE
   CameraAutoPrefferedSize.cpp
   CameraFixedUnitSize.cpp
   DefaultRenderSystem.cpp
-  SpriteFrameAnimation.cpp
   MapLoader.cpp
   DenseIntersectionControll.cpp
   AddSpriteFrameeAnimationIfNeeded.cpp
@@ -28,4 +27,5 @@ target_sources(main PRIVATE
   ImguiDebugMenu.cpp
   CopyWindowEvents.cpp
   ListenWindowEventsClear.cpp
+  SpriteManagerUpdate.cpp
 )

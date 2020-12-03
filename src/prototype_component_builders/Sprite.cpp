@@ -47,3 +47,18 @@ PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::SpaceIconInitialise",
     return component::SpaceIconInitialise({std::move(str_dmi)});
   }
 );
+
+PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::ForceSpriteFrame",
+  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
+    component::ForceSpriteFrame force_frame;
+    nlohmann::json& j_frame = json["frame"];
+    if (j_frame.is_null()) {
+      return force_frame;
+    }
+    if (!j_frame.is_number_integer()) {
+      logger.warn("[component::ForceSpriteFrame] frame должен быть целым числом");
+    }
+    force_frame.frame = j_frame.get<int>();
+    return force_frame;
+  }
+);
