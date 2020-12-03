@@ -106,12 +106,13 @@ void SystemRegistry::init_embeded_systems() {
     system_data.priority = priorities_it->second;
     systems.push_back(std::move(system_data));
   }
+  logger->info("Всего систем: {}", systems.size());
   logreport_unused_systems(priorities);
   
   sort_systems();
   for (SystemData& system_data : systems) {
     enable_system(system_data);
-  }  
+  } 
 }
 
 const std::vector<SystemRegistry::SystemData>& SystemRegistry::get_systems() const {
