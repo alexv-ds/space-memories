@@ -1,19 +1,14 @@
 #include <core/define_system.hpp>
-#include <services/Camera.hpp>
 #include <components/Camera.hpp>
 
 namespace {
 
 class PixelPerfectCameraSize : public core::System {
-  std::shared_ptr<service::Camera> camera_service;
 public:
-  PixelPerfectCameraSize(std::shared_ptr<service::Camera> camera_service):
-    camera_service(std::move(camera_service))
-  {}
   void update(entt::registry& registry) override {
-    auto view = registry.view<component::Camera, component::PixelPerfectCameraSize>();
-    view.each([&registry, this](auto entity, auto camera, const auto& pixel_perfect) {
-      const sf::Vector2f draw_size = camera_service->get_render_region(entity, registry).getSize();
+    auto view = registry.view<component::Camera, component::PixelPerfectCameraSize, component::CameraRenderRegion>();
+    view.each([&registry, this](auto entity, auto camera, const auto& pixel_perfect, const auto& render_region) {
+      const sf::Vector2f draw_size = render_region.rect.getSize();
       int step_x = static_cast<int>(std::round(draw_size.x / camera.preferred_size_x));
       int step_y = static_cast<int>(std::round(draw_size.y / camera.preferred_size_y));
       step_x -= step_x % pixel_perfect.multiple_of;
@@ -31,11 +26,8 @@ public:
   }
 };
 
-
 CORE_DEFINE_SYSTEM("system::PixelPerfectCameraSize", [](core::ServiceLocator& locator){
-  return std::make_unique<PixelPerfectCameraSize>(
-    locator.get<service::Camera>()
-  );
+  return std::make_unique<PixelPerfectCameraSize>();
 });
 
 

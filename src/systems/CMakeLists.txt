@@ -28,4 +28,5 @@ target_sources(main PRIVATE
   CopyWindowEvents.cpp
   ListenWindowEventsClear.cpp
   SpriteManagerUpdate.cpp
+  CameraRenderRegionUpdate.cpp
 )

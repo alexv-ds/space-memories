@@ -2,6 +2,7 @@ system::TimeUpdate
 system::SpriteManagerUpdate
 system::WorldUpdate
 system::ListenWindowEvents
+system::CameraRenderRegionUpdate
 system::ImguiUpdate
 system::CopyWindowEvents
 system::InputUpdate

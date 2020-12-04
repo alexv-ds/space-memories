@@ -61,6 +61,12 @@ struct CameraFixedUnitSize {
   float y = 32.0f;
 };
 
+//Регион рендеринга в пикселях
+//C++ only
+struct CameraRenderRegion {
+  sf::FloatRect rect{0.0f,0.0f,100.0f,100.0f};
+};
+
 //C++ only
 struct OverrideRenderRegion {
   sf::FloatRect rect{0.0f,0.0f,100.0f,100.0f};

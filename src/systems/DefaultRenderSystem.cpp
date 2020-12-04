@@ -66,8 +66,8 @@ public:
   {}
 
   void update(entt::registry& registry) override {
-    auto view = registry.view<component::Camera, component::Position>();
-    view.each([this, &registry](auto entity, const auto& camera, const auto& position) {
+    auto view = registry.view<component::Camera, component::Position, component::CameraRenderRegion>();
+    view.each([this, &registry](auto entity, const auto& camera, const auto& position, const auto& render_region) {
       sf::RenderTarget* r_target = camera_service->get_render_target(entity, registry);
       if (!r_target) {
         return;
@@ -77,8 +77,7 @@ public:
       world->query_intersects_region(world_query_buffer, {position.x, position.y, camera.size_x, camera.size_y});
       fill_render_queue(registry);
 
-      sf::FloatRect render_region = camera_service->get_render_region(entity, registry);
-      sf::Transform render_transform = calculate_render_transform(render_region, camera, position);
+      sf::Transform render_transform = calculate_render_transform(render_region.rect, camera, position);
       for (const RenderElement& elem : render_queue) {
         sf::FloatRect rect(
           elem.p_position->x + (0.5f - elem.p_body->size_x / 2.0f),

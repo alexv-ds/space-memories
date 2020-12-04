@@ -1,22 +1,17 @@
 #include <core/define_system.hpp>
-#include <services/Camera.hpp>
 #include <components/Camera.hpp>
 
 namespace {
 
 class CameraAutoPrefferedSize : public core::System {
-  std::shared_ptr<service::Camera> camera_service;
 public:
-  CameraAutoPrefferedSize(std::shared_ptr<service::Camera> camera_service):
-    camera_service(std::move(camera_service))
-  { }
   void update(entt::registry& registry) override {
-    auto view = registry.view<component::Camera, component::CameraAutoPrefferedSize>(
+    auto view = registry.view<component::Camera, component::CameraAutoPrefferedSize, component::CameraRenderRegion>(
       entt::exclude<component::KeepCameraProportions>
     );
 
-    view.each([&registry, this](auto entity, auto camera, const auto& auto_size) {
-      sf::Vector2f render_size = camera_service->get_render_region(entity, registry).getSize();
+    view.each([&registry, this](auto entity, auto camera, const auto& auto_size, const auto& render_region) {
+      sf::Vector2f render_size = render_region.rect.getSize();
       float combined_aspect_ratio = (render_size.x / render_size.y) / (auto_size.size_x / auto_size.size_y);
       if (combined_aspect_ratio > 1.0f) {
         camera.preferred_size_x = auto_size.size_x * combined_aspect_ratio;
@@ -31,9 +26,7 @@ public:
 };
 
 CORE_DEFINE_SYSTEM("system::CameraAutoPrefferedSize", [](core::ServiceLocator& locator){
-  return std::make_unique<CameraAutoPrefferedSize>(
-    locator.get<service::Camera>()
-  );
+  return std::make_unique<CameraAutoPrefferedSize>();
 });
 
 

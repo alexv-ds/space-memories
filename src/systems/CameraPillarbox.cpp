@@ -9,14 +9,11 @@
 namespace {
 
 class CameraPillarbox final : public core::System {
-  std::shared_ptr<service::SFMLRenderWindow> rwindow_service;
   std::shared_ptr<service::Camera> camera_service;
   sf::RectangleShape shape;
 public:
-  CameraPillarbox(std::shared_ptr<service::SFMLRenderWindow> rwindow,
-                  std::shared_ptr<service::Camera> camera):
+  CameraPillarbox(std::shared_ptr<service::Camera> camera):
       //init
-      rwindow_service(std::move(rwindow)),
       camera_service(std::move(camera))
   {
     shape.setFillColor({0,0,0,0});
@@ -24,19 +21,18 @@ public:
   }
 
   void update(entt::registry& registry) override {
-    auto view = registry.view<component::Camera, component::CameraPillarbox>();
-    view.each([&registry, this](entt::entity entity, const auto& cam){
+    auto view = registry.view<component::Camera, component::CameraRenderRegion, component::CameraPillarbox>();
+    view.each([&registry, this](entt::entity entity, const auto& cam, const auto& render_region){
       sf::RenderTarget* r_target = camera_service->get_render_target(entity, registry);
       if (!r_target) {
         return;
       }
-      sf::FloatRect region = camera_service->get_render_region(entity, registry);
 
-      shape.setPosition({region.left, region.top});
-      shape.setSize({region.width, region.height});
+      shape.setPosition({render_region.rect.left, render_region.rect.top});
+      shape.setSize({render_region.rect.width, render_region.rect.height});
 
       sf::Vector2u r_target_size = r_target->getSize();
-      sf::Vector2f region_size = region.getSize();
+      sf::Vector2f region_size = render_region.rect.getSize();
       float horizontal_space = static_cast<float>(r_target_size.x) - region_size.x;
       float vertical_space = static_cast<float>(r_target_size.y) - region_size.y;
       shape.setOutlineThickness(
@@ -49,7 +45,6 @@ public:
 
 CORE_DEFINE_SYSTEM("system::CameraPillarbox", [](core::ServiceLocator& locator){
   return std::make_unique<CameraPillarbox>(
-    locator.get<service::SFMLRenderWindow>(),
     locator.get<service::Camera>()
   );
 });

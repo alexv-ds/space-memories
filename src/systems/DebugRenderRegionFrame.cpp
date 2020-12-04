@@ -16,15 +16,14 @@ public:
     shape.setOutlineThickness(2.0f);
   }
   void update(entt::registry& registry) override {
-    auto view = registry.view<component::Camera, component::DebugRenderRegionFrame>();
-    view.each([&registry, this](auto entity, const auto& camera, const auto& debug_frame) {
+    auto view = registry.view<component::Camera, component::DebugRenderRegionFrame, component::CameraRenderRegion>();
+    view.each([&registry, this](auto entity, const auto& camera, const auto& debug_frame, const auto& render_region) {
       sf::RenderTarget* r_target = camera_service->get_render_target(entity, registry);
       if (!r_target) {
         return;
       }
-      sf::FloatRect r_region = camera_service->get_render_region(entity, registry);
-      shape.setPosition({r_region.left, r_region.top});
-      shape.setSize({r_region.width,r_region.height});
+      shape.setPosition({render_region.rect.left, render_region.rect.top});
+      shape.setSize({render_region.rect.width,render_region.rect.height});
       shape.setOutlineColor(debug_frame.color);
       r_target->draw(shape);
     });
