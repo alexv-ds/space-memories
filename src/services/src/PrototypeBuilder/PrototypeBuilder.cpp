@@ -3,6 +3,7 @@
 #include <services/PrototypeBuilder.hpp>
 #include <services/PrototypeBuilder/EmplacerBuilder.hpp>
 #include <services/PrototypeBuilder/define_component_builder.hpp>
+#include <components/ObjectTypes.hpp>
 #include <fstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -184,6 +185,7 @@ entt::entity PrototypeBuilderImpl::build(const std::string_view name, entt::regi
     for (std::unique_ptr<IComponentEmplacer>& empalcer : component_emplacers_it->second) {
       empalcer->emplace(entity, registry);
     }
+    registry.emplace_or_replace<component::Prototype>(entity, str_name);
     return entity;
   }
   auto prototype_it = prototypes.find(str_name);
@@ -229,6 +231,7 @@ entt::entity PrototypeBuilderImpl::build(const std::string_view name, entt::regi
   for (std::unique_ptr<IComponentEmplacer>& empalcer : emplacers) {
     empalcer->emplace(entity, registry);
   }
+  registry.emplace_or_replace<component::Prototype>(entity, str_name);
   component_emplacers.insert({str_name, std::move(emplacers)});
   return entity;
 }
