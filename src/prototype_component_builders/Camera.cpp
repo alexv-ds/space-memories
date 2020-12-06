@@ -42,3 +42,47 @@ PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::CameraFixedUnitSize",
     return fixed_size;
   }
 );
+
+PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::OverrideRenderRegion",
+  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
+    nlohmann::json& j_rect = json["rect"];
+    if (!j_rect.is_object()) {
+      logger.warn("[component::OverrideRenderRegion] rect должен быть объектом");
+      return component::OverrideRenderRegion();
+    }
+    nlohmann::json& j_left = j_rect["left"];
+    nlohmann::json& j_top = j_rect["top"];
+    nlohmann::json& j_width = j_rect["width"];
+    nlohmann::json& j_height = j_rect["height"];
+    
+    component::OverrideRenderRegion region;
+    if (!j_left.is_number()) {
+      logger.warn("[component::OverrideRenderRegion] rect.left должен быть числом");
+    } else {
+      region.rect.left = j_left.get<float>();
+    }
+    if (!j_top.is_number()) {
+      logger.warn("[component::OverrideRenderRegion] rect.top должен быть числом");
+    } else {
+      region.rect.top = j_top.get<float>();
+    }
+    if (!j_width.is_number()) {
+      logger.warn("[component::OverrideRenderRegion] rect.width должен быть числом");
+    } else {
+      region.rect.width = j_width.get<float>();
+    }
+    if (!j_height.is_number()) {
+      logger.warn("[component::OverrideRenderRegion] rect.height должен быть числом");
+    } else {
+      region.rect.height = j_height.get<float>();
+    }
+    return region;
+  }
+);
+
+PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::DebugRenderRegionFrame",
+  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
+    return component::DebugRenderRegionFrame();
+  }
+);
+

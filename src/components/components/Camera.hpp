@@ -42,9 +42,8 @@ struct CameraPillarbox {};
 struct KeepCameraProportions {};
 
 //Рамка (границой наружу) вокруг области рендеринга камеры
-//C++ only
 struct DebugRenderRegionFrame {
-  sf::Color color = sf::Color::White;
+  sf::Color color = sf::Color::White; //C++ only
 };
 
 //изменяет рекомендуемые размеры камеры так, что бы не было искажений
@@ -67,9 +66,8 @@ struct CameraRenderRegion {
   sf::FloatRect rect{0.0f,0.0f,100.0f,100.0f};
 };
 
-//C++ only
 struct OverrideRenderRegion {
-  sf::FloatRect rect{0.0f,0.0f,100.0f,100.0f};
+  sf::FloatRect rect{0.0f,0.0f,100.0f,100.0f}; //в json объект с числовыми полями, left, top, width, height
 };
 
 }
