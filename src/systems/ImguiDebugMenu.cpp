@@ -71,6 +71,7 @@ public:
     debug_menus_list(registry);
     debug_system_performance_menu(registry);
     debug_imgui_demo(registry);
+    debug_metrics_window(registry);
     
   }
   
@@ -79,6 +80,7 @@ public:
   void debug_menus_list(entt::registry& registry);
   void debug_imgui_demo(entt::registry& registry);
   void debug_system_performance_menu(entt::registry& registry);
+  void debug_metrics_window(entt::registry& registry);
 };
 
 CORE_DEFINE_SYSTEM("system::ImguiDebugMenu", [](core::ServiceLocator& locator){
@@ -100,6 +102,7 @@ ImguiDebugMenu::ImguiDebugMenu(std::shared_ptr<service::SFMLRenderWindow> sfml_r
   menu_activators[sf::Keyboard::F2] = create_activator<component::DebugSystemMenu>("Systems");
   menu_activators[sf::Keyboard::F3] = create_activator<component::DebugSystemPerformance>("Systems Performance");
   menu_activators[sf::Keyboard::F4] = create_activator<component::DebugImguiDemoMenu>("Imgui Demo");
+  menu_activators[sf::Keyboard::F5] = create_activator<component::DebugMetricsWindow>("Metrics");
 }
 
 void ImguiDebugMenu::process_menu_activators(entt::registry& registry) {
@@ -293,6 +296,24 @@ void ImguiDebugMenu::debug_system_performance_menu(entt::registry& registry) {
     ImGui::End();
   });
   registry.remove<component::DebugSystemPerformance>(to_remove_entities_buffer.begin(), to_remove_entities_buffer.end());   
+}
+
+void ImguiDebugMenu::debug_metrics_window(entt::registry& registry) {
+  to_remove_entities_buffer.clear();
+  auto view = registry.view<component::DebugMetricsWindow, component::RenderWindow>();
+  view.each([this, &registry](auto entity) {
+    sf::RenderWindow* window = sfml_render_window->get_window(entity);
+    if (!window) {
+      return;
+    }
+    ImGui::SFML::SetCurrentWindow(*window);
+    bool show_window = true;
+    ImGui::ShowMetricsWindow(&show_window);
+    if (!show_window) {
+      to_remove_entities_buffer.push_back(entity);
+    }
+  });
+  registry.remove<component::DebugMetricsWindow>(to_remove_entities_buffer.begin(), to_remove_entities_buffer.end());    
 }
 
 }

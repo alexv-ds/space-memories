@@ -30,6 +30,9 @@ struct DebugSystemPerformance {
   std::vector<ForVisualiseData> for_visualise;
   float current_real_time = 0; //При достижении секунды обновляtется вектор
   float start_real_time = 0;
-}; 
+};
+
+//C++ only
+struct DebugMetricsWindow {};
 
 }
