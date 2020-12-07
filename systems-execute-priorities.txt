@@ -10,14 +10,10 @@ system::ImguiDebugMenu
 system::WASDRawInputMovable
 system::DenseIntersectionControll
 system::ExitAfterNsec
-system::CameraAutoPrefferedSize
-system::PixelPerfectCameraSize
 system::CameraFixedUnitSize
 system::SpaceIconInitialise
-system::AddSpriteFrameeAnimationIfNeeded
 system::RenderBegin
 system::DefaultRenderSystem
-system::CameraPillarbox
 system::DebugRenderRegionFrame
 system::ImguiRender
 system::RenderEnd

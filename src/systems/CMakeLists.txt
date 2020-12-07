@@ -9,15 +9,11 @@ target_sources(main PRIVATE
   TimeUpdate.cpp
   WorldUpdate.cpp
   WASDRawInputMovable.cpp
-  CameraPillarbox.cpp
-  PixelPerfectCameraSize.cpp
   DebugRenderRegionFrame.cpp
-  CameraAutoPrefferedSize.cpp
   CameraFixedUnitSize.cpp
   DefaultRenderSystem.cpp
   MapLoader.cpp
   DenseIntersectionControll.cpp
-  AddSpriteFrameeAnimationIfNeeded.cpp
   SpaceIconInitialise.cpp
   InputUpdate.cpp
   InputClear.cpp

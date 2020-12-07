@@ -24,18 +24,6 @@ PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::Sprite",
   }
 );
 
-PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::SpriteFrameAnimation",
-  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
-    return component::SpriteFrameAnimation();
-  }
-);
-
-PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::AddSpriteFrameeAnimationIfNeeded",
-  [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
-    return component::AddSpriteFrameeAnimationIfNeeded();
-  }
-);
-
 PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::SpaceIconInitialise",
   [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
     nlohmann::json& j_dmi = json["dmi"];

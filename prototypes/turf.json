@@ -11,8 +11,7 @@
     "component::DefaultRenderMode" : {
       "color" : [255,255,255],
       "blend_mode" : "ALPHA"
-    },
-    "component::AddSpriteFrameeAnimationIfNeeded" : {}
+    }
   },
   {
     "name" : "turf/space",

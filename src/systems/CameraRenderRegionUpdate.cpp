@@ -45,21 +45,6 @@ public:
       region = p_region_override->rect;
       return true;
     }
-    if (registry.has<component::KeepCameraProportions>(entity)) {
-      float combined_aspect_ratio = (f_size.x / f_size.y) / (camera.size_x / camera.size_y);
-      if (combined_aspect_ratio > 1.0f) {
-        float region_size_x = f_size.x / combined_aspect_ratio;
-        region = sf::FloatRect((f_size.x - region_size_x) * 0.5f, 0.0f, region_size_x, f_size.y);
-        return true;
-      } else if (combined_aspect_ratio < 1.0f) {
-        float region_size_y = f_size.y * combined_aspect_ratio;
-        region = sf::FloatRect(0.0f, (f_size.y - region_size_y) * 0.5f, f_size.x, region_size_y);
-        return true;
-      } else {
-        region = sf::FloatRect(0.0f,0.0f, f_size.x, f_size.y);
-        return true;
-      }
-    }
     region = sf::FloatRect(0.0f,0.0f, f_size.x, f_size.y);
     return true;
   }
