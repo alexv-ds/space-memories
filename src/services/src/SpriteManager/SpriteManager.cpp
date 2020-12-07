@@ -24,7 +24,7 @@ public:
                     std::shared_ptr<service::Time>);
   std::string_view impl_name() const noexcept override;
 
-  component::Sprite load_sprite(std::string_view name, std::string_view state = "") override;
+  component::SpriteOld load_sprite(std::string_view name, std::string_view state = "") override;
   std::pair<sf::Texture*, sf::IntRect> get_texture(const entt::registry&, entt::entity) override;
   const State* get_sprite_data(int icon, int state) override;
   void update() noexcept override;
@@ -66,7 +66,7 @@ std::string_view SpriteManagerImpl::impl_name() const noexcept {
   return "service::SpriteManagerImpl";
 }
 
-component::Sprite SpriteManagerImpl::load_sprite(std::string_view name, std::string_view state) {
+component::SpriteOld SpriteManagerImpl::load_sprite(std::string_view name, std::string_view state) {
   float time_begin = time->get_real_time();
   auto it = loaded_sprite_sheets.find({name.begin(), name.end()});
   if (it != loaded_sprite_sheets.end()) {
@@ -82,7 +82,7 @@ component::Sprite SpriteManagerImpl::load_sprite(std::string_view name, std::str
     loaded_sprite_sheets[{name.begin(), name.end()}] = -1;
     return {-1, -1};
   }
-  component::Sprite sprite;
+  component::SpriteOld sprite;
   sprite.state = sprite_sheet->find(state);
   sprite_sheets.push_back(std::move(sprite_sheet));
   sprite.icon = sprite_sheets.size() - 1;
@@ -93,7 +93,7 @@ component::Sprite SpriteManagerImpl::load_sprite(std::string_view name, std::str
 }
 
 std::pair<sf::Texture*, sf::IntRect> SpriteManagerImpl::get_texture(const entt::registry& registry, entt::entity entity) {
-  const component::Sprite* p_sprite = registry.try_get<component::Sprite>(entity);
+  const component::SpriteOld* p_sprite = registry.try_get<component::SpriteOld>(entity);
   if (!p_sprite) {
     return get_error_texture();
   }

@@ -2,21 +2,21 @@
 #include <services/SpriteManager.hpp>
 #include <components/Sprite.hpp>
 
-PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::Sprite",
+PROTOTYPE_DEFINE_COMPONENT_BUILDER("component::SpriteOld",
   [](nlohmann::json json, core::ServiceLocator& locator, core::Logger& logger) {
     nlohmann::json& j_icon = json["icon"];
     nlohmann::json& j_state = json["state"];
     std::string_view str_state;
     if (!j_icon.is_string()) {
-      logger.warn("[component::Sprite] icon должен быть строкой");
-      return component::Sprite();
+      logger.warn("[component::SpriteOld] icon должен быть строкой");
+      return component::SpriteOld();
     }
     if (!j_state.is_null()) {
       if (j_state.is_string()) {
         str_state = j_state.get<std::string_view>();
       } else {
-        logger.warn("[component::Sprite] state должен быть строкой");
-        return component::Sprite();
+        logger.warn("[component::SpriteOld] state должен быть строкой");
+        return component::SpriteOld();
       }
     }
     std::shared_ptr sprite_manager = locator.get<service::SpriteManager>();

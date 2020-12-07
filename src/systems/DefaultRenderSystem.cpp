@@ -87,7 +87,7 @@ public:
   void fill_render_queue(entt::registry& registry) {
     for (entt::entity entity : world_query_buffer) {
       const auto [p_render_mode, p_position, p_body, p_sprite] = 
-        registry.try_get<component::DefaultRenderMode, component::Position, component::Body, component::Sprite>(entity);
+        registry.try_get<component::DefaultRenderMode, component::Position, component::Body, component::SpriteOld>(entity);
       if (!p_position || !p_body || !p_render_mode) {
         continue;
       }

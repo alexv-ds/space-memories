@@ -18,7 +18,7 @@ namespace service {
 
 class SpriteManager : public core::Service {
 public:
-  virtual component::Sprite load_sprite(std::string_view name, std::string_view state = "") = 0;
+  virtual component::SpriteOld load_sprite(std::string_view name, std::string_view state = "") = 0;
   virtual std::pair<sf::Texture*, sf::IntRect> get_texture(const entt::registry&, entt::entity) = 0;
   virtual const State* get_sprite_data(int id, int state) = 0;
   

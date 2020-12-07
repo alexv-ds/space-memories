@@ -3,7 +3,7 @@
 
 namespace component {
 
-struct Sprite {
+struct SpriteOld {
   int icon = -1; //в json текст, имя файла
   int state = -1; //в json текст, имя стейта
   int dir = 0; //С++ only

@@ -26,7 +26,7 @@ public:
       int x = std::abs(static_cast<int>(p_pos->x));
       int y = std::abs(static_cast<int>(p_pos->y));
       int icon_state = std::abs((x + y) ^ ~(x * y)) % 25 + 1;
-      registry.emplace_or_replace<component::Sprite>(
+      registry.emplace_or_replace<component::SpriteOld>(
         entity, sprite_manager->load_sprite(dmi_name, std::to_string(icon_state))
       );
       
