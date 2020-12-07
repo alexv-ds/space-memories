@@ -32,6 +32,7 @@ void SFMLRenderWindow::update_window(entt::entity entity) {
     
 
     sf_window->setKeyRepeatEnabled(false);
+    sf_window->setVerticalSyncEnabled(false);
     
     ImGui::SFML::Init(*sf_window);
     windows[entity] = std::move(sf_window);
