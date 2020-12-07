@@ -9,4 +9,5 @@ target_sources(main PRIVATE
   ObjectTypes.cpp
   Movement.cpp
   Imgui.cpp
+  Other.cpp
 )
