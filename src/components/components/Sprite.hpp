@@ -9,10 +9,6 @@ struct SpriteOld {
   int dir = 0; //С++ only
 };
 
-struct SpaceIconInitialise {
-  std::string dmi;
-};
-
 struct ForceSpriteFrame {
   int frame = 0;
 };

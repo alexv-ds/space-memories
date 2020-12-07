@@ -1,6 +1,7 @@
 #include <core/define_system.hpp>
 #include <components/Sprite.hpp>
 #include <components/Position.hpp>
+#include <components/Other.hpp>
 #include <services/SpriteManager.hpp>
 #include <cmath>
 
