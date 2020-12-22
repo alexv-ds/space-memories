@@ -6,67 +6,67 @@
     },
     "component::Body" : {},
     "component::DefaultRenderMode" : {},
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "icon" : "resources/other.dmi"
     }
   },
   {
     "name" : "other/closed",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "secure1"
     }
   },
   {
     "name" : "other/closed/green",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "green"
     }
   },
   {
     "name" : "other/closed/rainbow",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "mixed"
     }
   },
   {
     "name" : "other/closed/white",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "white"
     }
   },
   {
     "name" : "other/closed/grey",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "grey"
     }
   },
   {
     "name" : "other/closed/black",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "black"
     }
   },
   {
     "name" : "other/door",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "dyelow"
     }
   },
   {
     "name" : "other/door/green",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "dgreen"
     }
   },
   {
     "name" : "other/door/glass",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "dglass"
     }
   },
   {
     "name" : "other/washing_mashine",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "wm_10"
     }
   },
@@ -78,25 +78,25 @@
   },
   {
     "name" : "other/warn_line/S",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "S"
     }
   },
   {
     "name" : "other/warn_line/W",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "W"
     }
   },
   {
     "name" : "other/warn_line/SW-out",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "SW-out"
     }
   },
   {
     "name" : "other/warn_line/SE-out",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "SE-out"
     }
   },
@@ -108,31 +108,31 @@
   },
   {
     "name" : "other/light_tube/left",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "light-tube-left"
     }
   },
   {
     "name" : "other/light_tube/top",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "light-tube-top"
     }
   },
   {
     "name" : "other/light_tube/bot",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "light-tube-bot"
     }
   },
   {
     "name" : "other/light_tube/right",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "light-tube-right"
     }
   },
   {
     "name" : "turf/floor/decal1",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "icon" : "resources/other.dmi",
       "state" : "fdecal1"
     },
@@ -142,7 +142,7 @@
   },
   {
     "name" : "turf/floor/decal2",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "icon" : "resources/other.dmi",
       "state" : "fdecal2"
     },
@@ -155,37 +155,37 @@
   },
   {
     "name" : "other/theater",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "Theater"
     }
   },
   {
     "name" : "other/arcade",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "arcadelul"
     }
   },
   {
     "name" : "other/cola",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "Cola_Machine_red"
     }
   },
   {
     "name" : "other/coffee",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "coffee"
     }
   },
   {
     "name" : "other/cigs",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "cigs-vend"
     }
   },
   {
     "name" : "other/snack",
-    "component::SpriteOld" : {
+    "component::Sprite" : {
       "state" : "snack"
     }
   }

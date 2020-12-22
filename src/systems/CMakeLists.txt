@@ -23,6 +23,8 @@ target_sources(main PRIVATE
   ImguiDebugMenu.cpp
   CopyWindowEvents.cpp
   ListenWindowEventsClear.cpp
-  SpriteManagerUpdate.cpp
   CameraRenderRegionUpdate.cpp
+
+  SpriteLoader/SpriteLoader.cpp
+  SpriteLoader/DmiMetadata.cpp
 )

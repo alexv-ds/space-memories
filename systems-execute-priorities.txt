@@ -1,5 +1,4 @@
 system::TimeUpdate
-system::SpriteManagerUpdate
 system::WorldUpdate
 system::ListenWindowEvents
 system::CameraRenderRegionUpdate
@@ -12,11 +11,14 @@ system::DenseIntersectionControll
 system::ExitAfterNsec
 system::CameraFixedUnitSize
 system::SpaceIconInitialise
+system::SpriteLoader
+
 system::RenderBegin
 system::DefaultRenderSystem
 system::DebugRenderRegionFrame
 system::ImguiRender
 system::RenderEnd
+
 system::SFMLRenderWindow
 system::Init
 system::MapLoader

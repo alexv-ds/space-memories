@@ -1,7 +1,7 @@
 #include <core/define_system.hpp>
 #include <services/Camera.hpp>
 #include <services/World.hpp>
-#include <services/SpriteManager.hpp>
+#include <services/Time.hpp>
 #include <components/Camera.hpp>
 #include <components/Position.hpp>
 #include <components/RenderMode.hpp>
@@ -54,22 +54,28 @@ sf::Transform calculate_render_transform(const sf::FloatRect& region,
 class DefaultRenderSystem : public core::System {
   std::shared_ptr<service::Camera> camera_service;
   std::shared_ptr<service::World> world;
-  std::shared_ptr<service::SpriteManager> sprite_manager;
+  std::shared_ptr<service::Time> time;
   
   std::vector<RenderElement> render_queue;
   std::vector<entt::entity> world_query_buffer;
   
   std::vector<sf::Vertex> vertices;
+
+  //Хранятся фреймы анимаций у текстур, очищается каждый кадр
+  std::map<const sf::Texture*, size_t> texture_frame_cache;
+  float current_time = 0;
 public:
   DefaultRenderSystem(std::shared_ptr<service::Camera> camera_service,
                       std::shared_ptr<service::World> world,
-                      std::shared_ptr<service::SpriteManager> sprite_manager):
+                      std::shared_ptr<service::Time> time):
     camera_service(std::move(camera_service)),
     world(std::move(world)),
-    sprite_manager(std::move(sprite_manager))
+    time(std::move(time))
   {}
 
   void update(entt::registry& registry) override {
+    texture_frame_cache.clear();
+    current_time = time->get_time();
     auto view = registry.view<component::Camera, component::Position, component::CameraRenderRegion>();
     view.each([this, &registry](auto entity, const auto& camera, const auto& position, const auto& render_region) {
       render_queue.clear();
@@ -86,23 +92,55 @@ public:
   
   void fill_render_queue(entt::registry& registry) {
     for (entt::entity entity : world_query_buffer) {
-      const auto [p_render_mode, p_position, p_body, p_sprite] = 
-        registry.try_get<component::DefaultRenderMode, component::Position, component::Body, component::SpriteOld>(entity);
+      const auto [p_render_mode, p_position, p_body, p_texture] = 
+        registry.try_get<component::DefaultRenderMode,
+                         component::Position,
+                         component::Body,
+                         component::Texture>(entity);
       if (!p_position || !p_body || !p_render_mode) {
         continue;
       }
       
-      if (p_sprite) {
-        const auto& [p_texture, texture_region] = sprite_manager->get_texture(registry, entity);
+      if (p_texture && p_texture->texture) {
+        const auto [p_texture_region, p_texture_auto_animation] = 
+          registry.try_get<component::TextureRegion, component::TextureAutoAnimation>(entity);
+        sf::IntRect int_rect;
+        if (p_texture_region) {
+          int_rect = p_texture_region->region;
+        } else if (p_texture_auto_animation && p_texture_auto_animation->frames.size()) {
+          auto it = texture_frame_cache.find(p_texture->texture.get());
+          size_t frame;
+          if (it != texture_frame_cache.end()) {
+            frame = it->second;
+          } else {
+            float modulo = std::fmod(
+              current_time,
+              p_texture_auto_animation->full_time > 0.0f ? p_texture_auto_animation->full_time : 1.0f
+            );
+            frame = 0;
+            for (; frame < p_texture_auto_animation->frames.size(); ++frame) {
+              modulo -= p_texture_auto_animation->frames[frame].time;
+              if (modulo <= 0) {
+                break;
+              }
+            }
+          }
+          int_rect = p_texture_auto_animation->frames[frame].region;
+        } else {
+          sf::Vector2u texture_size = p_texture->texture->getSize();
+          int_rect.width = texture_size.x;
+          int_rect.height = texture_size.y;
+        };
+
         render_queue.emplace_back(
           *p_render_mode,
           *p_position,
           *p_body,
-          p_texture,
-          sf::FloatRect(static_cast<float>(texture_region.left),
-                        static_cast<float>(texture_region.top),
-                        static_cast<float>(texture_region.width),
-                        static_cast<float>(texture_region.height))
+          p_texture->texture.get(),
+          sf::FloatRect(static_cast<float>(int_rect.left),
+                        static_cast<float>(int_rect.top),
+                        static_cast<float>(int_rect.width),
+                        static_cast<float>(int_rect.height))
         );
       } else {
         render_queue.emplace_back(*p_render_mode, *p_position, *p_body, nullptr, sf::FloatRect());
@@ -171,7 +209,7 @@ CORE_DEFINE_SYSTEM("system::DefaultRenderSystem", [](core::ServiceLocator& locat
   return std::make_unique<DefaultRenderSystem>(
     locator.get<service::Camera>(),
     locator.get<service::World>(),
-    locator.get<service::SpriteManager>()
+    locator.get<service::Time>()
   );
 });
 
